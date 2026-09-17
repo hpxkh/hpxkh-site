@@ -1,0 +1,2229 @@
+<title>HPX 高雄讀書會</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap">
+
+<style>
+:root{
+  color-scheme:light;
+  --grey:#E9E7E2;
+  --sheet:#FFFFFF;
+  --cream:#F7F4EF;
+  --ink:#2B2823;
+  --ink-2:#5C564D;
+  --muted:#918B81;
+  --hair:#E6E1D9;
+  --orange:#EF8200;
+  --orange-dk:#C96D00;
+  --dark:#2A2926;
+
+  --display:"Cormorant Garamond",Georgia,serif;
+  --sans:"Noto Sans TC",-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+  --shell:1180px;
+  --pad:clamp(20px,4.4vw,64px);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--grey);color:var(--ink);
+  font-family:var(--sans);font-size:15px;font-weight:400;line-height:2;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-weight:500;line-height:1.75;text-wrap:balance}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+img{max-width:100%}
+[hidden]{display:none !important}
+
+.shell{max-width:var(--shell);margin-inline:auto;background:var(--sheet);overflow:hidden}
+.pad{padding-inline:var(--pad)}
+
+/* 超大淡色英文水印 */
+.wm{
+  font-family:var(--display);font-weight:300;letter-spacing:.07em;
+  font-size:clamp(40px,8.6vw,104px);line-height:1;white-space:nowrap;
+  pointer-events:none;user-select:none;
+}
+.wm--ghost{color:var(--ink);opacity:.07}
+.wm--light{color:#fff;opacity:.5}
+
+.eyebrow{font-family:var(--display);font-size:15px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+.sec-title{text-align:center;font-size:clamp(17px,2.3vw,23px);letter-spacing:.1em;line-height:1.9}
+.sec-lede{text-align:center;color:var(--ink-2);font-size:14px;max-width:62ch;margin:16px auto 0;text-wrap:pretty}
+.sec-lede--q{color:var(--ink-2);font-size:clamp(13.5px,1.5vw,15px);font-weight:400;letter-spacing:.04em;
+  line-height:1.9;max-width:52ch;margin-top:4px}
+.sec-lede--ask{text-wrap:pretty}
+.sec-lede--ask{margin-top:4px;font-size:clamp(13.5px,1.5vw,15px);letter-spacing:.04em;line-height:1.9;
+  max-width:36em}
+.sec-title--say + .sec-lede--ask{margin-top:clamp(18px,2.2vw,26px)}
+.cap{font-size:13px;color:var(--muted);line-height:1.8;margin-top:12px}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  font-family:var(--sans);font-size:13.5px;font-weight:500;letter-spacing:.12em;
+  padding:14px 26px;background:var(--orange);color:#fff;border:1px solid var(--orange);
+  cursor:pointer;transition:background-color .15s,border-color .15s,color .15s;
+}
+.btn:hover{background:var(--orange-dk);border-color:var(--orange-dk)}
+.btn:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.btn--line{background:transparent;color:var(--ink);border-color:var(--hair)}
+.btn--line:hover{background:var(--cream);border-color:var(--muted);color:var(--ink)}
+.btn--ghost{background:transparent;color:#fff;border-color:rgb(255 255 255 / .55)}
+.btn--ghost:hover{background:#fff;color:var(--ink);border-color:#fff}
+
+/* 頁首 */
+.head{position:sticky;top:0;z-index:60;background:var(--sheet);border-bottom:1px solid var(--hair)}
+.head__in{display:flex;align-items:center;gap:20px;min-height:68px}
+.brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+.brand img{height:22px;width:auto}
+.brand .bar{width:1px;height:19px;background:var(--hair)}
+.brand .nm{font-size:14.5px;font-weight:500;letter-spacing:.12em}
+.navbtn{display:none;order:3;margin-left:auto;font-family:var(--sans);font-size:13px;letter-spacing:.1em;
+  background:transparent;border:1px solid var(--hair);color:var(--ink);padding:9px 15px;cursor:pointer}
+.navbtn[aria-expanded="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.navbtn:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none}
+@media (max-width:820px){
+  .navbtn{display:block}
+  .head__in{flex-wrap:wrap;position:relative}
+  .nav{position:absolute;top:100%;left:0;right:0;
+    margin:0;flex-direction:column;align-items:stretch;gap:0;overflow:visible;
+    background:var(--sheet);border-bottom:1px solid var(--hair);
+    box-shadow:0 14px 28px -18px rgb(0 0 0 / .3);padding:6px 0}
+  .nav[hidden]{display:none}
+  .nav a{padding:15px var(--pad);border-bottom:1px solid var(--hair);font-size:15.5px}
+  .nav a:last-child{border-bottom:0}
+  .nav a[aria-current="page"]{border-bottom-color:var(--hair);background:var(--cream)}
+  .nav .btn{margin:10px var(--pad) 8px;justify-content:center;padding:14px}
+}
+.nav::-webkit-scrollbar{display:none}
+.nav a{font-size:13px;letter-spacing:.06em;color:var(--ink-2);padding:8px 12px;white-space:nowrap;
+  border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
+.nav a:hover{color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--orange)}
+.nav a:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.nav .btn{padding:10px 18px;font-size:12.5px;margin-left:10px;border-bottom-width:1px}
+
+/* 圖片框 */
+.shot{position:relative;overflow:hidden;background:linear-gradient(155deg,#F0ECE5,#E2DCD2 60%,#EAE5DC)}
+.shot--dark{background:linear-gradient(155deg,#3B3934,#282723 55%,#43403A)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot__slot{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:9px;color:var(--muted);text-align:center;padding:12px}
+.shot--dark .shot__slot{color:rgb(255 255 255 / .55)}
+.shot__slot span{font-size:11.5px;letter-spacing:.18em}
+
+/* 首頁主視覺 */
+.hero{position:relative;padding-block:clamp(30px,4.6vw,54px) clamp(30px,4.4vw,50px)}
+.hero__wm{position:absolute;top:clamp(16px,2.6vw,34px);left:var(--pad);z-index:0}
+.hero__grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
+  gap:clamp(22px,4vw,48px);align-items:center}
+.hero h1{font-size:clamp(20px,2.9vw,30px);letter-spacing:.06em;line-height:2;margin-bottom:20px}
+.hero p{color:var(--ink-2);font-size:14px;line-height:2.1;margin-bottom:28px}
+.hero .shot{aspect-ratio:16/10}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1.2vw,14px);margin-top:clamp(8px,1.2vw,14px)}
+.thumbs .shot{aspect-ratio:4/3}
+@media (max-width:820px){
+  .hero__grid{grid-template-columns:1fr}
+  .hero__wm{position:static;margin-bottom:8px}
+}
+
+/* 橫幅提示 */
+.strip{display:flex;flex-wrap:wrap;align-items:center;gap:18px;background:var(--cream);
+  padding:20px clamp(18px,2.6vw,30px);margin-block:clamp(18px,2.6vw,30px)}
+.strip__tag{background:var(--ink);color:#fff;font-size:12.5px;letter-spacing:.14em;padding:7px 15px;flex:0 0 auto}
+.strip p{flex:1 1 260px;font-size:14px;color:var(--ink-2);line-height:1.9}
+.strip a.btn{flex:0 0 auto}
+
+/* 深色滿版帶 */
+.band{position:relative;isolation:isolate;margin-block:clamp(30px,4.4vw,56px)}
+.band .shot{min-height:clamp(230px,26vw,300px)}
+.band__body{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;gap:16px;padding:34px var(--pad);color:#fff}
+.band__body::before{content:"";position:absolute;inset:0;z-index:-1;background:rgb(24 22 20 / .45)}
+.band h2{font-size:clamp(17px,2.5vw,25px);letter-spacing:.14em;color:#fff}
+.band p{font-size:13.5px;line-height:2;color:rgb(255 255 255 / .82);max-width:56ch}
+
+/* 區塊 */
+.sec{padding-block:clamp(34px,5vw,62px);position:relative}
+.sec--cream{background:var(--cream)}
+.sec__wm{text-align:center;margin-bottom:-.42em}
+.sec__head{margin-bottom:clamp(24px,3.4vw,38px)}
+
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(16px,2.4vw,28px)}
+.trio .shot{aspect-ratio:5/4}
+
+/* 兩欄圖文 */
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,52px);align-items:center}
+.duo h3{font-size:clamp(16px,2.1vw,20px);letter-spacing:.08em;margin-bottom:14px}
+.duo p{color:var(--ink-2);font-size:14px;line-height:2.05;margin-bottom:22px}
+.cluster{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1.2vw,14px)}
+.cluster .shot{aspect-ratio:1}
+.cluster .shot:first-child{grid-column:span 2;aspect-ratio:16/9}
+
+/* 卡片 */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(262px,1fr));gap:0;background:transparent;
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+.cardx{background:transparent;padding:24px 22px 26px;display:flex;flex-direction:column;gap:9px;
+  border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+
+a.cardx:hover{background:var(--cream)}
+.sec--cream a.cardx:hover{background:#fff}
+a.cardx:focus-visible{outline:2px solid var(--orange);outline-offset:-2px}
+.cardx__top{display:flex;align-items:center;gap:10px}
+.cardx__ic{width:40px;height:40px;flex:0 0 auto;margin-right:2px}
+.cardx__ic img{width:100%;height:100%;display:block;object-fit:contain}
+.cardx{position:relative}
+.cardx__no{position:absolute;top:14px;right:18px;font-family:var(--display);font-weight:600;
+  font-size:clamp(38px,4.4vw,52px);line-height:1;color:var(--orange);opacity:.22;letter-spacing:-.02em;
+  pointer-events:none}
+.cardx__top{padding-right:46px}
+.cardx h4{font-size:16px;letter-spacing:.06em}
+.cardx__en{font-family:var(--display);font-size:12.5px;letter-spacing:.2em;color:var(--muted);
+  text-transform:uppercase;margin-top:-6px}
+.cardx p{font-size:13px;color:var(--ink-2);line-height:1.95}
+.cardx__note{font-size:12.5px;color:var(--orange);margin-top:auto}
+.cardx__go{font-size:12px;letter-spacing:.14em;color:var(--muted);margin-top:auto;padding-top:6px}
+a.cardx:hover .cardx__go{color:var(--orange)}
+
+/* 內頁頁首 */
+.top{padding-block:clamp(34px,4.6vw,58px) clamp(22px,3vw,32px);text-align:center;border-bottom:1px solid var(--hair);
+  position:relative;overflow:hidden;isolation:isolate;
+  background:radial-gradient(130% 100% at 50% 0%,#FAF7F1 0%,#FDFCFA 58%,#FFFFFF 100%)}
+.top::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(rgb(43 40 35 / .13) 1px,transparent 1px);
+  background-size:18px 18px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgb(0 0 0 / .35) 55%,transparent 88%);
+  mask-image:linear-gradient(180deg,#000 0%,rgb(0 0 0 / .35) 55%,transparent 88%)}
+.top::after{content:"";position:absolute;z-index:-1;pointer-events:none;
+  top:-42%;right:-8%;width:min(420px,62%);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgb(239 130 0 / .14) 0%,rgb(239 130 0 / .04) 46%,transparent 70%)}
+.top .wm{margin-bottom:-.4em}
+.top h2{font-size:clamp(18px,2.6vw,26px);letter-spacing:.12em;margin-bottom:12px}
+.top p{color:var(--ink-2);font-size:14px;max-width:60ch;margin-inline:auto;text-wrap:pretty}
+
+.blk{padding-block:clamp(30px,4.4vw,52px)}
+.blk + .blk{border-top:1px solid var(--hair)}
+.blk__h{margin-bottom:24px}
+.blk__h h3{font-size:16px;letter-spacing:.12em;margin-bottom:7px}
+.blk__h p{color:var(--muted);font-size:13.5px;max-width:60ch;text-wrap:pretty}
+.intro2{display:grid;grid-template-columns:1fr;gap:clamp(26px,3.6vw,44px);align-items:center}
+.intro2 .prose{max-width:none}
+.intro2__fig{margin:0}
+.intro2__fig{position:relative;padding:clamp(6px,1vw,12px) 0}
+.frame{background:#fff;border:1px solid var(--hair);
+  padding:clamp(14px,1.8vw,22px) clamp(14px,1.8vw,22px) clamp(12px,1.4vw,16px);
+  box-shadow:0 26px 46px -24px rgb(43 40 35 / .55), 0 3px 10px -4px rgb(43 40 35 / .18);
+  transform:rotate(-1.1deg);transition:transform .35s}
+.frame:hover{transform:rotate(0deg)}
+.intro2__fig .shot{aspect-ratio:1300/723;background:var(--cream)}
+.people{margin:0;display:flex;gap:clamp(18px,2.6vw,34px);justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.person{text-align:center;width:clamp(120px,15vw,164px)}
+.person__ph{background:#fff;border:1px solid var(--hair);padding:5px;border-radius:50%;
+  box-shadow:0 16px 28px -18px rgb(43 40 35 / .55)}
+.person__ph .shot{aspect-ratio:1;background:var(--cream);border-radius:50%;overflow:hidden}
+.person__ph .shot img{border-radius:50%}
+.person b{display:block;margin-top:13px;font-size:14px;font-weight:500;letter-spacing:.05em}
+.person span{display:block;margin-top:3px;font-size:11.5px;color:var(--muted);line-height:1.7}
+.intro2--row .people{order:-1;justify-content:flex-start}
+@media (min-width:900px){
+  .people--1{width:clamp(120px,15vw,164px)}
+  .people--2{width:calc(2 * clamp(120px,15vw,164px) + clamp(18px,2.6vw,34px))}
+  .people--3{width:calc(3 * clamp(120px,15vw,164px) + 2 * clamp(18px,2.6vw,34px))}
+}
+@media (min-width:900px){.intro2.intro2--row{grid-template-columns:auto minmax(0,1fr);align-items:center;
+  gap:clamp(28px,3.6vw,52px)}}
+.shot--ph{background:linear-gradient(155deg,#F4F0E9,#E9E4DA 60%,#F0ECE4)}
+.shot--ph .shot__slot span{font-size:12px;letter-spacing:.2em;color:var(--muted)}
+.intro2__fig figcaption{margin-top:clamp(11px,1.3vw,15px);text-align:center;
+  font-family:var(--display);font-size:clamp(13px,1.5vw,15.5px);letter-spacing:.12em;color:var(--ink-2)}
+@media (min-width:900px){.intro2{grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);
+  gap:clamp(32px,4vw,56px)}}
+.shot--free img{object-fit:cover}
+.prose{max-width:60ch;display:flex;flex-direction:column;gap:20px;color:var(--ink-2);font-size:14.5px;line-height:2.15}
+
+/* 場次 */
+.notice{border:1px solid var(--hair);border-left:2px solid var(--orange);padding:14px 18px;margin-bottom:22px;
+  font-size:13px;color:var(--muted);display:flex;gap:11px;flex-wrap:wrap}
+.notice b{color:var(--orange);font-size:12px;letter-spacing:.14em;flex:0 0 auto}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
+.chip{font-family:var(--sans);font-size:12.5px;letter-spacing:.05em;color:var(--muted);background:transparent;
+  border:1px solid var(--hair);padding:8px 15px;cursor:pointer;transition:.15s}
+.chip:hover{color:var(--ink);border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.sess{border-top:1px solid var(--hair)}
+.ses{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 20px;padding:15px 2px;border-bottom:1px solid var(--hair)}
+.ses__d{font-family:var(--display);font-size:15px;color:var(--muted);flex:0 0 92px;letter-spacing:.04em}
+.ses__k{font-size:11.5px;letter-spacing:.12em;color:var(--orange);flex:0 0 auto}
+.ses__t{font-size:15px;flex:1 1 220px}
+.ses__p{font-size:12.5px;color:var(--muted)}
+.count{font-size:12.5px;color:var(--muted);margin-top:14px;letter-spacing:.05em}
+.empty{padding:42px;text-align:center;color:var(--muted);font-size:13.5px;border-bottom:1px solid var(--hair)}
+
+/* 版規 */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(325px,1fr));gap:0 clamp(26px,4.4vw,52px)}
+.rulex{padding:20px 0;border-top:1px solid var(--hair)}
+.rulex__h{display:flex;gap:11px;align-items:center;margin-bottom:9px}
+.rulex__ic{width:clamp(40px,4.4vw,52px);height:clamp(40px,4.4vw,52px);flex:0 0 auto}
+.rulex__ic img{width:100%;height:100%;display:block;object-fit:contain}
+.rulex__n{font-family:var(--display);font-size:16px;color:var(--muted);flex:0 0 auto}
+.rulex--key .rulex__n,.rulex--key h4{color:var(--orange)}
+.rulex h4{font-size:15.5px;letter-spacing:.06em}
+.rulex ul{list-style:none;padding:0;margin:0 0 0 calc(clamp(40px,4.4vw,52px) + 11px);display:flex;flex-direction:column;gap:4px}
+.rulex li{font-size:13px;color:var(--ink-2);line-height:1.9;position:relative;padding-left:13px}
+.rulex li::before{content:"";position:absolute;left:0;top:12px;width:5px;height:1px;background:var(--muted)}
+
+.embed{border:1px solid var(--hair);background:var(--cream);padding:clamp(36px,5.4vw,60px) 24px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:16px}
+.embed p{max-width:48ch;color:var(--muted);font-size:13.5px;line-height:2}
+
+/* 頁尾 */
+.foot{background:var(--dark);color:#EDEAE4}
+.foot__grid{padding-block:clamp(40px,5.4vw,62px) 28px;display:grid;
+  grid-template-columns:minmax(220px,1.4fr) repeat(auto-fit,minmax(148px,1fr));gap:30px 44px}
+.foot__b .fb{font-size:17px;font-weight:500;letter-spacing:.12em;margin-bottom:11px}
+.foot__b .fb em{color:var(--orange);font-style:normal}
+.foot__b p{color:rgb(237 234 228 / .55);font-size:13px;line-height:1.95;max-width:30ch}
+.foot__c h5{margin:0 0 13px;font-family:var(--display);font-size:13px;font-weight:400;letter-spacing:.24em;
+  text-transform:uppercase;color:rgb(237 234 228 / .5)}
+.foot__c ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.foot__c ul.foot__menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px clamp(14px,2vw,28px)}
+@media (min-width:821px){.foot__c--menu{grid-column:span 2}}
+@media (max-width:820px){.foot__c--menu{grid-column:1/-1}}
+.foot__c a{font-size:13px;color:rgb(237 234 228 / .85);transition:color .15s}
+.foot__c a:hover{color:var(--orange)}
+.foot__c a:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.foot__c .off{font-size:13px;color:rgb(237 234 228 / .42)}
+.foot__bot{border-top:1px solid rgb(237 234 228 / .12);padding-block:18px 40px;display:flex;flex-wrap:wrap;
+  gap:8px 22px;justify-content:space-between;font-size:12px;letter-spacing:.06em;color:rgb(237 234 228 / .45)}
+@media (max-width:820px){
+  .foot__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 22px;padding-block:clamp(34px,7vw,46px) 24px}
+  .foot__b{grid-column:1/-1}
+  .foot__b p{max-width:none}
+  .foot__c ul.foot__menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}
+  .foot__grid{grid-template-columns:1fr 1fr 1.15fr;column-gap:14px}
+  .foot__c--menu{grid-column:span 2}
+}
+@media (max-width:380px){
+  .foot__grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+
+/* ── 引言 ── */
+.prose strong{color:var(--ink);font-weight:500}
+.prose .quote{font-size:clamp(15px,1.9vw,17px);font-weight:500;letter-spacing:.06em;color:var(--ink);
+  border-left:2px solid var(--orange);padding-left:16px;font-family:var(--display);letter-spacing:.1em}
+
+/* ── H·P·X ── */
+.hpx{display:grid;grid-template-columns:repeat(auto-fit,minmax(182px,1fr));gap:0;background:transparent;
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+.hpx__v{background:transparent;padding:24px 22px;display:flex;gap:18px;align-items:flex-start;
+  border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+
+.hpx__l{font-family:var(--display);font-size:clamp(40px,6vw,60px);line-height:.86;color:var(--ink)}
+.hpx__v--x .hpx__l{color:var(--orange)}
+.hpx__v ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px}
+.hpx__v li{font-family:var(--display);font-size:17px;letter-spacing:.1em;color:var(--ink);line-height:1.7}
+.hpx__v li.v2{color:var(--muted);font-size:15px}
+.hpx__note{margin-top:20px;font-size:13.5px;color:var(--ink-2);line-height:2;max-width:72ch;
+  display:grid;gap:14px clamp(26px,3.6vw,52px)}
+.hpx__note p{padding-left:14px;border-left:2px solid var(--hair)}
+.hpx__note p:last-child{border-left-color:var(--orange)}
+@media (min-width:900px){
+  .hpx__note{grid-template-columns:1fr 1fr;max-width:none}
+  .hpx__note p:last-child{grid-column:1/-1;margin-top:4px}
+}
+.hpx__note b{color:var(--orange);font-weight:500;letter-spacing:.04em}
+
+/* ── 里程碑：時間軸 ── */
+.mile{list-style:none;padding:0;margin:0;position:relative}
+.mile::before{content:"";position:absolute;left:6px;top:9px;bottom:9px;width:1.5px;border-radius:1px;
+  background:linear-gradient(180deg,transparent 0,#DAD4C9 7%,#DAD4C9 93%,transparent 100%)}
+.mile li{position:relative;padding:0 0 clamp(24px,3.2vw,34px) clamp(30px,4vw,42px)}
+.mile li:last-child{padding-bottom:0}
+.mile li::before{content:"";position:absolute;left:0;top:4px;width:13px;height:13px;box-sizing:border-box;
+  border-radius:50%;border:2px solid var(--orange);background:var(--sheet)}
+.mile li.now::before{background:var(--orange);box-shadow:0 0 0 4px rgb(239 130 0 / .13)}
+.mile li.soon::before{border-style:dashed;border-color:#C9C2B6;background:var(--sheet)}
+.mile li.soon time,.mile li.soon b{color:var(--muted)}
+.mile li.soon b{font-weight:500}
+.mile time{display:block;font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.1em;
+  color:var(--orange);margin-bottom:3px}
+.mile b{display:block;font-size:15.5px;font-weight:700;line-height:1.75;color:var(--ink);letter-spacing:.02em}
+.mile span{display:block;font-size:13px;color:var(--muted);margin-top:3px;line-height:1.8}
+
+/* ── 標籤 ── */
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tags span{font-size:13.5px;color:var(--ink-2);border:1px solid var(--hair);padding:7px 15px}
+.tags--solid span{background:var(--cream);border-color:var(--cream)}
+
+.duo2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(22px,3.4vw,40px)}
+.duo2 .eyebrow{margin-bottom:12px}
+
+/* ── 不是什麼 ── */
+.nots{display:grid;grid-template-columns:repeat(auto-fit,minmax(224px,1fr));gap:0;background:transparent;
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+.nots__i{background:transparent;padding:22px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.nots__i b{display:block;font-size:15.5px;font-weight:500;letter-spacing:.04em;color:var(--muted);
+  text-decoration:line-through;text-decoration-color:var(--orange);text-decoration-thickness:1.5px;margin-bottom:8px}
+.nots__i p{font-size:13px;color:var(--ink-2);line-height:1.95}
+
+/* ── 書聚流程 ── */
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:0;background:transparent;
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair);margin-bottom:20px}
+.flow__s{background:transparent;padding:24px 22px;display:flex;flex-direction:column;gap:10px;
+  border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.flow__n{font-family:var(--display);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--orange)}
+.flow__s h4{font-size:16.5px;font-weight:500;letter-spacing:.06em}
+.flow__s ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
+.flow__s li{font-size:13px;color:var(--ink-2);line-height:1.85;padding-left:13px;position:relative}
+.flow__s li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:1px;background:var(--hair)}
+.spirit{border:1px solid var(--orange);padding:20px 24px;display:flex;flex-direction:column;gap:6px}
+.spirit b{font-size:15.5px;font-weight:500;letter-spacing:.06em;color:var(--orange)}
+.spirit p{font-size:13.5px;color:var(--ink-2);line-height:2}
+
+/* ── 申請項目切換鈕 ── */
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:clamp(20px,2.8vw,28px);position:relative;z-index:1}
+.tab{font-family:var(--sans);font-size:14.5px;font-weight:500;letter-spacing:.06em;cursor:pointer;
+  background:transparent;color:var(--ink-2);border:1px solid var(--hair);border-radius:999px;
+  padding:11px 22px;margin:0;white-space:nowrap;transition:.15s}
+.tab:hover{color:var(--ink);border-color:var(--ink-2)}
+.tab[aria-selected="true"]{background:var(--orange);color:#fff;border-color:var(--orange);
+  font-weight:700;box-shadow:none}
+.tab:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+@media (max-width:640px){
+  .tabs{gap:8px;margin-bottom:clamp(18px,3vw,24px)}
+  .tab{font-size:13px;padding:9px 16px}
+}
+
+/* ── 網站原生申請表單 ── */
+.appform{border:1px solid var(--hair);background:var(--sheet)}
+.appform__h{padding:20px 24px;border-bottom:1px solid var(--hair);background:var(--cream)}
+.appform__h h4{font-size:16px;font-weight:500;letter-spacing:.07em;margin-bottom:6px}
+.appform__h p{font-size:13px;color:var(--ink-2);line-height:1.95;max-width:66ch}
+.appform__docs{padding:24px}
+.appform__b{padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px 22px}
+.fld{display:flex;flex-direction:column;gap:7px}
+.fld--wide{grid-column:1/-1}
+.fld label{font-size:13px;font-weight:500;letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+.fld .req{color:var(--orange);font-size:11px;letter-spacing:.1em}
+.fld .hint{font-size:12px;color:var(--muted);line-height:1.7}
+.fld input,.fld select,.fld textarea{font-family:var(--sans);font-size:14px;color:var(--ink);
+  background:var(--cream);border:1px solid var(--hair);padding:11px 13px;width:100%;border-radius:0;line-height:1.6;
+  transition:background-color .15s,border-color .15s}
+.fld input:hover,.fld select:hover,.fld textarea:hover{border-color:var(--muted)}
+.fld textarea{min-height:132px;resize:vertical;line-height:1.85}
+.fld input:focus,.fld select:focus,.fld textarea:focus{background:var(--sheet);
+  outline:2px solid var(--orange);outline-offset:1px;border-color:var(--orange)}
+.fld [aria-invalid="true"]{border-color:#C0392B}
+.fld .fldlab{font-size:13px;font-weight:500;letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+.chks{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:9px 16px;
+  border:1px solid var(--hair);background:var(--cream);padding:14px 16px}
+.chks[aria-invalid="true"]{border-color:#C0392B}
+.chk{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2);cursor:pointer;line-height:1.6}
+.chk input{appearance:none;width:16px;height:16px;flex:0 0 auto;margin:0;border:1px solid var(--muted);
+  background:var(--sheet);cursor:pointer;position:relative;transition:.15s}
+.chk input:checked{background:var(--orange);border-color:var(--orange)}
+.chk input:checked::after{content:"";position:absolute;left:4.5px;top:1px;width:4px;height:9px;
+  border:solid #fff;border-width:0 2px 2px 0;transform:rotate(43deg)}
+.chk input:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.chk:hover{color:var(--ink)}
+.part__p1{text-wrap:nowrap}
+@media (max-width:820px){.part__p1{text-wrap:pretty}}
+.fld .err{font-size:12px;color:#C0392B}
+.appform__f{padding:0 24px 24px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.appform__f .note{font-size:12.5px;color:var(--muted);flex:1 1 240px;line-height:1.8}
+.formok{margin:0 24px 24px;border:1px solid var(--orange);background:#FEF7EE;padding:16px 18px;
+  font-size:13.5px;color:var(--ink-2);line-height:1.95;display:flex;gap:11px}
+.formok b{color:var(--orange);flex:0 0 auto}
+.formok{flex-wrap:wrap}
+.formok > span{flex:1 1 220px}
+.formok__txt{flex:1 1 100%;margin:2px 0 0;white-space:pre-wrap;word-break:break-word;
+  font-family:var(--sans);font-size:13px;line-height:1.95;color:var(--ink);
+  background:var(--sheet);border:1px solid var(--hair);padding:14px 16px;max-height:270px;overflow:auto}
+.formok__act{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:10px}
+
+.shot img{opacity:0;transition:opacity .3s}
+.shot img.on{opacity:1}
+.shot--wide{aspect-ratio:16/9}
+.promo .shot{aspect-ratio:16/9}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:6px}
+.gal button{padding:0;border:0;background:var(--cream);cursor:pointer;aspect-ratio:1;overflow:hidden;display:block}
+.gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s,opacity .3s;opacity:0}
+.gal img.on{opacity:1}
+.gal button:hover img{transform:scale(1.04)}
+.gal button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.lb{position:fixed;inset:0;z-index:200;background:rgb(20 19 17 / .93);display:flex;align-items:center;justify-content:center;padding:24px}
+.lb img{max-width:min(1000px,94vw);max-height:88vh;width:auto;height:auto;object-fit:contain}
+.lb button{position:absolute;top:16px;right:20px;background:transparent;border:1px solid rgb(255 255 255 / .4);color:#fff;font-family:var(--sans);font-size:13px;letter-spacing:.1em;padding:9px 16px;cursor:pointer}
+.lb button:hover{border-color:#fff}
+
+
+/* ══ 首頁：主視覺 ══ */
+.lead{position:relative;background:var(--sheet);overflow:hidden;display:block}
+.lead__defs{position:absolute;width:0;height:0;overflow:hidden}
+.lead__media{position:relative;width:100%;aspect-ratio:1800/719;background:#F3EDE2;
+  -webkit-clip-path:url(#heroCutM);clip-path:url(#heroCutM)}
+.lead__media .shot{width:100%;height:100%;background:none}
+.lead__slides{position:absolute;inset:0}
+.lead__slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+.lead__slide.is-on{opacity:1}
+.lead__slide--fit{background:#F6F1E8}
+.lead__media .lead__slide--fit img{object-fit:contain}
+.lead__stage{position:relative}
+.lead__dots{display:none;position:absolute;left:50%;transform:translateX(-50%);
+  bottom:clamp(16px,3.4vw,34px);z-index:4;gap:9px;align-items:center;
+  padding:7px 11px;border-radius:99px;background:rgb(28 26 23 / .22);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:.8;transition:opacity .25s}
+.lead__stage:hover .lead__dots{opacity:1}
+.lead__dots button{width:7px;height:7px;border-radius:50%;border:0;padding:0;cursor:pointer;
+  background:rgb(255 255 255 / .55);transition:background-color .2s,transform .2s,width .2s}
+.lead__dots button:hover{background:#fff}
+.lead__dots button[aria-selected="true"]{background:#fff;width:20px;border-radius:99px}
+.lead__slides{touch-action:pan-y}
+.lead__dots button:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.lead__slide{transition:none}}
+.lead__media img{width:100%;height:100%;object-fit:cover;object-position:center}
+.lead__in{position:relative;z-index:2;padding:clamp(28px,3.6vw,44px) var(--pad) clamp(40px,5.2vw,64px);
+  max-width:min(940px,100%)}
+.lead__eye{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:clamp(12px,1.8vw,18px)}
+.lead h1{font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.5;letter-spacing:.02em;
+  color:var(--ink);margin-bottom:clamp(12px,1.8vw,18px)}
+.lead h1 em{font-style:normal;color:var(--orange)}
+.lead__sub{font-size:clamp(14px,1.6vw,16.5px);color:var(--ink-2);line-height:2.05;letter-spacing:.09em}
+@media (max-width:640px){
+  .lead__eye{font-size:11px;letter-spacing:.09em}
+  .lead h1{font-size:clamp(25px,7vw,30px);line-height:1.62}
+  .lead__cta{gap:8px;flex-wrap:nowrap}
+  .lead__cta .btn{flex:1 1 0;min-width:0;text-align:center;justify-content:center;
+    padding:13px 6px;font-size:12px;letter-spacing:.02em;white-space:nowrap}
+}
+.lead__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(24px,3.2vw,36px)}
+.lead__cta--2{margin-top:12px;gap:10px}
+.btn--mini{background:transparent;color:var(--ink-2);border-color:var(--hair);
+  padding:9px 16px;font-size:12.5px;letter-spacing:.08em;cursor:pointer}
+.btn--mini:hover{background:transparent;color:var(--orange);border-color:var(--orange)}
+.lead__fav{margin-top:12px;font-size:12.5px;color:var(--muted);line-height:1.9;letter-spacing:.04em}
+.lead__fav b{color:var(--orange);font-weight:500}
+
+
+/* ══ 數字 ══ */
+.stats{padding-block:clamp(40px,5.6vw,68px)}
+.stats__lead{font-size:clamp(18px,2.6vw,26px);font-weight:700;color:var(--ink);
+  letter-spacing:.05em;line-height:1.8;margin-bottom:clamp(24px,3.4vw,36px);max-width:24em}
+.stats__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;
+  row-gap:clamp(20px,3vw,28px)}
+.stats__grid > div{display:flex;align-items:center;gap:clamp(9px,1.2vw,14px)}
+.stats__grid > div:nth-child(even){padding-left:clamp(14px,3vw,28px);border-left:1px solid var(--hair)}
+.stats__ic{width:clamp(30px,2.9vw,36px);height:clamp(30px,2.9vw,36px);flex:0 0 auto}
+.stats__ic img{width:100%;height:100%;display:block;object-fit:contain}
+.stats__row{display:flex;align-items:baseline;gap:8px;min-width:0}
+.stats dd{margin:0;font-family:var(--sans);font-weight:700;font-size:clamp(26px,3vw,38px);
+  line-height:1;color:var(--ink);letter-spacing:-.025em;white-space:nowrap;display:flex;align-items:flex-start;
+  font-variant-numeric:tabular-nums}
+.stats dd .up{font-size:.34em;color:var(--orange);line-height:1.5;font-weight:700;margin-left:1px}
+.stats dd .up--ph{visibility:hidden}
+.stats dt{margin:0;font-size:clamp(12.5px,1.2vw,14.5px);font-weight:500;color:var(--ink-2);
+  letter-spacing:.08em;white-space:nowrap}
+@media (max-width:700px){
+  .stats__row{flex-direction:column;align-items:flex-start;gap:4px}
+  .stats dd{font-size:clamp(26px,7.4vw,34px)}
+  .stats__ic{width:clamp(28px,7.4vw,34px);height:clamp(28px,7.4vw,34px)}
+}
+@media (min-width:1080px){
+  .stats__grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .stats__grid > div,.stats__grid > div:nth-child(even){
+    padding-left:clamp(18px,2.4vw,30px);border-left:1px solid var(--hair)}
+  .stats__grid > div:first-child{padding-left:0;border-left:0}
+}
+
+/* ══ 金句 ══ */
+.say{background:var(--dark);color:#fff;padding-block:clamp(50px,7.4vw,92px);text-align:center}
+.say__q{font-size:clamp(22px,4.2vw,44px);font-weight:700;line-height:1.95;letter-spacing:.1em;color:var(--ink)}
+.sec--dark .say__q{color:#fff}
+.say__by{font-family:var(--display);font-size:clamp(13px,1.6vw,16px);letter-spacing:.24em;
+  text-transform:uppercase;color:var(--muted);margin-top:clamp(20px,2.8vw,30px)}
+.sec--dark .say__by{color:rgb(255 255 255 / .45)}
+
+/* ══ 場次與場地 ══ */
+.chips--year{margin-top:-10px}
+.chips--sort{margin-top:-4px}
+.chips--year .chip{font-size:12px;padding:6px 12px}
+.ses__y{font-family:var(--display);font-size:15px;color:var(--muted);flex:0 0 80px;letter-spacing:.04em}
+.ses__c{font-size:12px;color:var(--muted);border:1px solid var(--hair);padding:2px 8px;flex:0 0 auto}
+.more-btn{text-align:center;margin-top:22px}
+.venue{border-top:1px solid var(--hair)}
+.venue__i{padding:20px 2px;border-bottom:1px solid var(--hair)}
+.venue__h{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px}
+.venue__i h4{font-size:17px;font-weight:700;letter-spacing:.02em}
+.venue__i .tel{font-size:13px;color:var(--orange)}
+.venue__addr{font-size:13.5px;color:var(--ink-2);margin-top:5px}
+.venue__meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:5px 26px;margin-top:12px}
+.venue__meta div{font-size:13px;color:var(--ink-2);display:flex;gap:9px;line-height:1.8}
+.venue__meta b{color:var(--muted);font-weight:500;flex:0 0 52px}
+
+/* ══ 常見問題 ══ */
+.faq{border:1px solid var(--hair);border-bottom:0}
+.faq details{border-bottom:1px solid var(--hair)}
+.faq summary{list-style:none;cursor:pointer;padding:17px 20px;font-size:15.5px;font-weight:500;
+  display:flex;align-items:flex-start;gap:14px;line-height:1.75;transition:background-color .15s,color .15s}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"＋";margin-left:auto;color:var(--orange);font-size:15px;flex:0 0 auto;padding-top:1px}
+.faq details[open] summary::after{content:"－"}
+.faq details[open] summary{color:var(--orange);font-weight:700}
+.faq summary:hover{background:var(--cream)}
+.faq summary:focus-visible{outline:2px solid var(--orange);outline-offset:-2px}
+.faq p{margin:0;padding:0 20px 20px;font-size:14px;color:var(--ink-2);line-height:2.05}
+.nots--tight .nots__i{padding:16px 18px}
+.nots--tight .nots__i b{font-size:14.5px;margin-bottom:5px}
+.nots--tight .nots__i p{font-size:12.5px;line-height:1.85}
+
+/* ══ 新人指引：三大步驟區塊 ══ */
+.steps{display:grid;grid-template-columns:1fr;gap:clamp(18px,2.4vw,24px)}
+.step{border:1px solid var(--hair);background:var(--sheet);display:flex;flex-direction:column}
+.step__h{padding:clamp(20px,2.6vw,26px) clamp(20px,2.6vw,26px) clamp(10px,1.2vw,12px);
+  background:var(--cream)}
+.step__d{padding:0 clamp(20px,2.6vw,26px) clamp(16px,2vw,20px);background:var(--cream);
+  border-bottom:1px solid var(--hair);font-size:13px;color:var(--ink-2);line-height:1.95;margin:0}
+.step__eye{font-family:var(--display);font-size:clamp(15px,1.8vw,19px);letter-spacing:.24em;
+  text-transform:uppercase;color:var(--orange);display:block;margin-bottom:12px}
+.step__no{font-family:var(--display);font-size:clamp(40px,5.4vw,58px);line-height:.9;color:var(--orange);
+  display:block;margin-bottom:12px}
+.step__h h3{font-size:clamp(17px,2vw,20px);font-weight:700;letter-spacing:.07em;margin-bottom:8px}
+
+.step__b{display:flex;flex-direction:column;flex:1}
+.step__b a{display:flex;gap:12px;align-items:flex-start;position:relative;padding:15px clamp(38px,4vw,44px) 15px clamp(20px,2.6vw,26px);
+  border-bottom:1px solid var(--hair);transition:background-color .16s}
+.step__b a:last-child{border-bottom:0}
+.step__b a:hover{background:var(--cream)}
+.step__b a:focus-visible{outline:2px solid var(--orange);outline-offset:-2px}
+.step__t{display:flex;align-items:baseline;gap:9px}
+.step__n{font-family:var(--display);font-size:12.5px;letter-spacing:.14em;color:var(--muted)}
+.step__b h4{font-size:15.5px;font-weight:500;letter-spacing:.05em;line-height:1.5}
+.step__b a:hover h4{color:var(--orange)}
+.step__b p{margin-top:5px;font-size:12.5px;color:var(--ink-2);line-height:1.85}
+.step__b .go{position:absolute;right:clamp(14px,1.8vw,18px);top:18px;font-size:14px;color:var(--hair);
+  transition:color .16s,transform .16s}
+.step__b a:hover .go{color:var(--orange);transform:translateX(3px)}
+@media (min-width:900px){
+  .steps{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto 1fr}
+  .step{display:grid;grid-row:span 3;grid-template-rows:subgrid;gap:0}
+}
+
+/* ── 里程碑：捲動漸現 ── */
+.mile.rv::before{transform:scaleY(0);transform-origin:top;transition:transform 1.5s cubic-bezier(.22,.7,.28,1)}
+.mile.rv.in::before{transform:scaleY(1)}
+.mile.rv li{opacity:0;transform:translateY(18px);
+  transition:opacity .8s ease,transform .8s cubic-bezier(.22,.7,.28,1)}
+.mile.rv li.in{opacity:1;transform:none}
+@media (min-width:820px){
+  .mile--big.rv li{transform:translate(-22px,10px)}
+  .mile--big.rv li:nth-child(even){transform:translate(22px,10px)}
+  .mile--big.rv li.in,.mile--big.rv li:nth-child(even).in{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .mile.rv li,.mile.rv::before{opacity:1 !important;transform:none !important;transition:none !important}
+}
+
+/* ── 讀什麼：領域分布 ── */
+.btable{border-top:1px solid var(--hair)}
+.brow{display:grid;grid-template-columns:minmax(8.5em,auto) 1fr minmax(66px,auto);
+  align-items:center;gap:clamp(10px,1.8vw,20px);padding:12px 0;border-bottom:1px solid var(--hair)}
+.brow__k{font-size:14px;font-weight:500;letter-spacing:.04em;white-space:nowrap}
+.brow__bar{height:8px;background:var(--cream);position:relative;overflow:hidden}
+.brow__bar i{position:absolute;inset:0 auto 0 0;background:var(--orange);opacity:.85;display:block}
+.brow:nth-child(n+4) .brow__bar i{opacity:.45}
+.brow__v{font-size:13px;color:var(--ink-2);text-align:right;white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.brow__v b{font-weight:700;color:var(--ink);font-size:14.5px}
+.btable__note{margin-top:14px;font-size:12.5px;color:var(--muted);letter-spacing:.05em}
+.btable__note strong{color:var(--ink-2);font-weight:500}
+@media (max-width:520px){
+  .brow{grid-template-columns:minmax(7em,auto) 1fr auto;gap:10px}
+  .brow__k{font-size:13px}
+}
+
+/* ── 是什麼 / 不是什麼 ── */
+.vs{display:grid;grid-template-columns:1fr;gap:clamp(26px,3.4vw,44px)}
+@media (min-width:820px){
+  .vs{grid-template-columns:1fr 1fr;gap:0 clamp(30px,4vw,56px);grid-template-rows:auto repeat(4,auto)}
+  .vs__col{display:grid;grid-row:span 5;grid-template-rows:subgrid;gap:0}
+  .vs .vs__list{display:contents}
+}
+.vs__h{font-size:15px;font-weight:700;letter-spacing:.12em;padding-bottom:11px;margin-bottom:4px;
+  border-bottom:2px solid var(--ink)}
+.vs__col--yes .vs__h{color:var(--orange);border-bottom-color:var(--orange)}
+.vs__col--no .vs__h{color:var(--muted);border-bottom-color:var(--hair)}
+.vs .vs__list{display:block;border:0}
+.vs .why__i,.vs .nots__i{border:0;border-bottom:1px solid var(--hair);padding:16px 0;background:transparent}
+.vs .why__n{display:none}
+.vs .why__i h4{font-size:15.5px;font-weight:500;letter-spacing:.05em;margin-bottom:6px}
+.vs .why__i p{font-size:13px;color:var(--ink-2);line-height:1.95}
+.vs .nots__i b{font-size:15.5px;margin-bottom:6px}
+.vs .nots__i p{padding-left:0}
+
+.vsic{width:clamp(44px,5vw,58px);height:clamp(44px,5vw,58px);flex:0 0 auto}
+.vsic img{width:100%;height:100%;display:block;object-fit:contain}
+.vs .why__i,.vs .nots__i{display:flex;flex-direction:row;gap:clamp(12px,1.6vw,18px);align-items:flex-start}
+.vs .why__tx,.vs .nots__tx{min-width:0}
+.vs .why__i h4{padding-left:0}
+.vs .why__i h4::before{display:none}
+.vs .why__i p{padding-left:0}
+
+/* ── H·P·X 三列 ── */
+.hpxr{border-top:1px solid var(--hair)}
+.hpxr__i{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px clamp(18px,2.6vw,32px);
+  align-items:center;padding:clamp(16px,2.2vw,24px) 0;border-bottom:1px solid var(--hair)}
+.hpxr__l{grid-row:span 2;font-family:var(--display);font-size:clamp(46px,6.4vw,76px);line-height:.8;
+  color:var(--ink);width:1.1em;text-align:center}
+.hpxr__i--x .hpxr__l{color:var(--orange)}
+.hpxr__b{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.hpxr__b b{font-family:var(--display);font-size:clamp(21px,2.8vw,30px);font-weight:600;letter-spacing:.06em}
+.hpxr__d{font-size:13.5px;color:var(--ink-2);letter-spacing:.06em}
+.hpxr__x{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hpxr__x em{font-family:var(--display);font-style:normal;font-size:11.5px;letter-spacing:.18em;
+  color:var(--orange);border:1px solid var(--orange);padding:2px 7px;border-radius:99px}
+.hpxr__x span{font-family:var(--display);font-size:15px;letter-spacing:.08em;color:var(--muted)}
+@media (min-width:760px){
+  .hpxr__i{grid-template-columns:auto minmax(0,1.05fr) minmax(0,1fr);align-items:center}
+  .hpxr__l{grid-row:auto}
+}
+
+.step__ic{width:clamp(46px,4.4vw,56px);height:clamp(46px,4.4vw,56px);flex:0 0 auto;margin-top:-4px}
+.step__b .step__n{display:none}
+  .step__ic img{width:100%;height:100%;display:block;object-fit:contain}
+.step__ic--dot{position:relative}
+.step__ic--dot::before{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;
+  border:1.5px solid var(--orange);border-radius:50%}
+.step__tx{min-width:0}
+
+/* ── 大區塊標頭 ── */
+.blk__h--div{margin:clamp(40px,5.4vw,64px) 0 18px;padding-top:clamp(30px,4vw,44px);
+  border-top:1px solid var(--hair);position:relative}
+.blk__h--div::before{content:"";position:absolute;top:-1px;left:0;width:46px;height:3px;background:var(--orange)}
+.part{display:flex;align-items:flex-start;gap:clamp(14px,2.2vw,26px);margin-bottom:clamp(22px,3vw,32px)}
+.part__k{font-family:var(--display);font-size:clamp(13px,1.6vw,15px);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--orange);border:1px solid var(--orange);
+  padding:6px 12px;flex:0 0 auto;white-space:nowrap}
+.part__t h3{font-size:clamp(18px,2.3vw,23px);font-weight:700;letter-spacing:.08em;margin-bottom:8px}
+.part__t p{font-size:13.5px;color:var(--ink-2);line-height:1.95;max-width:64ch}
+@media (min-width:900px){.steps--two{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ── 歷年書單 ── */
+.bk__bar{margin-bottom:14px}
+.bk__bar input{font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--sheet);
+  border:1px solid var(--hair);padding:11px 14px;width:100%;max-width:360px;border-radius:0}
+.bk__bar input:focus{outline:2px solid var(--orange);outline-offset:1px;border-color:var(--orange)}
+.bk{border-top:1px solid var(--hair)}
+.bkr{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:baseline;
+  gap:6px clamp(12px,2vw,22px);padding:12px 2px;border-bottom:1px solid var(--hair)}
+.bkr__y{font-family:var(--display);font-size:15px;color:var(--muted);letter-spacing:.04em;
+  flex:0 0 auto;font-variant-numeric:tabular-nums}
+.bkr__n{font-size:14.5px;line-height:1.6}
+.bkr__c{font-size:12px;color:var(--muted);border:1px solid var(--hair);padding:3px 9px;white-space:nowrap}
+.bkr__k{font-size:12px;color:var(--orange);white-space:nowrap}
+@media (max-width:560px){
+  .bkr{grid-template-columns:auto minmax(0,1fr)}
+  .bkr__c{grid-column:2;justify-self:start}
+}
+
+/* ── 人事時地物 ── */
+.five{display:grid;grid-template-columns:1fr;gap:0;
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+@media (min-width:640px){.five{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.five{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.five__i{padding:clamp(20px,2.4vw,26px) clamp(18px,2vw,22px);display:flex;flex-direction:column;gap:9px;
+  border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.five__hd{display:flex;align-items:center;gap:12px;margin-bottom:2px}
+.five__l{font-family:var(--display);font-size:clamp(30px,3.4vw,40px);line-height:1;color:var(--orange)}
+.five__ic{width:clamp(42px,4.4vw,54px);height:clamp(42px,4.4vw,54px);flex:0 0 auto}
+.five__ic img{width:100%;height:100%;display:block;object-fit:contain}
+.five__i h4{font-size:15.5px;font-weight:700;letter-spacing:.06em}
+.five__i p{font-size:12.5px;color:var(--ink-2);line-height:1.95}
+.five__i ul{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:5px}
+.five__i li{font-size:12px;color:var(--muted);line-height:1.8;padding-left:12px;position:relative}
+.five__i li::before{content:"";position:absolute;left:0;top:10px;width:5px;height:1px;background:var(--orange)}
+
+.band2__two{display:flex;gap:10px;flex-wrap:wrap;flex:0 0 auto}
+@media (max-width:560px){.band2__two{width:100%}.band2__two .btn{flex:1 1 0;justify-content:center}}
+.faqhead{margin-bottom:clamp(16px,2.2vw,22px)}
+.faqhead p{font-size:13.5px;color:var(--ink-2);line-height:1.95}
+
+/* ── 分頁器 ── */
+.pager{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;
+  margin-top:clamp(20px,2.6vw,28px)}
+.pg-b{min-width:38px;height:38px;padding:0 10px;border:1px solid var(--hair);background:var(--sheet);
+  font-family:var(--sans);font-size:13.5px;color:var(--ink-2);cursor:pointer;
+  font-variant-numeric:tabular-nums;transition:.15s}
+.pg-b:hover:not(:disabled){border-color:var(--muted);color:var(--ink)}
+.pg-b.is-on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:500}
+.pg-b:disabled{opacity:.35;cursor:default}
+.pg-b:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.pg-e{color:var(--muted);padding:0 2px}
+
+/* ── 三個管道 ── */
+.chan{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--hair);
+  border-left:1px solid var(--hair)}
+@media (min-width:860px){.chan{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.chan__i{padding:clamp(22px,2.6vw,28px);display:flex;flex-direction:column;gap:10px;
+  border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.chan__k{font-family:var(--display);font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--orange)}
+.chan__i h4{font-size:16.5px;font-weight:700;letter-spacing:.05em;line-height:1.6}
+.chan__d{font-size:13px;color:var(--ink-2);line-height:1.95}
+.chan__i ul{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:6px}
+.chan__i li{font-size:12.5px;color:var(--ink-2);line-height:1.8;padding-left:14px;position:relative}
+.chan__i li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:1px;background:var(--orange)}
+.chan__i .btn{margin-top:auto;align-self:flex-start;padding:11px 20px;font-size:12.5px}
+
+/* ── 收尾提示條 ── */
+.band2{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:clamp(16px,2.4vw,32px);background:var(--cream);border:1px solid var(--hair);
+  padding:clamp(22px,2.8vw,30px) clamp(20px,2.6vw,32px)}
+.band2__t{flex:1 1 300px;min-width:0}
+.band2__t h3{font-size:16.5px;letter-spacing:.1em;margin-bottom:8px}
+.band2__t p{font-size:13.5px;color:var(--ink-2);line-height:1.95;max-width:none;text-wrap:balance}
+.band2__a{flex:0 0 auto;background:var(--sheet)}
+@media (max-width:560px){.band2__a{width:100%;justify-content:center}}
+
+/* ══ 九種聚會形式 ══ */
+.nine{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(26px,4.4vw,44px) clamp(6px,1.6vw,22px);max-width:720px;margin-inline:auto}
+.nine a{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;
+  color:var(--ink-2);padding:4px 2px;transition:color .16s,transform .16s}
+.nine a:hover{color:var(--orange);transform:translateY(-2px)}
+.nine a:focus-visible{outline:2px solid var(--orange);outline-offset:6px}
+.nine__ic{width:clamp(56px,8.4vw,76px);height:clamp(56px,8.4vw,76px);
+  transition:transform .16s}
+.nine a:hover .nine__ic{transform:scale(1.06)}
+.nine__ic img{width:100%;height:100%;display:block;object-fit:contain}
+.nine b{font-size:clamp(12.5px,1.5vw,15.5px);font-weight:500;letter-spacing:.04em;line-height:1.5;
+  white-space:nowrap;display:block}
+@media (max-width:420px){.nine b{font-size:12px;letter-spacing:.01em}}
+.sec--dark .nine a{color:rgb(255 255 255 / .7)}
+.sec--dark .nine__ic{color:#fff}
+
+/* ══ 緊湊按鈕格 ══ */
+.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+.quick a,.quick .q{display:flex;align-items:center;gap:9px;padding:17px 18px;font-size:15px;font-weight:500;
+  color:var(--ink);border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  transition:background-color .15s,color .15s}
+.quick a:hover{background:var(--cream);color:var(--orange)}
+.quick .q{color:var(--ink-2)}
+.sec--cream .quick a:hover{background:#fff}
+.quick a:focus-visible{outline:2px solid var(--orange);outline-offset:-2px}
+.quick .n{font-family:var(--display);font-size:14px;color:var(--orange);flex:0 0 auto;letter-spacing:.06em}
+.quick .go{margin-left:auto;color:var(--muted);font-size:13px}
+.quick a:hover .go{color:var(--orange)}
+
+/* ══ 為什麼 ══ */
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:0;background:transparent;
+  border-top:1px solid var(--hair);border-left:1px solid var(--hair)}
+.why__i{background:transparent;padding:26px 24px;display:flex;flex-direction:column;gap:10px;
+  border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.why__n{font-family:var(--display);font-size:15px;letter-spacing:.2em;color:var(--orange)}
+.why__i h4{font-size:17px;font-weight:500;letter-spacing:.06em;line-height:1.7}
+.why__i p{font-size:13.5px;color:var(--ink-2);line-height:2}
+
+/* ══ 里程碑（首頁放大版） ══ */
+.mile--big time{font-size:17.5px}
+.mile--big b{font-size:17px}
+@media (min-width:820px){
+  .mile--big{max-width:940px;margin-inline:auto}
+  .mile--big::before{left:50%;margin-left:-.75px}
+  .mile--big li{width:50%;text-align:right;
+    padding:0 clamp(30px,3.6vw,48px) clamp(26px,3.4vw,40px) 0}
+  .mile--big li::before{left:auto;right:calc(clamp(30px,3.6vw,48px) * -0.5 - 6.5px + clamp(30px,3.6vw,48px) * 0.5);
+    right:-6.5px}
+  .mile--big li:nth-child(even){margin-left:50%;text-align:left;
+    padding:0 0 clamp(26px,3.4vw,40px) clamp(30px,3.6vw,48px)}
+  .mile--big li:nth-child(even)::before{left:-6.5px;right:auto}
+  .mile--big li:last-child{padding-bottom:0}
+}
+
+.ctr{text-align:center;margin-top:clamp(24px,3.4vw,34px)}
+.endlink{text-align:center;margin-top:clamp(18px,2.4vw,26px);font-size:13.5px;letter-spacing:.06em}
+.endlink a{color:var(--muted);border-bottom:1px solid var(--hair);padding-bottom:2px;transition:color .15s,border-color .15s}
+.endlink a:hover{color:var(--orange);border-color:var(--orange)}
+
+/* ══ 收尾 ══ */
+.end{background:var(--cream);padding-block:clamp(46px,6.6vw,84px);text-align:center}
+.end__eye{font-family:var(--display);font-size:13.5px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:16px}
+.end h2{font-size:clamp(21px,3.4vw,34px);font-weight:500;letter-spacing:.1em;line-height:1.7;margin-bottom:16px}
+.end__p{font-size:clamp(14px,1.7vw,16px);color:var(--ink-2);line-height:2.1;max-width:52ch;margin-inline:auto}
+.end__cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:clamp(24px,3.4vw,34px)}
+.end .btn--ghost{color:var(--ink);border-color:var(--hair)}
+.end .btn--ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+
+/* ══ 深色章節 ══ */
+.sec--dark{background:var(--dark);color:#fff}
+.sec--dark .sec-title,.sec--dark .sec-sub{color:#fff}
+.sec--dark .sec-lede{color:rgb(255 255 255 / .68)}
+.sec--dark .stats__lead,.sec--dark.stats .stats__lead{color:#fff}
+.sec--dark .stats__grid,.sec--dark .stats__grid > div,
+.sec--dark.stats .stats__grid,.sec--dark.stats .stats__grid > div{border-color:rgb(255 255 255 / .15)}
+.sec--dark dd,.sec--dark.stats dd{color:#fff}
+
+.sec--dark dt,.sec--dark.stats dt{color:rgb(255 255 255 / .64)}
+.sec--dark .stats__note,.sec--dark.stats .stats__note{color:rgb(255 255 255 / .38)}
+.sec--dark .mile::before{background:linear-gradient(180deg,transparent 0,rgb(255 255 255 / .22) 7%,rgb(255 255 255 / .22) 93%,transparent 100%)}
+.sec--dark .mile li::before{background:var(--dark)}
+.sec--dark .mile li.now::before{background:var(--orange)}
+.sec--dark .mile li.soon::before{border-color:rgb(255 255 255 / .35);background:var(--dark)}
+.sec--dark .mile b{color:#fff}
+.sec--dark .mile span{color:rgb(255 255 255 / .48)}
+.sec--dark .mile li.soon time,.sec--dark .mile li.soon b{color:rgb(255 255 255 / .45)}
+.sec--dark .btn--line{color:#fff;border-color:rgb(255 255 255 / .4)}
+.sec--dark .btn--line:hover{background:#fff;color:var(--ink);border-color:#fff}
+.sec-title--say{font-size:clamp(24px,4.2vw,44px);line-height:1.85;letter-spacing:.09em}
+.say-in{text-align:center;padding-block:clamp(8px,1.6vw,18px)}
+.say-in::before{content:"";display:block;width:34px;height:1px;background:var(--orange);
+  margin:0 auto clamp(22px,3vw,34px)}
+.sec-sub{font-size:clamp(15px,1.9vw,18px);font-weight:700;letter-spacing:.08em;text-align:center}
+
+/* ══ 內頁：問題式副標 ══ */
+.top__q{font-size:clamp(15.5px,2.1vw,19px);font-weight:700;color:var(--orange);
+  margin-bottom:9px;line-height:1.7}
+
+</style>
+
+<div class="shell">
+
+<header class="head">
+  <div class="pad head__in">
+    <button class="navbtn" id="navbtn" type="button" aria-expanded="false" aria-controls="nav">選單</button>
+    <a class="brand" href="#/" aria-label="HPX 高雄讀書會 首頁">
+      <img src="assets/inline01.webp" alt="HPX"><span class="bar"></span><span class="nm">高雄讀書會</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="主選單">
+      <a href="#/about">關於我們</a>
+      <a href="#/start">新人指引</a>
+      <a href="#/meetups">社團書聚</a>
+      <a href="#/calendar">行事曆</a>
+      <a href="#/docs">文件表單</a>
+      <a href="#/faq">常見問題</a>
+      <a class="btn" href="https://www.facebook.com/groups/KaohsiungHPX" target="_blank" rel="noopener">加入社團</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 首頁 -->
+<div class="pg" data-pg="home">
+
+  <!-- 1 · 主視覺（白） -->
+  <section class="lead">
+    <svg class="lead__defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="heroCut" clipPathUnits="objectBoundingBox">
+          <path d="M0.36,0 C0.24,0.11 0.31,0.27 0.21,0.41 C0.12,0.55 0.23,0.71 0.15,0.85 C0.11,0.93 0.13,0.97 0.12,1 L1,1 L1,0 Z"/>
+        </clipPath>
+        <clipPath id="heroCutM" clipPathUnits="objectBoundingBox">
+          <path d="M0,0 L1,0 L1,0.905 C0.88,0.972 0.72,0.914 0.58,0.947 C0.38,0.99 0.18,0.921 0,0.951 Z"/>
+        </clipPath>
+      </defs>
+    </svg>
+    <div class="lead__stage">
+    <div class="lead__media">
+      <div class="lead__slides" id="heroSlides">
+        <div class="lead__slide is-on"><div class="shot" data-img="heroMain"></div></div>
+        <div class="lead__slide lead__slide--fit"><div class="shot" data-img="casual"></div></div>
+      </div>
+    </div>
+      <div class="lead__dots" id="heroDots" role="tablist" aria-label="主視覺輪播"></div>
+    </div>
+    <div class="lead__in">
+      <p class="lead__eye">書香南國 — HPX 高雄讀書會 · 成立於 2017.06.05</p>
+      <h1>成就一本書的價值，<br>需要不同的心得，<span style="white-space:nowrap"><em>彼此碰撞融合</em>。</span></h1>
+      <div class="lead__cta">
+        <a class="btn" href="#/start">新人從這裡開始</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · 數字（深） -->
+  <section class="sec sec--dark stats pad">
+    <p class="stats__lead">高雄規模最大的閱讀社群之一，<br>九年來持續運作，而且還在成長。</p>
+    <dl class="stats__grid">
+      <div><span class="stats__ic" aria-hidden="true"><img src="assets/inline02.webp" alt=""></span><span class="stats__row"><dd>2,000<span class="up">↑</span></dd><dt>位書友</dt></span></div>
+      <div><span class="stats__ic" aria-hidden="true"><img src="assets/inline03.webp" alt=""></span><span class="stats__row"><dd>300<span class="up">↑</span></dd><dt>場書聚</dt></span></div>
+      <div><span class="stats__ic" aria-hidden="true"><img src="assets/inline04.webp" alt=""></span><span class="stats__row"><dd>150<span class="up">↑</span></dd><dt>場社團活動</dt></span></div>
+      <div><span class="stats__ic" aria-hidden="true"><img src="assets/inline05.webp" alt=""></span><span class="stats__row"><dd>9<span class="up up--ph" aria-hidden="true">↑</span></dd><dt>種聚會形式</dt></span></div>
+    </dl>
+  </section>
+
+  <!-- 3 · 九種聚會形式（白） -->
+  <section class="sec pad">
+    <div class="sec__head">
+      <h2 class="sec-title">九種聚會形式<br>總有一種適合現在的你</h2>
+    </div>
+    <div class="nine" id="typeCardsHome"></div>
+    <div class="ctr"><a class="btn btn--line" href="#/meetups">看完整介紹與歷年場次</a></div>
+  </section>
+
+  <!-- 4 · 里程碑（深） -->
+  <section class="sec sec--dark pad">
+    <div class="sec__head">
+      <h2 class="sec-title">九年，一步一步走到這裡</h2>
+    </div>
+    <ol class="mile mile--big" id="mileHome"></ol>
+  </section>
+
+  <!-- 5 · 加入我們（白） -->
+  <section class="sec pad">
+    <div class="sec__head">
+      <h2 class="sec-title sec-title--say">閱讀，讓我們看見更多，<br>也成為更好的自己。</h2>
+      <p class="sec-lede sec-lede--ask">我們因閱讀相遇，在交流中彼此成長</p>
+      <p class="sec-lede sec-lede--ask">一個人走得快一群人走得遠，歡迎加入高雄 HPX</p>
+    </div>
+    <div class="ctr" style="margin-top:clamp(28px,3.6vw,40px);display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+      <a class="btn" href="https://www.facebook.com/groups/KaohsiungHPX" target="_blank" rel="noopener">加入臉書社團</a>
+      <a class="btn btn--line" href="https://www.facebook.com/hpxkaohsiung" target="_blank" rel="noopener">粉絲專頁</a>
+    </div>
+  </section>
+</div>
+
+<div class="pg" data-pg="about" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">ABOUT US</div>
+    <h2>關於 HPX 高雄讀書會</h2>
+    <p class="top__q">高雄 HPX 是什麼樣的社群？</p>
+    <p>成立九年、超過 2,000 位書友，一個以閱讀為核心的學習社群。</p>
+  </div>
+
+  <div class="pad" style="padding-top:clamp(24px,3.4vw,32px)">
+    <div class="tabs" data-tabs role="tablist" aria-label="關於我們">
+      <button class="tab" type="button" role="tab" id="ab-1" aria-controls="ab-p1" aria-selected="true">社團介紹</button>
+      <button class="tab" type="button" role="tab" id="ab-2" aria-controls="ab-p2" aria-selected="false">為什麼是 HPX</button>
+      <button class="tab" type="button" role="tab" id="ab-4" aria-controls="ab-p4" aria-selected="false">里程碑</button>
+      <button class="tab" type="button" role="tab" id="ab-5" aria-controls="ab-p5" aria-selected="false">社團版規</button>
+    </div>
+  </div>
+
+  <div id="ab-p1" role="tabpanel" aria-labelledby="ab-1">
+    <section class="blk pad">
+      <div class="intro2">
+        <div class="prose">
+        <p><strong>HPX 早期是數位產品（網站／App）設計與企劃工作者的交流社群平台</strong>，尤其是對創新產品企劃、使用者經驗設計有興趣的人。社群透過多元活動與讀書會，推動實務經驗分享與互動交流，創造有效的學習成長，也促成各種合作機會。</p>
+        <p>HPX 高雄讀書會成立於 2017 年 6 月 5 日，是 HPX 在南台灣的分支。我們的粉絲專頁叫做「<strong>書香南國—HPX 高雄讀書會</strong>」——這四個字是我們對這個社群的期待：讓閱讀的風氣在南台灣長出自己的樣子。</p>
+        <p>成就一本書的價值，需要不同的心得，彼此碰撞融合。我們一起看書、想書、說書，一同成長。</p>
+        <p class="quote">We learn more when we learn together.</p>
+      </div>
+        <figure class="intro2__fig">
+                    <div class="shot shot--free" data-img="reunion"></div>
+          <figcaption>2025 年度大聚 · HPX 高雄讀書會</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="blk pad">
+      <div class="blk__h"><h3>HPX 的起源</h3></div>
+      <div class="intro2 intro2--row">
+        <div class="prose">
+          <p>HPX 源自 2009 年，由悠識數位（蔡明哲 Richard）在<strong>台北</strong>發起的「HPX 網站企劃讀書會」，之後逐步發展成台灣數位產品設計與企劃領域的社群平台。</p>
+        </div>
+        <figure class="people people--1">
+          <div class="person">
+            <div class="person__ph"><div class="shot" data-img="pRichard"></div></div>
+            <b>蔡明哲 Richard</b><span>HPX 發起人 · 2009</span>
+          </div>
+        </figure>
+      </div>
+      <div class="intro2 intro2--row" style="margin-top:clamp(30px,4vw,46px)">
+        <div class="prose">
+          <p><strong>高雄讀書會於 2017 年成立</strong>，維持以書會友、結合實務的模式，把這套精神帶到南台灣。草創時期由 <strong>Egg</strong> 發起並帶著大家走，從第一場書聚、第一批書友開始累積；<strong>Robert</strong> 後來加入，兩人成為<strong>共同總召</strong>，之後由 Robert 接續帶領社團至今——九種聚會形式、上百場的書聚與活動，都是這一路長出來的。</p>
+        </div>
+        <figure class="people people--2">
+          <div class="person">
+            <div class="person__ph"><div class="shot" data-img="pEgg"></div></div>
+            <b>許俊翊 Egg</b><span>草創發起 · 共同總召</span>
+          </div>
+          <div class="person">
+            <div class="person__ph"><div class="shot" data-img="pRobert"></div></div>
+            <b>李日韋 Robert</b><span>共同總召 · 現任</span>
+          </div>
+        </figure>
+      </div>
+      <div class="intro2 intro2--row" style="margin-top:clamp(30px,4vw,46px)">
+        <figure class="people people--3">
+          <div class="person">
+            <div class="person__ph"><div class="shot" data-img="pTammy"></div></div>
+            <b>吳秋貞 Tammy</b><span>管理員</span>
+          </div>
+          <div class="person">
+            <div class="person__ph"><div class="shot" data-img="pPei"></div></div>
+            <b>譚珮秀</b><span>管理員</span>
+          </div>
+          <div class="person">
+            <div class="person__ph"><div class="shot" data-img="pYing"></div></div>
+            <b>李盈瑩 Inin</b><span>管理員</span>
+          </div>
+        </figure>
+        <div class="prose">
+          <p><strong>現任管理群（管理員／版主）</strong>協助社團的日常運作——貼文審核、活動公告、書聚與申請的協調，以及社團秩序的維護。有任何問題，都可以透過粉絲專頁或社團私訊找到我們。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="ab-p2" role="tabpanel" aria-labelledby="ab-2" hidden>
+<section class="blk pad">
+      <div class="blk__h"><h3>H · P · X 是什麼意思</h3><p>HPX 一開始只有三個字，後來長出了第二層意思。</p></div>
+      <div class="hpxr">
+        <div class="hpxr__i">
+          <span class="hpxr__l">H</span>
+          <div class="hpxr__b"><b>Happy</b><span class="hpxr__d">開心地聚在一起</span></div>
+          <div class="hpxr__x"><em>2.0</em><span>Health</span></div>
+        </div>
+        <div class="hpxr__i">
+          <span class="hpxr__l">P</span>
+          <div class="hpxr__b"><b>People</b><span class="hpxr__d">各行各業的人</span></div>
+          <div class="hpxr__x"><em>2.0</em><span>Project</span><span>Practice</span><span>Plan</span></div>
+        </div>
+        <div class="hpxr__i hpxr__i--x">
+          <span class="hpxr__l">X</span>
+          <div class="hpxr__b"><b>Cross</b><span class="hpxr__d">因為一本書交會</span></div>
+          <div class="hpxr__x"><em>2.0</em><span>Connection</span></div>
+        </div>
+      </div>
+      <div class="hpx__note"><p><b>HPX 1.0（2009 起）</b>　Happy People Cross——一群人因為一本書相遇，開心地交會。上面每一欄的<strong>深色字</strong>就是 1.0 的定義。</p><p><b>HPX 2.0（2020 起）</b>　在原本的三個字上再長出一層：Health、Project、Practice、Plan、Connection——不只交流，也把讀到的東西變成計畫、練習與連結。上面的<strong>淺色字</strong>就是 2.0 之後加上的。</p><p>不論哪一個版本，<strong>X 都是交會</strong>：Planner、Prototyper、Producer、Project Manager、Product Manager、Programmer、Professor、Person、People、Player⋯⋯全部都是 P，全部在這裡交叉。</p></div>
+    </section>
+<section class="blk pad">
+      <div class="blk__h"><h3>我們是什麼、不是什麼</h3>
+        <p>先講清楚兩邊，比較不會走錯地方。</p></div>
+      <div class="vs">
+        <div class="vs__col vs__col--yes">
+          <p class="vs__h">我們是</p>
+          <div class="why vs__list" id="why"></div>
+        </div>
+        <div class="vs__col vs__col--no">
+          <p class="vs__h">我們不是</p>
+          <div class="nots nots--tight vs__list" id="nots"></div>
+        </div>
+      </div>
+      <div class="ctr" style="margin-top:clamp(24px,3vw,32px)"><a class="btn btn--line" href="#/faq">看常見問題</a></div>
+    </section>
+
+  </div>
+
+  <div id="ab-p4" role="tabpanel" aria-labelledby="ab-4" hidden>
+    <section class="blk pad">
+      <div class="blk__h"><h3>里程碑</h3></div>
+      <ol class="mile mile--big" id="mile"></ol>
+    </section>
+    <section class="blk pad">
+      <div class="blk__h"><h3>未來展望</h3><p>把資源帶回來高雄。</p></div>
+      <div class="duo2">
+        <div><p class="eyebrow">經營中</p><div class="tags" id="now"></div></div>
+        <div><p class="eyebrow">展望</p><div class="tags" id="future"></div></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="ab-p5" role="tabpanel" aria-labelledby="ab-5" hidden>
+    <section class="blk pad">
+      <div class="blk__h"><h3>社團版規</h3><p>參與社團與書聚之前，請先了解這十條規範；管理團隊保有最終解釋權。</p></div>
+      <div class="rules" id="rulesGrid2"></div>
+    </section>
+  </div>
+</div>
+
+<!-- 新人指引 -->
+<div class="pg" data-pg="start" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">START HERE</div>
+    <h2>歡迎加入，從這裡開始</h2>
+    <p class="top__q">剛加入社團，不知道從哪裡開始？</p>
+    <p>分成兩條路線：先當參加者，或直接開一場自己的書聚。選一個開始就好。</p>
+  </div>
+  <div class="pad" style="padding-top:clamp(26px,3.4vw,34px)">
+    <div class="tabs" data-tabs role="tablist" aria-label="新人指引">
+      <button class="tab" type="button" role="tab" id="sg-1" aria-controls="sg-p1" aria-selected="true">我想先參加</button>
+      <button class="tab" type="button" role="tab" id="sg-2" aria-controls="sg-p2" aria-selected="false">我想開書聚</button>
+    </div>
+  </div>
+
+  <div id="sg-p1" role="tabpanel" aria-labelledby="sg-1">
+    <section class="blk pad">
+      <div class="part">
+        <span class="part__k">Part 01</span>
+        <div class="part__t"><h3>先當一次參加者</h3>
+          <p class="part__p1">什麼都不用準備，挑一場有興趣的坐下來聽、開口聊就好。三個階段、八個步驟。</p></div>
+      </div>
+      <div class="steps" id="stepPath"></div>
+    </section>
+  </div>
+
+  <div id="sg-p2" role="tabpanel" aria-labelledby="sg-2" hidden>
+    <section class="blk pad">
+      <div class="part">
+        <span class="part__k">Part 02</span>
+        <div class="part__t"><h3>我想開書聚</h3>
+          <p>參加過幾次之後，想自己揪一團、辦一場活動？誰都可以開團，只要你是社員。以下是完整流程與需要的表單。</p></div>
+      </div>
+      <div class="blk__h" style="margin-bottom:18px"><h3>開書聚前，先想清楚五件事</h3>
+        <p>人、事、時、地、物——把這五項填起來，一場書聚的骨架就成形了。</p></div>
+      <div class="five" id="fiveW"></div>
+      <div class="blk__h blk__h--div"><h3>三個階段</h3>
+        <p>從組團到結束，實際會經過的流程。</p></div>
+      <div class="flow" id="flow2"></div>
+      <div class="spirit"><b>書聚的精神</b><p>不是來上課、聽講、聽教學。每個人都要有貢獻，不能一直都是旁聽。</p></div>
+    </section>
+    <section class="blk pad">
+      <div class="blk__h"><h3>開書聚前後會用到的</h3><p>從找場地到結束後申請徽章，這些都在這裡。</p></div>
+      <div class="steps steps--two" id="hostKit"></div>
+    </section>
+  </div>
+  <section class="blk pad">
+    <div class="band2">
+      <div class="band2__t">
+        <h3>還有問題？</h3>
+        <p>四十個最常被問到的問題都整理好了，其他疑問歡迎私訊粉專。</p>
+      </div>
+      <a class="btn btn--line band2__a" href="#/faq">看常見問題</a>
+    </div>
+  </section>
+</div>
+
+<!-- 社團書聚 -->
+<div class="pg" data-pg="meetups" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">MEETUPS</div>
+    <h2>社團書聚</h2>
+    <p class="top__q">想找一個適合自己的聚會？</p>
+    <p>這裡是資料區：九種聚會形式、歷年讀過的書與所有場次紀錄。想參加或想開團，請看新人指引。</p>
+  </div>
+
+  <div class="pad" style="padding-top:clamp(24px,3.4vw,32px)">
+    <div class="tabs" data-tabs role="tablist" aria-label="社團書聚">
+      <button class="tab" type="button" role="tab" id="mt-1" aria-controls="mt-p1" aria-selected="true">九種聚會形式</button>
+      <button class="tab" type="button" role="tab" id="mt-2" aria-controls="mt-p2" aria-selected="false">我們讀些什麼</button>
+      <button class="tab" type="button" role="tab" id="mt-3" aria-controls="mt-p3" aria-selected="false">歷年書聚書單</button>
+      <button class="tab" type="button" role="tab" id="mt-4" aria-controls="mt-p4" aria-selected="false">歷年場次</button>
+    </div>
+  </div>
+
+  <div id="mt-p1" role="tabpanel" aria-labelledby="mt-1">
+
+<section class="blk pad">
+    <div class="blk__h"><h3>九種聚會形式</h3></div>
+    <div class="cards" id="typeCards"></div>
+  </section>
+  <section class="blk pad">
+    <div class="band2">
+      <div class="band2__t">
+        <h3>想參加，或想自己開一場？</h3>
+        <p>怎麼參加第一場、怎麼揪團開書聚——完整的流程、要準備什麼、會用到哪些表單，都整理在新人指引。</p>
+      </div>
+      <a class="btn btn--line band2__a" href="#/start">前往新人指引</a>
+    </div>
+  </section>
+
+  </div>
+
+  <div id="mt-p2" role="tabpanel" aria-labelledby="mt-2" hidden>
+<section class="blk pad">
+      <div class="blk__h"><h3>我們讀些什麼</h3>
+        <p>不限定一個主題。以下是歷年書聚實際讀過的書，依領域分類後的分布（統計至 2026 年）。</p></div>
+      <div class="btable" id="bookStats"></div>
+      <p class="btable__note">共 <strong>266</strong> 場書聚 · <strong>243</strong> 本不重複書目 · 統計區間 2017–2026</p>
+    </section>
+  </div>
+
+  <div id="mt-p3" role="tabpanel" aria-labelledby="mt-3" hidden>
+    <section class="blk pad">
+      <div class="blk__h"><h3>歷年書聚書單</h3>
+        <p>2017 年至今讀過的 243 本書，依年份排列。可依領域篩選或直接搜尋書名。</p></div>
+      <div class="bk__bar">
+        <input type="search" id="bkQ" placeholder="搜尋書名⋯⋯" aria-label="搜尋書名">
+      </div>
+      <div class="chips" id="bkCats" role="group" aria-label="依領域篩選"></div>
+      <div class="bk" id="bkList"></div>
+      <p class="count" id="bkCount"></p>
+      <div class="more-btn" id="bkMoreWrap"><button class="btn btn--line" type="button" id="bkMore">顯示更多書目</button></div>
+    </section>
+  </div>
+
+  <div id="mt-p4" role="tabpanel" aria-labelledby="mt-4" hidden>
+<section class="blk pad">
+    <div class="blk__h"><h3>歷年場次</h3><p>依形式分類查詢歷年書聚、講座與各種活動。</p></div>
+    <div class="chips" id="chips" role="group" aria-label="依活動形式篩選"></div>
+    <div class="chips chips--year" id="years" role="group" aria-label="依年份篩選"></div>
+    <div class="chips chips--sort" id="sorts" role="group" aria-label="排序方式">
+      <button class="chip" type="button" data-s="desc" aria-pressed="true">最新在前</button>
+      <button class="chip" type="button" data-s="asc" aria-pressed="false">最舊在前</button>
+    </div>
+    <div class="sess" id="sess"></div>
+    <p class="count" id="count"></p>
+    <nav class="pager" id="sessPager" aria-label="場次分頁"></nav>
+  </section>
+  </div>
+</div>
+
+<!-- 行事曆 -->
+<div class="pg" data-pg="calendar" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">CALENDAR</div>
+    <h2>高雄讀會行事曆</h2>
+    <p class="top__q">想知道最近有什麼活動？</p>
+    <p>每月書聚與活動行程一覽，可訂閱到自己的 Google 日曆。社團行事曆不定期更新，建議訂閱後由日曆自動同步，就不會錯過新加入的場次。</p>
+  </div>
+  <section class="blk pad">
+    <div class="embed">
+      <p class="eyebrow">Google Calendar</p>
+      <p>行事曆內嵌將於正式部署後啟用。目前的預覽環境不允許載入外部框架，因此先以連結呈現；網站上線到自有網域後，這裡會直接顯示整份月曆。</p>
+      <a class="btn" href="https://hpxkh.pse.is/hpxkh_calendar" target="_blank" rel="noopener">開啟行事曆</a>
+    </div>
+  </section>
+  <section class="blk pad">
+    <div class="blk__h"><h3>訂閱到自己的日曆</h3><p>在行事曆頁面右下角點「＋ Google 日曆」，之後社團新增的活動就會自動同步，不必每次回來查。</p></div>
+  </section>
+</div>
+
+<!-- 文件表單 -->
+<div class="pg" data-pg="docs" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">DOCUMENTS</div>
+    <h2>文件與表單</h2>
+    <p class="top__q">想入社、要借場地、談合作、宣傳活動，或申請徽章？</p>
+    <p>五張線上申請表加上官方文件，都收在這一頁。填好按送出，該帶去哪裡、下一步做什麼，畫面上都會告訴你。</p>
+  </div>
+
+  <section class="blk pad">
+    <div class="tabs" data-tabs role="tablist" aria-label="文件與表單">
+      <button class="tab" type="button" role="tab" id="tab-join" data-tab="join"
+              aria-selected="true" aria-controls="formJoin">加入社團申請</button>
+      <button class="tab" type="button" role="tab" id="tab-venue" data-tab="venue"
+              aria-selected="false" aria-controls="formVenue">書聚場地登記</button>
+      <button class="tab" type="button" role="tab" id="tab-collab" data-tab="collab"
+              aria-selected="false" aria-controls="formCollab">合作提案</button>
+      <button class="tab" type="button" role="tab" id="tab-badge" data-tab="badge"
+              aria-selected="false" aria-controls="formBadge">書聚徽章申請</button>
+      <button class="tab" type="button" role="tab" id="tab-post" data-tab="post"
+              aria-selected="false" aria-controls="formPost">社團外貼文申請</button>
+      <button class="tab" type="button" role="tab" id="tab-files"
+              aria-selected="false" aria-controls="docFilesWrap">官方文件</button>
+    </div>
+    <div class="appform" id="formJoin" role="tabpanel" aria-labelledby="tab-join"></div>
+    <div class="appform" id="formVenue" role="tabpanel" aria-labelledby="tab-venue" hidden></div>
+    <div class="appform" id="formCollab" role="tabpanel" aria-labelledby="tab-collab" hidden></div>
+    <div class="appform" id="formBadge" role="tabpanel" aria-labelledby="tab-badge" hidden></div>
+    <div class="appform" id="formPost" role="tabpanel" aria-labelledby="tab-post" hidden></div>
+    <div class="appform" id="docFilesWrap" role="tabpanel" aria-labelledby="tab-files" hidden>
+      <div class="appform__h"><div class="sec-h"><h4 style="font-family:var(--disp);font-size:16px;font-weight:600;letter-spacing:.07em">官方文件</h4></div>
+        <p>社團維護的官方簡報與清單，點擊後在新分頁開啟。</p></div>
+      <div class="appform__docs"><div class="cards" id="docFiles"></div></div>
+    </div>
+  </section>
+</div>
+
+<!-- 社團版規 -->
+<div class="pg" data-pg="venues" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">VENUES</div>
+    <h2>常辦書聚地點</h2>
+    <p class="top__q">想開一場書聚，不知道去哪辦？</p>
+    <p>書友實際用過的高雄場地，含費用、容納人數與設備。要推薦新場地請私訊粉專。</p>
+  </div>
+  <section class="blk pad"><div class="venue" id="venues"></div></section>
+</div>
+
+<div class="pg" data-pg="faq" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">Q &amp; A</div>
+    <h2>常見問題</h2>
+    <p class="top__q">參加前想先弄清楚幾件事？</p>
+    <p>四十個最常被問到的問題，依主題分成四區，點開就有答案。</p>
+  </div>
+  <div class="pad" style="padding-top:clamp(24px,3.4vw,32px)">
+    <div class="tabs" data-tabs role="tablist" aria-label="常見問題" id="faqTabs"></div>
+  </div>
+  <div id="faqPanels"></div>
+  <section class="blk pad">
+    <div class="band2">
+      <div class="band2__t">
+        <h3>想看更完整的版本？</h3>
+        <p>社團書友整理的「新人 38 問」與「書聚開團 79 問」，把每個細節都寫下來了。</p>
+      </div>
+      <span class="band2__two">
+        <a class="btn btn--line" href="https://jihwei.zeabur.app/post/%E8%AE%80%E6%9B%B8%E6%9C%83-%E6%96%B0%E4%BA%BA38%E5%95%8F" target="_blank" rel="noopener">新人 38 問</a>
+        <a class="btn btn--line" href="https://jihwei.zeabur.app/post/%E8%AE%80%E6%9B%B8%E6%9C%83-%E6%9B%B8%E8%81%9A%E9%96%8B%E5%9C%9879%E5%95%8F" target="_blank" rel="noopener">開團 79 問</a>
+      </span>
+    </div>
+  </section>
+</div>
+
+<div class="pg" data-pg="gallery" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">GALLERY</div>
+    <h2>活動花絮</h2>
+    <p class="top__q">想看看實際上是什麼樣子？</p>
+    <p>九年來的書聚、講座與各種活動現場。</p>
+  </div>
+  <section class="blk pad"><div class="gal" id="galAll"></div></section>
+</div>
+
+<div class="pg" data-pg="rules" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">HOUSE RULES</div>
+    <h2>社團版規</h2>
+    <p class="top__q">參與之前，該知道哪些規範？</p>
+    <p>十條社團版規，管理團隊保有最終解釋權。</p>
+  </div>
+  <section class="blk pad"><div class="rules" id="rulesGrid"></div></section>
+</div>
+
+<!-- 聯繫 -->
+<div class="pg" data-pg="contact" hidden>
+  <div class="top pad">
+    <div class="wm wm--ghost">CONTACT</div>
+    <h2>在這些地方找到我們</h2>
+    <p class="top__q">想找我們、或有問題想問？</p>
+    <p>三個主要據點各有不同用途，另有行事曆與其他管道。私訊粉專通常最快得到回覆。</p>
+  </div>
+  <section class="blk pad">
+    <div class="blk__h"><h3>三個地方，差在哪？</h3>
+      <p>社團、粉專、宵夜團的性質不一樣，找對地方比較快。</p></div>
+    <div class="chan">
+      <div class="chan__i">
+        <p class="chan__k">社團</p>
+        <h4>HPX 高雄臉書社團</h4>
+        <p class="chan__d">讀書會本體。書聚與活動的貼文、報名、討論都在這裡。</p>
+        <ul><li>書聚開團與報名</li><li>社團活動公告</li><li>書友之間的討論</li></ul>
+        <a class="btn btn--line" href="https://www.facebook.com/groups/KaohsiungHPX" target="_blank" rel="noopener">加入社團</a>
+      </div>
+      <div class="chan__i">
+        <p class="chan__k">粉專</p>
+        <h4>粉絲專頁 書香南國</h4>
+        <p class="chan__d">對外的窗口。不定期更新文章與活動訊息，也是私訊提問的管道。</p>
+        <ul><li>活動與講座訊息</li><li>不定期的文章分享</li><li>私訊提問、聯絡管理團隊</li></ul>
+        <a class="btn btn--line" href="https://www.facebook.com/hpxkaohsiung" target="_blank" rel="noopener">前往粉專</a>
+      </div>
+      <div class="chan__i">
+        <p class="chan__k">宵夜團</p>
+        <h4>HPX 高雄宵夜團</h4>
+        <p class="chan__d">社團之外的聚集地。不限主題，什麼都可以聊、什麼都可以揪。</p>
+        <ul><li>閒聊、生活分享</li><li>非書聚的各種揪團</li><li>活動之後的延長賽</li></ul>
+        <a class="btn btn--line" href="https://reurl.cc/GpVY1A" target="_blank" rel="noopener">加入群組</a>
+      </div>
+    </div>
+  </section>
+  <section class="blk pad">
+    <div class="blk__h"><h3>其他管道</h3></div>
+    <div class="cards" id="contactCards"></div></section>
+</div>
+
+</main>
+
+<footer class="foot">
+  <div class="pad">
+    <div class="foot__grid">
+      <div class="foot__b">
+        <div class="fb">HP<em>X</em> 高雄讀書會</div>
+        <p>書香南國—HPX 高雄讀書會<br>Happy People Cross · 成立於 2017.06.05，高雄。</p>
+      </div>
+      <div class="foot__c foot__c--menu">
+        <h5>Menu</h5>
+        <ul class="foot__menu">
+          <li><a href="#/about">關於我們</a></li>
+          <li><a href="#/start">新人指引</a></li>
+          <li><a href="#/meetups">社團書聚</a></li>
+          <li><a href="#/calendar">行事曆</a></li>
+          <li><a href="#/docs">文件表單</a></li>
+          <li><a href="#/venues">常辦書聚地點</a></li>
+          <li><a href="#/faq">常見問題</a></li>
+          <li><a href="#/gallery">活動花絮</a></li>
+          <li><a href="#/rules">社團版規</a></li>
+          <li><a href="#/contact">聯繫我們</a></li>
+        </ul>
+      </div>
+      <div class="foot__c" id="footSocial"></div>
+    </div>
+    <div class="foot__bot">
+      <span>書香南國—HPX 高雄讀書會</span>
+      <span>We learn more when we learn together.</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const L={
+  intro:"https://hpxkh.pse.is/hpxkh_intro",
+  start:"https://hpxkh.pse.is/hpxkh_start",
+  place:"https://hpxkh.pse.is/hpxkh_Place",
+  cal:"https://hpxkh.pse.is/hpxkh_calendar",
+  books:"https://hpxkh.pse.is/hpxkh_books",
+  badge:"https://hpxkh.pse.is/apply_badge",
+  post:"https://hpxkh.pse.is/apply_post",
+  fb:"https://www.facebook.com/hpxkaohsiung",
+  group:"https://www.facebook.com/groups/KaohsiungHPX",
+  night:"https://reurl.cc/GpVY1A"
+};
+
+
+const TYPES=[
+ {no:"01",zh:"新人小聚",en:"New Friends",d:"協助新成員快速了解讀書會理念、運作與參與方式，輕鬆融入並展開學習旅程。"},
+ {no:"02",zh:"書聚",en:"Book Club",d:"以一本書為核心，透過章節導讀、交流討論與觀點分享，在數次聚會中逐步深入書中內容。"},
+ {no:"03",zh:"R4A 月讀",en:"Read for Action",d:"由導讀者進行簡報與分享，並透過小組引導與合作等方式，共同討論與延伸書中內容。",note:"每月一聚一本書"},
+ {no:"04",zh:"主題聚",en:"Theme Gathering",d:"以閱讀結合不同生活主題的聚會形式，例如「閱讀 × 美食」、「閱讀 × 運動」，讓閱讀不只停留在書本。"},
+ {no:"05",zh:"十分鐘分享會",en:"10-Min Sharing",d:"用一段不長的時間，分享一本書、一個觀點或一次學習體悟，看見更多不同的視角與靈感。"},
+ {no:"06",zh:"職人分享會",en:"Expert Sharing",d:"邀請讀書會成員中的專業人士交流實務經驗與洞見，拓展視野並深化彼此學習。"},
+ {no:"07",zh:"TALK 講座",en:"Talk & Insight",d:"邀請外部講師／專家分享觀點，拓展視野，帶來多元思考與深度啟發。"},
+ {no:"08",zh:"輕鬆聚",en:"Casual Fun",d:"以輕鬆交流與生活體驗為主，例如桌遊、野餐、密室逃脫、爬山、旅遊等互動體驗。",note:"每月僅限一次・社團預約報名"},
+ {no:"09",zh:"大聚",en:"Annual Gathering",d:"串連各書聚與活動的年度盛會，提供成員專業交流、讀書分享與互動體驗的機會。",note:"年中或年末舉辦"}
+];
+
+const cardx=o=>{
+  const inner='<div class="cardx__top">'+(o.n?'<span class="cardx__no">'+o.n+'</span>':'')+'<h4>'+o.h+'</h4></div>'+
+    '<p>'+o.d+'</p><span class="cardx__go">'+(o.go||"開啟 →")+'</span>';
+  if(o.soon)return '<div class="cardx" style="opacity:.55">'+inner+'</div>';
+  const ext=o.u.startsWith("#")?"":' target="_blank" rel="noopener"';
+  return '<a class="cardx" href="'+o.u+'"'+ext+'>'+inner+'</a>';
+};
+
+
+
+
+
+
+
+
+(document.getElementById("meetupForms")||{}).innerHTML=[
+ {h:"如何開始一場書聚",d:"新手必看！帶您掌握書聚的流程與核心，輕鬆開始第一步。",go:"開啟簡報 →",u:L.start},
+ {h:"常辦書聚地點",d:"整理常見書聚地點，方便您找到適合的場地與夥伴。推薦場地請私訊粉專。",go:"開啟列表 →",u:L.place},
+ {h:"書聚徽章申請表",d:"完成書聚後，由主辦人為成員提出徽章申請。",go:"前往填寫 →",u:L.badge}
+].map(cardx).join("");
+
+(document.getElementById("docFiles")||{}).innerHTML=[
+ {h:"認識 HPX",d:"社團的理念與歷程簡報。",u:L.intro},
+ {h:"如何開始一場書聚",d:"書聚的流程與核心，新手必看。",u:L.start},
+ {h:"常辦書聚地點",d:"常見書聚地點整理。",u:L.place},
+ {h:"歷年活動清單索引",d:"歷年書聚、新人聚、輕鬆聚與各種活動講座的索引。",u:L.books}
+].map(cardx).join("");
+
+(document.getElementById("docForms")||{}).innerHTML=[
+ {h:"書聚徽章申請表",d:"完成書聚後，由主辦人為成員提出徽章申請。",go:"前往填寫 →",u:L.badge},
+ {h:"社團外廣告貼文申請表",d:"非書聚相關的宣傳貼文，需先申請並取得管理員或版主同意（版規第 6 條）。",go:"前往填寫 →",u:L.post}
+].map(cardx).join("");
+
+(document.getElementById("contactCards")||{}).innerHTML=[
+ {h:"高雄讀會行事曆",d:"每月活動行程一覽，可訂閱至個人 Google 日曆。",go:"開啟行事曆 →",u:L.cal},
+ {h:"LINE 官方帳號",d:"籌備中。上線後將成為活動報名與提問的主要窗口。",go:"即將開放",soon:true}
+].map(cardx).join("");
+
+(document.getElementById("footSocial")||{}).innerHTML='<h5>Community</h5><ul>'+
+ '<li><a href="'+L.group+'" target="_blank" rel="noopener">臉書社團</a></li>'+
+ '<li><a href="'+L.fb+'" target="_blank" rel="noopener">粉絲專頁 書香南國</a></li>'+
+ '<li><a href="'+L.cal+'" target="_blank" rel="noopener">高雄讀會行事曆</a></li>'+
+ '<li><a href="'+L.night+'" target="_blank" rel="noopener">HPX 高雄宵夜團</a></li>'+
+ '<li><span class="off">LINE 官方帳號（籌備中）</span></li></ul>';
+
+const SESS=[{"t":"01","d":"","n":"新人小聚","w":"Egg","c":"","r":"","y":""},{"t":"01","d":"2018.09.28","n":"新人小聚","w":"Robert","c":"","r":"","y":"2018"},{"t":"01","d":"2018.10.09","n":"新人小聚","w":"HsiuHsiu Tan","c":"","r":"","y":"2018"},{"t":"01","d":"2018.11.12","n":"新人小聚","w":"小龜 / 宜賢","c":"","r":"","y":"2018"},{"t":"01","d":"2018.12.18","n":"新人小聚","w":"Celine","c":"","r":"","y":"2018"},{"t":"01","d":"2019.01.22","n":"新人小聚","w":"謙榆 / 佳珈","c":"","r":"","y":"2019"},{"t":"01","d":"2019.03.05","n":"新人小聚","w":"佳珈 / 暄喬","c":"","r":"","y":"2019"},{"t":"01","d":"2019.04.21","n":"新人小聚","w":"祐霖 / 青黛","c":"","r":"","y":"2019"},{"t":"01","d":"2019.05.17","n":"新人小聚","w":"孝鈞 / 存閔","c":"","r":"","y":"2019"},{"t":"01","d":"2019.07.03","n":"新人小聚","w":"Justin / 卷靜","c":"","r":"","y":"2019"},{"t":"01","d":"2019.09.07","n":"新人小聚","w":"祐霖 / 笑長","c":"","r":"","y":"2019"},{"t":"01","d":"2019.10.14","n":"新人小聚","w":"Robert / Tammy","c":"","r":"","y":"2019"},{"t":"01","d":"2019.11.01","n":"新人小聚","w":"天一 / Celine","c":"","r":"","y":"2019"},{"t":"01","d":"2019.12.13","n":"新人小聚","w":"Chad / 秀秀","c":"","r":"","y":"2019"},{"t":"01","d":"2020.06.17","n":"新人小聚","w":"譚珮秀 / Egg","c":"","r":"","y":"2020"},{"t":"01","d":"2020.09.25","n":"新人小聚","w":"天一 / Maggie","c":"","r":"","y":"2020"},{"t":"01","d":"2020.11.11","n":"新人小聚","w":"Cristal / 張佳珈","c":"","r":"","y":"2020"},{"t":"01","d":"2020.11.25","n":"新人小聚","w":"Maggie / 張謙榆","c":"","r":"","y":"2020"},{"t":"01","d":"2021.01.24","n":"新人小聚","w":"邱茂恒 / 蔡雅婷","c":"","r":"","y":"2021"},{"t":"01","d":"2021.03.26","n":"新人小聚","w":"John / 陳嬑萱","c":"","r":"","y":"2021"},{"t":"01","d":"2021.04.29","n":"新人小聚","w":"Tammy / 張佳珈","c":"","r":"","y":"2021"},{"t":"01","d":"2021.11.30","n":"新人小聚","w":"鄭侑青 / 阿炸","c":"","r":"","y":"2021"},{"t":"01","d":"2022.02.22","n":"新人小聚","w":"李日韋 Robert / Tammy","c":"","r":"","y":"2022"},{"t":"01","d":"2022.04.09","n":"新人小聚","w":"賴筱安 / 文森特","c":"","r":"","y":"2022"},{"t":"01","d":"2022.09.01","n":"新人小聚","w":"李日韋 Robert / 呂錡濡","c":"","r":"","y":"2022"},{"t":"01","d":"2022.10.26","n":"新人小聚","w":"查爾斯 / Lucy","c":"","r":"","y":"2022"},{"t":"01","d":"2022.11.28","n":"新人小聚","w":"李日韋 Robert / Justin","c":"","r":"","y":"2022"},{"t":"01","d":"2023.02.02","n":"新人小聚","w":"賴筱安 / Mason","c":"","r":"","y":"2023"},{"t":"01","d":"2023.04.17","n":"新人小聚","w":"念念 / John","c":"","r":"","y":"2023"},{"t":"01","d":"2023.10.27","n":"新人小聚","w":"Tammy / Sandy","c":"","r":"","y":"2023"},{"t":"01","d":"2023.12.14","n":"新人小聚","w":"查爾斯 / inin","c":"","r":"","y":"2023"},{"t":"01","d":"2024.03","n":"新人小聚","w":"譚珮秀 / 賴賴","c":"","r":"","y":"2024"},{"t":"01","d":"2024.09.25","n":"新人小聚","w":"Tammy / Angie","c":"","r":"","y":"2024"},{"t":"01","d":"2025.03.02","n":"新人小聚","w":"Sumin / 秀秀","c":"","r":"","y":"2025"},{"t":"01","d":"2025.05.10","n":"新人小聚","w":"李日韋 Robert / Tammy","c":"","r":"","y":"2025"},{"t":"01","d":"2025.09.26","n":"新人小聚","w":"李日韋 Robert / 賴賴","c":"","r":"","y":"2025"},{"t":"01","d":"2026.04.08","n":"新人小聚","w":"李日韋 Robert / 秀秀","c":"","r":"","y":"2026"},{"t":"02","d":"2017","n":"設計的心理學","w":"Egg","c":"設計概論","r":"","y":"2017"},{"t":"02","d":"2017","n":"大腦拒絕不了的行銷","w":"Egg","c":"廣告行銷","r":"","y":"2017"},{"t":"02","d":"2017","n":"我是誰？如果有我，有幾個我？","w":"黃亭嘉","c":"哲學","r":"","y":"2017"},{"t":"02","d":"2017","n":"刻意練習","w":"魏小龜","c":"潛能開發","r":"","y":"2017"},{"t":"02","d":"2017","n":"做自己的生命設計師","w":"Celine","c":"生涯規劃","r":"","y":"2017"},{"t":"02","d":"2018","n":"人類圖：區分的科學","w":"Tseng Hsin Wen","c":"潛能開發","r":"","y":"2018"},{"t":"02","d":"2018","n":"心靈寫作：創造你的異想世界","w":"Yi-ching Kuo","c":"心理勵志","r":"","y":"2018"},{"t":"02","d":"2018","n":"更快樂：哈佛最受歡迎的一堂課","w":"Yh Lin","c":"心理勵志","r":"","y":"2018"},{"t":"02","d":"2018","n":"影響力","w":"陳祐霖","c":"職場工作術","r":"","y":"2018"},{"t":"02","d":"2018","n":"打開大家的Evernote筆記本","w":"李日韋","c":"職場工作術","r":"","y":"2018"},{"t":"02","d":"2018","n":"寫給每個人的社會學讀本","w":"Nici","c":"社會學","r":"","y":"2018"},{"t":"02","d":"2018","n":"About Face 4：交互設計精髓","w":"Scarlett","c":"UI / UX","r":"","y":"2018"},{"t":"02","d":"2018","n":"日本溝通大師教你生氣的技術","w":"Yi-ching Kuo","c":"人際關係/溝通","r":"","y":"2018"},{"t":"02","d":"2018","n":"寫作吧!你值得被看見","w":"莊大賢","c":"寫作/作文","r":"","y":"2018"},{"t":"02","d":"2018","n":"被誤解的犯罪學","w":"Donna Chuang","c":"社會科學/議題","r":"","y":"2018"},{"t":"02","d":"2018","n":"漣漪詞","w":"陳宛萱","c":"潛能/學習力啟發","r":"","y":"2018"},{"t":"02","d":"2018","n":"輕鬆駕馭意志力","w":"陳信吉","c":"心理學","r":"","y":"2018"},{"t":"02","d":"2018","n":"斜槓青年","w":"許曉涵","c":"生涯規劃","r":"","y":"2018"},{"t":"02","d":"2018","n":"說話的品格：把真心放入話中的24個練習","w":"Nici HC","c":"人際關係","r":"","y":"2018"},{"t":"02","d":"2018","n":"蘋果橘子經濟學","w":"趙寬敏","c":"經濟學","r":"","y":"2018"},{"t":"02","d":"2018","n":"培養寫作力的6項修練","w":"Yi-ching Kuo","c":"寫作/作文","r":"","y":"2018"},{"t":"02","d":"2018","n":"不斷幸福論","w":"洪大珮","c":"大腦科學","r":"","y":"2018"},{"t":"02","d":"2018","n":"誰說人是理性的","w":"Celine","c":"經濟學","r":"","y":"2018"},{"t":"02","d":"2018","n":"真確","w":"Yh Lin/魏小龜","c":"趨勢觀念","r":"","y":"2018"},{"t":"02","d":"2018","n":"卡內基溝通與人際關係","w":"李日韋 HsiuHsiu Tan","c":"人際關係","r":"","y":"2018"},{"t":"02","d":"2018","n":"王牌大律師","w":"Yh Lin","c":"法律/影視小說","r":"","y":"2018"},{"t":"02","d":"2018","n":"為什麼人這麼難懂","w":"顏彩玲","c":"讀心/識人","r":"","y":"2018"},{"t":"02","d":"2018","n":"上台的技術","w":"李日韋","c":"演講/簡報","r":"不開放旁聽","y":"2018"},{"t":"02","d":"2018","n":"21世紀的21堂課","w":"Yoka Lin","c":"社會科學","r":"不開放旁聽","y":"2018"},{"t":"02","d":"2018","n":"行銷前必修的購物心理學","w":"Celine","c":"消費者行為","r":"","y":"2018"},{"t":"02","d":"2018","n":"內向心理學","w":"呂錡濡","c":"心理學","r":"不開放旁聽","y":"2018"},{"t":"02","d":"2018","n":"重建生命的內在模式","w":"許容瑄、廖彥宇","c":"心理學","r":"不開放旁聽","y":"2018"},{"t":"02","d":"2018","n":"脆弱的力量","w":"Yi-ching Kuo","c":"心理學","r":"","y":"2018"},{"t":"02","d":"2019","n":"人生思考題","w":"陳信吉","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"我是GaryVee","w":"張謙榆","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"為愛徬徨的勇氣","w":"許曉涵","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"照護的邏輯","w":"Yi-Ting Yeh","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"跟錢好好相處","w":"Yi-ching Kuo","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"機率陷阱","w":"Min Cheng / 張謙榆","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"遊戲化實戰全書","w":"Yh Lin","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"新絕對成交","w":"張謙榆","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"共好與同贏","w":"張謙榆","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"電商從0到1","w":"林子欽","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"教學的技術","w":"李日韋","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"再也沒有難談的事：哈佛法學院教你如何開口，解決切身的大小事","w":"陳祐霖","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"精實UX設計 Lean UX","w":"Chad Liao","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"幸運人生的四大心理學法則","w":"黃孝鈞","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"遊戲改變世界，讓現實更美好!","w":"李日韋 / Tammy","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"富爸爸，有錢有理","w":"張謙榆","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"寫作，是最好的自我投資","w":"Justin Chen","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"設計心理學","w":"Chad Liao","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"過勞腦","w":"陳信吉","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"我要心動一輩子","w":"顏宜汶","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"猶太媽媽這樣教思考","w":"許芛溱 / Celine","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"寫作，是最好的自我投資","w":"林子欽","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"斜槓青年","w":"林子欽","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"窮查理的普通常識","w":"Ping Zheng/美秀","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"極簡閱讀","w":"張道舜","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"蔡康永的情商課","w":"林子欽/ Joyce Wu 。","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"給予","w":"魏小龜","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"影響力","w":"陳祐霖","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"情緒寄生：與自我和解的34則情感教育","w":"Peter Chuang","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"行銷天才思考聖經","w":"張謙榆","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"師父","w":"羅伊真 / 臣鈞","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"心流","w":"陳祐霖","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"沒有資本的資本主義","w":"陳祐霖","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"社交天性","w":"陳祐霖","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"我，跟自己拚了！：挪威最頂尖的心智訓練師讓你潛能發揮100％/我，跟自己拚了！2：挑戰地獄週，證明我可以！7天激發潛能100％，讓你人生很暢快！/我，跟自己拚了！3 當下！：把握每分每秒，讓你活得淋漓盡致！","w":"臣鈞","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"說出影響力：3分鐘說一個好故事，不說理也能服人","w":"李日韋","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"與成功有約","w":"Justin","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"牧羊少年奇幻之旅","w":"Kevin Chen","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"哥說的不是星座,是人際關係","w":"莊小步","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"決策的兩難","w":"陳祐霖","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"你，很好－接受過去的你，喜歡現在的自己","w":"張謙榆","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"丟掉你的爛劇本","w":"Mark Du","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"如果父母老後難相處：如何陪伴他們走過晚年，而不再彼此傷害？","w":"陳姵樺","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"大腦衝浪","w":"賴筱安","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"莊子：以自在之心開發無限潛能","w":"蔡雅婷、Zoey","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"隨機騙局","w":"Charles、Maggie","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"做自己的生命設計師：史丹佛最夯的生涯規畫課，用「設計思考」重擬問題，打造全新生命藍圖","w":"張逸翔","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"心靈寫作","w":"Love Chin","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"原子習慣","w":"Wendy、嘉騫","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"生活的藝術","w":"Yi-ching Kuo","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"一人公司","w":"林子欽(威廉)","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"解憂雜貨店","w":"Kevin Chen","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"學會改變","w":"郭展宏、呂錡濡","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"未來地圖","w":"陳祐霖","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"原則","w":"Hsuan Lu","c":"","r":"","y":"2019"},{"t":"02","d":"2019","n":"房間裡最有智慧的人","w":"陳祐霖","c":"","r":"","y":"2019"},{"t":"02","d":"2020","n":"行銷 4.0","w":"Robert、Tammy、秀秀","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"你可以不生氣","w":"Kuang Fu C","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"一流的人如何保持巔峰","w":"Robert","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"個人品牌","w":"張道舜","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"UX策略","w":"HsiuHsiu Tan","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"高難度溝通","w":"張謙榆","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"告別玻璃心的十三件事","w":"李采容","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"反脆弱","w":"陳祐霖","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"槍炮、病菌與鋼鐵","w":"陳祐霖","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"練習的心境","w":"Robert","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"職場上，你需要搞點政治","w":"郭展宏","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"窮查理的普通常識","w":"Hsuan Lu","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"高勝率創新","w":"陳祐霖","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"星座決定我愛你","w":"文森特(仲達)","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"精準決策","w":"陳祐霖","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"執行力的修練","w":"李秋玉","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"大器可以晚成","w":"郭展宏","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"好好拜託","w":"陳祐霖","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"最高學以致用法","w":"李秋玉、林岡輝","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"超速學習","w":"李秋玉、林岡輝","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"蔡康永的情商課","w":"蔡旻軒","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"繁榮的悖論","w":"Daniel、邱茂恒","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"聲音魅力學","w":"張佳珈、Cristal Meow","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"壞男人的紅藥丸法則","w":"Hsuan Lu","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"窮查理的普通常識(周三)","w":"陳祐霖","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"圈粉法則","w":"李秋玉、林岡輝","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"教練","w":"陳祐霖","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"見樹又見林","w":"彩玲、瀞文","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"絕對續訂","w":"李秋玉、林岡輝","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"覺醒的你","w":"蔡旻軒","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"教練","w":"許筱涵","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"阿甘投資法","w":"邱茂恒、Daniel","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"零工經濟來了","w":"Daniel、Tammy、 邱茂恒","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"2030世界未來報告書","w":"陳祐霖","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"生活槓桿","w":"陳祐霖、顏彩玲","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"讓寫作成為自我精進的武器","w":"Hsuan Lu","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"我離開之後","w":"阿宏","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"宣傳學","w":"彩玲","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"男人來自火星，女人來自金星","w":"曼曼、佳珈","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"人際關係的藝術","w":"Agatha","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"姿勢決定你是誰","w":"","c":"","r":"","y":"2020"},{"t":"02","d":"2020","n":"遠距工作這樣做","w":"李秋玉","c":"","r":"","y":"2020"},{"t":"02","d":"2021","n":"動盪 : 國家如何化解危局、成功轉型？","w":"陳祐霖","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"原子習慣","w":"昭巽、盈瑩","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"行為上癮","w":"Hsuan Lu","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"投資最重要的事","w":"Peter Chuang","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"行為投資金律","w":"Peter Chuang","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"和自己，相愛不相礙","w":"賴筱安","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"一人創業","w":"JH Chen","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"精準購買","w":"陳祐霖","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"財商 - 主題式閱讀","w":"Robert、小雅、Charles","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"選對池塘釣大魚","w":"張謙榆","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"心理學原來是神隊友","w":"Grace","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"創意提問力","w":"陳祐霖","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"你只要做好一件事就夠了","w":"Agatha","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"世界大局-地圖全解讀","w":"陳祐霖","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"玩心設計","w":"Daniel","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"原則：生活和工作","w":"鄭侑青","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"民主式經濟的誕生","w":"鄭侑青","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"你只要做好一件事就夠了","w":"Agatha","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"窮查理的普通常識","w":"鄭侑青","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"演算法圖鑑","w":"Egg、軒月、李欣","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"孫子兵法","w":"子欽、天一","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"非暴力溝通","w":"Hsuan Lu","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"生死的覺醒","w":"昱吟","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"愛情市場學","w":"陳泓銘","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"成為1%的創業存活者","w":"溫里歐","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"從負債2000萬到心想事成的每一天","w":"蔡旻軒","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"投資最重要的事","w":"陳祐霖","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"創造生命的奇蹟｜影響五千萬人的自我療癒經典","w":"鄧薇琪, Laly","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"名媛養成班","w":"蔡旻軒","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"原子習慣","w":"郭怡儂","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"錢買不到的東西","w":"郭怡儂","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"人類大歷史","w":"郭怡儂","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"正義：一場思辨之旅","w":"郭怡儂","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"最後14堂星期二的課","w":"郭怡儂","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"樊登講論語","w":"Hsuan Lu","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"寫作鬥陣俱樂部書聚","w":"秋玉、林岡輝","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"讀歷史，我可以學會什麼？","w":"吳軒宇","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"忙碌的意義","w":"天一","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"也許你該找人聊聊","w":"彩玲、Maggie","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"匱乏經濟學","w":"子欽、天一","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"一人創富","w":"秋玉、林岡輝","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"哲學與人生","w":"吳軒宇、查爾斯","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"開始簡單生活","w":"Agatha Lai","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"老黑的FIRE生活哲學","w":"秋玉","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"愛情市場學：寫給80分女生，提升戀愛力的不敗思維","w":"陳泓銘","c":"","r":"","y":"2021"},{"t":"02","d":"2021","n":"集體倦怠：沒有熱情、沒有夢想、沒有未來，這就是千禧世代生活的殘酷世界","w":"林子欽、Kevin Chen","c":"","r":"","y":"2021"},{"t":"02","d":"2022","n":"孤獨世紀：衝擊全球商業模式，危及生活、工作與健康的疏離浪潮","w":"林子欽、Kevin Chen","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"平面國 - 向上而非向北​","w":"林子欽、黃振槐​","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"集體倦怠","w":"林子欽、Kevin Chen","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"關係結束後，成為更好的自己","w":"鄭侑青、Zoey","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"成為一個人：一個治療者對心理治療的觀點","w":"Mia Wu、 Lewis","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"走進自然：滋養身心的正念幸福手冊","w":"陳信吉","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"我家沒垃圾","w":"蔡昇翰、方柏仁","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"用瑜伽療癒創傷","w":"呂錡濡","c":"","r":"線上","y":"2022"},{"t":"02","d":"2022","n":"窮查理的普通常識","w":"楊智麟","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"是情緒糟，不是你很糟","w":"Abby Kuo","c":"","r":"線上","y":"2022"},{"t":"02","d":"2022","n":"做自己生命的設計師","w":"Ruby Tai","c":"","r":"線上","y":"2022"},{"t":"02","d":"2022","n":"雜訊","w":"鄭侑青","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"正義一場思辨之旅","w":"林子欽","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"正念溝通：在衝突、委屈、情緒勒索場景下說出真心話","w":"Abby Kuo","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"說話藝術&心理學系列書聚(影響力、好好拜託、精準提問、從說話洞察人心)","w":"之之","c":"","r":"線上","y":"2022"},{"t":"02","d":"2022","n":"破壞式創新系列書聚(創新者的DNA)","w":"Lewis & 查爾斯","c":"","r":"","y":"2022"},{"t":"02","d":"2022","n":"哈佛法學院的情緒談判課：5大核心情緒策略，創造共贏成果","w":"林岡輝、李秋玉","c":"","r":"","y":"2022"},{"t":"02","d":"2023","n":"蒙格之道","w":"查爾斯","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"1.任何人都說服、想挺你的DISC性格溝通學 2.順勢溝通","w":"inin","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"我可能錯了","w":"軒緯","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"繁榮的悖論","w":"Lewis & 查爾斯","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"原諒，宇宙法則中最強大的祝福","w":"凱密葵","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"OGSM","w":"賴賴 & Sumin Hong","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"用桌遊陪孩子玩出天賦和好個性","w":"Celine","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"做自己的生命設計師","w":"喬巴 & 愛蜜莉","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"一期一會的生命禮物","w":"之之","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"莊子","w":"Abby Kuo","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"為愛徬徨的勇氣","w":"Vincent & 泰泰","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"獨立鍛造","w":"喬巴","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"薩提爾","w":"Kuang Fu C","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"自我提問的力量","w":"泰泰","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"只工作、不上班的自主人生","w":"喬巴","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"大人學選擇","w":"喬巴","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"創傷療癒手冊","w":"阿濡米 & 蘿蔔先生","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"一人登山完全攻略","w":"耀禾 & 南雁","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"刻意練習","w":"耀禾 & 南雁","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"橫斷台灣","w":"耀禾 & 南雁","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"護腳聖經","w":"耀禾 & 南雁","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"安靜是種超能力","w":"耀禾 & 南雁","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"當下的力量","w":"Abby Kuo","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"破壞式創新","w":"Lewis & 查爾斯","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"豐盛","w":"Abby Kuo","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"麥肯錫精準提問術，突破盲點，直搗問題核心","w":"小涵 & 喬巴","c":"","r":"","y":"2023"},{"t":"02","d":"2023","n":"晶片戰爭","w":"Oberon Wang","c":"","r":"","y":"2023"},{"t":"02","d":"2024","n":"脆弱的力量","w":"June Hung","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"深夜食堂21 - 味蕾與心靈的對話","w":"一吉 & 簡浩芮","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"OGSM變革領導","w":"Sumin Hong","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"做自己的工作設計師","w":"喬巴","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"成交的技術","w":"John&小涵","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"我，刀槍不入","w":"喬巴","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"QBQ！問題背後的問題","w":"賴賴&Ling","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"內在成就","w":"喬巴","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"我想好好跟你說話","w":"喬巴","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"學會愛人的100堂課","w":"喬巴","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"遊戲化實戰全書","w":"喬巴","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"底層邏輯","w":"郭展宏","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"我所告訴你關於那座山的一切","w":"鄭侑青","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"精準投資 x 頂尖財務顧問的48堂財商素養課","w":"邱茂恒","c":"","r":"","y":"2024"},{"t":"02","d":"2024","n":"改變你人生的想法整理術","w":"Betty Wang","c":"","r":"","y":"2024"},{"t":"02","d":"2025","n":"垃圾與它們的產地","w":"張貽晴","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"專注力協定","w":"Gene","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"少，但是更好","w":"李盈瑩","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"當下的力量","w":"Sumin Hong","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"納瓦爾寶典","w":"喬巴","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"男人都不說真話","w":"陳廉軻","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"愛的藝術","w":"Mingzhang Chg & 張慈婷","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"你的人生，他們六個說了算","w":"John &黛黛","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"用AI打造素人影響力：開啟斜槓定位、內容變現與AI應用的24堂實戰指南","w":"卡樂 & inin","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"窮查理的普通常識","w":"Kai Diao& 點點","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"人生4千個禮拜","w":"喬巴","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"最後一次相遇，我們只談喜悅","w":"Gene & 煒泰","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"納瓦爾寶典","w":"點點 ＆ 盈瑩","c":"","r":"","y":"2025"},{"t":"02","d":"2025","n":"如果你的內心是一個房間","w":"Angie Chi & 簡浩芮","c":"","r":"","y":"2025"},{"t":"02","d":"","n":"愛的業力法則","w":"Mingzhang Chg & 張慈婷","c":"","r":"","y":""},{"t":"02","d":"2025","n":"自律上癮","w":"喬巴","c":"","r":"","y":"2025"},{"t":"02","d":"2026","n":"紫微斗數新手村","w":"智倫& 阿宏","c":"","r":"","y":"2026"},{"t":"02","d":"2026","n":"正義：一場思辨之旅","w":"卡樂 & 點點","c":"","r":"","y":"2026"},{"t":"02","d":"2026","n":"遊戲化實戰全書","w":"喬巴","c":"","r":"","y":"2026"},{"t":"02","d":"2026","n":"變化中的選擇：易經六十四卦共讀","w":"智倫","c":"","r":"","y":"2026"},{"t":"02","d":"2026","n":"逆思維","w":"Daniel","c":"","r":"","y":"2026"},{"t":"02","d":"2026","n":"人體使用手冊","w":"鄭侑青","c":"","r":"","y":"2026"},{"t":"02","d":"2026","n":"圖解麻衣神相：古代人體工學，解讀運勢密碼","w":"智倫& 阿宏","c":"","r":"","y":"2026"},{"t":"03","d":"2018.07.16","n":"如何閱讀一本書","w":"李日韋 / 李日韋","c":"2018/07 月讀","r":"","y":"2018"},{"t":"03","d":"2019.10.22","n":"哈利波特終極哲學觀：麻瓜的霍格華茲","w":"李日韋","c":"2019/10 ~ 2020/04 月讀","r":"","y":"2019"},{"t":"03","d":"2019.11.16","n":"把妹達人之謎男方法","w":"","c":"","r":"","y":"2019"},{"t":"03","d":"2019.12.10","n":"我們為何成為貓奴?這群食肉動物不僅佔領沙發，更要接管世界","w":"","c":"","r":"","y":"2019"},{"t":"03","d":"2020.01.12","n":"雷浩斯教你破解巴菲特護城河選股祕密","w":"","c":"","r":"","y":"2020"},{"t":"03","d":"2020.03.26","n":"數位形象力：平台就是你的資本和機會，經營個人品牌不能不知的技術與藝術","w":"","c":"","r":"","y":"2020"},{"t":"03","d":"2020.04.18","n":"親愛的女生：去做每一件妳所喜歡的事情，去成為妳想成為的美好","w":"","c":"","r":"","y":"2020"},{"t":"04","d":"2022.05.30","n":"音樂療癒","w":"Kuang Fu C","c":"","r":"","y":"2022"},{"t":"04","d":"2023.02.21","n":"當書籍遇上你的專業,、你想分享哪本書？","w":"譚珮秀","c":"","r":"","y":"2023"},{"t":"04","d":"2023.03.12","n":"當美食遇上書，大家一起來聊癒～","w":"譚珮秀","c":"","r":"","y":"2023"},{"t":"04","d":"2023.07.22","n":"大人的人生咖啡館","w":"喬巴","c":"","r":"","y":"2023"},{"t":"04","d":"2023.12.05","n":"銀色蜘蛛網 X 照護甘苦談","w":"黃孝鈞、 Celine Huang","c":"","r":"","y":"2023"},{"t":"04","d":"2023.12.21","n":"「高雄」深入瞭解關於高雄的在地故事","w":"威廉、之之","c":"","r":"","y":"2023"},{"t":"04","d":"2024.01.20","n":"#關於女人的議題","w":"許如貝","c":"","r":"","y":"2024"},{"t":"04","d":"2024.01.21","n":"神秘圖書館解謎 主辦單位：HPX高雄讀書會、好南人Fun學趣","w":"Robert、Tammy Wu / 信昌","c":"","r":"","y":"2024"},{"t":"04","d":"2024.04.28","n":"月老","w":"念念、信昌","c":"","r":"","y":"2024"},{"t":"04","d":"2024.05.22","n":"筆尖下的無拘束","w":"Robert、Tammy Wu","c":"","r":"","y":"2024"},{"t":"04","d":"2024.06.30","n":"從文組到AI博士生的蜕變：跨領域與日本留學經驗分享","w":"林子欽 / 王冠云","c":"","r":"","y":"2024"},{"t":"04","d":"2025.01.04","n":"復盤小聚","w":"喬巴","c":"","r":"","y":"2025"},{"t":"04","d":"2025.04.17","n":"交織於書頁的時光、閱讀與人生的相遇","w":"張慈婷 / 趙啟弦、張維哲","c":"","r":"","y":"2025"},{"t":"04","d":"2025.04.25","n":"身心靈讀書會","w":"Amy Liu","c":"","r":"","y":"2025"},{"t":"04","d":"2025.06.07","n":"年中復盤小聚","w":"喬巴","c":"","r":"","y":"2025"},{"t":"04","d":"2025.07.23","n":"AI、小聚｜、讓、AI、走進彼此的生活吧！","w":"曾昭巽","c":"","r":"","y":"2025"},{"t":"04","d":"2025.07.24","n":"主揪甘苦談","w":"點點、inin / 邱茂恒、林建穎、 李盈瑩、張貽晴、 莊明璋 、張慈婷​","c":"","r":"","y":"2025"},{"t":"04","d":"2025.08.12","n":"高雄學2.0","w":"林子欽","c":"","r":"","y":"2025"},{"t":"04","d":"2025.09.10","n":"自由式書聚","w":"嫙㛄","c":"","r":"","y":"2025"},{"t":"04","d":"2025.09.24","n":"日本文化","w":"丁羿加","c":"","r":"","y":"2025"},{"t":"04","d":"2025.10.21","n":"港都味覺巡禮","w":"劉貞麟","c":"","r":"","y":"2025"},{"t":"04","d":"2025.10.31","n":"鬼滅之刃萬聖主題聚","w":"李盈瑩","c":"","r":"","y":"2025"},{"t":"04","d":"2025.12.25","n":"聖誕書聚 x 交換甜點","w":"欣西卡","c":"","r":"","y":"2025"},{"t":"04","d":"2026.03.22","n":"一窺 I 人與世界對話的方式","w":"張慈婷","c":"","r":"","y":"2026"},{"t":"04","d":"2026.06.27","n":"【愛自己的人生設計】工作坊","w":"Love Tseng","c":"","r":"","y":"2026"},{"t":"05","d":"2022.10.05","n":"2022｜七分鐘 10月場","w":"李日韋、Justin","c":"","r":"《正念飲食》 《醫療靈媒-改變生命的食物》 《成為一個人》 《在乎別人是對自己的情緒暴力》 《我只是好好生活工作就變順了》 《賺錢也賺幸福》 《商業模式大全》 《認知覺醒》 《讀懂一本書》","y":"2022"},{"t":"05","d":"2022.11.14","n":"2022｜七分鐘 11月場","w":"李日韋、Vincent","c":"","r":"","y":"2022"},{"t":"05","d":"2024.08.22","n":"2024｜啟程場","w":"李日韋、賴賴","c":"","r":"● 點點 《不平等的屍體》 ● John 《底層邏輯》 ● 喬巴 《遊戲化實戰全書》 ● 之之 《致富覺察》 ● Gene 《多巴胺國度》 ● Grace 《第二座山》 ● Jimmy 《慢富》","y":"2024"},{"t":"05","d":"2024.12.02","n":"2024｜冬季場","w":"李日韋、蔡之苓","c":"","r":"● 昭巽 《了不起的我》 ● 玉如 《希臘神話占星塔羅》 ● 雁平 《洞穴人的陰影》 ● Juno 《爆買帝國》 ● 學姊 《老公這種生物，身體或靈魂總有一個在馬桶上》 ● Miffy 《3分鐘未來日記》 ● Gene 《去書店買個好人生》","y":"2024"},{"t":"05","d":"2025.03.10","n":"2025｜春季場","w":"鄭侑青","c":"","r":"● 曾昭巽《少，但是更好》 ● 呂宮儀《走路去巴黎》 ● 蔡昇翰《當蟑螂不再是敵人》 ● 蔡之苓《生命最後三通電話，你會打給誰》 ● 林建穎《專注力協定》 ● Angie Chi《男孩、鼴鼠、狐狸與馬》 ● 李盈瑩《你的溝通必須更有心機》","y":"2025"},{"t":"05","d":"2025.06.09","n":"2025｜夏季場","w":"鄭侑青","c":"","r":"● 昭巽《你的人生,他們六個說了算!》 ● 子欽｜高雄學:18個人三個月的書聚心得 ● 學姊《隱性潛能》 ● 阿炸《地,關於地球的運動》 ● 貽晴《為什麼我們這樣對話,那樣生活》 ● 一吉《小報亭》 ● Lucy《表達力決定你是誰》","y":"2025"},{"t":"05","d":"2025.09.08","n":"2025｜秋季場","w":"鄭侑青","c":"","r":"● 蔡昇翰 《哈利波特》 ● 曾昭巽《自我升級第一原理》 ● Wang Jessie《投資的底氣》 ● 林建穎《男孩與冒險家》 ● 邱茂恒《享受蛻變》 ● Angie Chi 《深夜食堂21》 ● 李盈瑩《高能量溝通》","y":"2025"},{"t":"05","d":"2025.12.08","n":"2025｜冬季場","w":"鄭侑青","c":"","r":"● Josh 《一天一行小日記》 ● 之之 《用AI打造素人影響力》 ● 阿炸 《小熊回家：南安小熊教我們的事》 ● 卡樂 《商業模式新生代》 ● 信昌 《大腦喜歡這樣學》 ● 一吉 《如果內心是一個房間》 ● Lucy 《識人談判課》","y":"2025"},{"t":"05","d":"2026.03.09","n":"2026｜春季場","w":"鄭侑青","c":"","r":"● Josh《神經可塑性》 ● 方智倫 《易經》 ● 薇琪 《3分鐘未來日記》 ● Gene 《財務自由心理學》 ● 阿炸｜動物為什麼在動物園被關著 ● 卡樂 《與改變對話》 ● InIn 《越忙越要會表達》","y":"2026"},{"t":"05","d":"2026.04.15","n":"2026｜春季專場","w":"鄭侑青","c":"","r":"● 阿炸 蔡昇翰《動物園的故事：禁錮的花園》 ● Josh 曾昭巽《神經可塑性：在旅途中重塑》","y":"2026"},{"t":"05","d":"2026.06.08","n":"2026｜夏季場","w":"鄭侑青","c":"","r":"●阿炸《未完的旅程》 ●June《心理摩擦力》 ●查爾獅《失控的演化群像》 ●高Lily《我不是叫你詐》 ●卡樂《一萬小時的遊戲》 ●InIn《贏在表達》","y":"2026"},{"t":"06","d":"2020.01.21","n":"花藝職人","w":"徐藑芠","c":"","r":"","y":"2020"},{"t":"06","d":"2020.03.14","n":"心靈職人-臨床心理師","w":"阿濡米","c":"","r":"","y":"2020"},{"t":"06","d":"2020.12.13","n":"自媒體實踐者-Podcast 0～100","w":"林子欽","c":"","r":"","y":"2020"},{"t":"06","d":"2021.02.03","n":"視覺紀錄師 - 用視覺圖像開啟對話","w":"Tammy","c":"","r":"","y":"2021"},{"t":"06","d":"2021.04.20","n":"視覺紀錄師 - 圖像記錄好好玩","w":"Tammy","c":"","r":"","y":"2021"},{"t":"06","d":"2022.03.31","n":"從破壞式創新談如何衡量你的人生","w":"Lewis、Charles","c":"","r":"","y":"2022"},{"t":"06","d":"2025.11.27","n":"不務正業的白日夢想家","w":"小涵","c":"","r":"","y":"2025"},{"t":"06","d":"2026.04.28","n":"ESG 很紅，但你真的懂它嗎？","w":"Tammy","c":"","r":"","y":"2026"},{"t":"06","d":"2026.06.14","n":"書出桌遊｜把書變成遊戲的工作坊","w":"林信昌","c":"","r":"","y":"2026"},{"t":"07","d":"2018.06.06","n":"UX美國工作經驗分享","w":"游雅忻 譚珮秀","c":"","r":"HPXKH Talk 1","y":"2018"},{"t":"07","d":"2018.07.19","n":"雙蔡開講 - 心理學能幫我們什麼？","w":"蔡宇哲 蔡志浩","c":"","r":"HPXKH Talk 2","y":"2018"},{"t":"07","d":"2018.08.25","n":"誰說用戶是理性的？","w":"Hoper Wang Mei Chieh Ku","c":"","r":"HPXKH Talk 3","y":"2018"},{"t":"07","d":"2018.09.07","n":"觀察 · 是一切的起點","w":"鄭新國 Nor Chen","c":"","r":"HPXKH Talk 4","y":"2018"},{"t":"07","d":"2018.11.25","n":"Yahoo!(Oath)產品設計師的經驗談","w":"洪維貞","c":"","r":"HPXKH Talk 5","y":"2018"},{"t":"07","d":"2018.12.14","n":"企業內的研究員生存戰","w":"彭尹","c":"","r":"HPXKH Talk 6","y":"2018"},{"t":"07","d":"2019.04.03","n":"一起寫下新的故事線---安寧心理照顧的實踐","w":"商沛宇","c":"","r":"HPXKH Talk 7","y":"2019"},{"t":"07","d":"2019.05.20","n":"視覺化簡報設計 & 呈現技巧","w":"劉憶先","c":"","r":"HPXKH Talk 8","y":"2019"},{"t":"07","d":"2019.07.08","n":"以桌遊沙盤談問題點•決策線•績效面","w":"許于仁","c":"","r":"HPXKH Talk 9","y":"2019"},{"t":"07","d":"2019.11.09","n":"從工程到旅程的勇氣，與自我探索工作坊","w":"張J 張安妮","c":"","r":"HPXKH Talk 10","y":"2019"},{"t":"08","d":"2018.01.14","n":"尖叫躲避球 & 草地野餐","w":"Fion、小胡、Egg","c":"","r":"","y":"2018"},{"t":"08","d":"2018.01.16","n":"UX in the Jungle、桌遊","w":"Scarlett、Egg","c":"","r":"","y":"2018"},{"t":"08","d":"2018.06.29","n":"桌遊","w":"Celine","c":"","r":"","y":"2018"},{"t":"08","d":"2018.07.22","n":"桌遊","w":"Mina","c":"","r":"","y":"2018"},{"t":"08","d":"2018.09.15","n":"密室逃脫","w":"Celine","c":"","r":"","y":"2018"},{"t":"08","d":"2018.09.22","n":"時間迴廊，彩繪輕鬆聚","w":"許曉涵","c":"","r":"","y":"2018"},{"t":"08","d":"2018.10.14","n":"時間迴廊，彩繪輕鬆聚","w":"許曉涵","c":"","r":"","y":"2018"},{"t":"08","d":"2019.02.28","n":"DIY手作點心輕鬆聚來囉","w":"許曉涵","c":"","r":"","y":"2019"},{"t":"08","d":"2019.03.02","n":"專業簡報力：視覺與表達強化術","w":"張光甫","c":"","r":"","y":"2019"},{"t":"08","d":"2019.03.30","n":"連珠輕鬆聚","w":"Egg","c":"","r":"","y":"2019"},{"t":"08","d":"2019.04.22","n":"跟著伊恩去冒險","w":"李日韋、Tammy Wu","c":"","r":"","y":"2019"},{"t":"08","d":"2019.05.25","n":"黑鏡Black Mirror、科技神劇","w":"林子欽","c":"","r":"","y":"2019"},{"t":"08","d":"2019.05.25","n":"衛武營草地野餐","w":"李日韋","c":"","r":"","y":"2019"},{"t":"08","d":"2019.06.17","n":"太魯閣馬拉松輕鬆聚","w":"李日韋、Egg","c":"","r":"","y":"2019"},{"t":"08","d":"2019.06.10","n":"人類圖輕鬆聚","w":"Celine Ofa","c":"","r":"","y":"2019"},{"t":"08","d":"2019.07.21","n":"當音樂遇上心理師","w":"黛黛-阿濡米","c":"","r":"","y":"2019"},{"t":"08","d":"2019.08.03","n":"狼人殺桌遊團","w":"天一","c":"","r":"","y":"2019"},{"t":"08","d":"2019.08.12","n":"影片剪輯教學","w":"Tammy","c":"","r":"","y":"2019"},{"t":"08","d":"2019.09.08","n":"紀錄片賞析","w":"廖泓舜","c":"","r":"","y":"2019"},{"t":"08","d":"2019.10.06","n":"帶著公仔去外拍","w":"Tseyuan、Yu、呂錡濡","c":"","r":"","y":"2019"},{"t":"08","d":"2019.10.19","n":"野餐","w":"林子欽","c":"","r":"","y":"2019"},{"t":"08","d":"2019.12.01","n":"射箭","w":"Hsuan Lu","c":"","r":"","y":"2019"},{"t":"08","d":"2019.12.22","n":"詠春拳輕鬆聚","w":"Hsuan Lu","c":"","r":"","y":"2019"},{"t":"08","d":"2020.01.29","n":"哲學輕鬆聚","w":"Yoka","c":"","r":"","y":"2020"},{"t":"08","d":"2020.03.08","n":"威廉演唱會","w":"Maggie","c":"","r":"","y":"2020"},{"t":"08","d":"2020.07.19","n":"野餐","w":"林子欽","c":"","r":"","y":"2020"},{"t":"08","d":"2020.12.06","n":"跑跑卡丁車","w":"張謙榆","c":"","r":"","y":"2020"},{"t":"08","d":"2021.04.07","n":"讀書人の斷捨離派對","w":"小雅、天一、Egg","c":"","r":"","y":"2021"},{"t":"08","d":"2021.05.10","n":"斷捨離派對2—旅行的意義","w":"天一、Egg、林奕萱","c":"","r":"","y":"2021"},{"t":"08","d":"2021.05.11","n":"演算法桌遊","w":"吳泰毅、黃彥翎","c":"","r":"","y":"2021"},{"t":"08","d":"2021.05.15","n":"前進後退。野餐日","w":"林子欽、Mason","c":"","r":"","y":"2021"},{"t":"08","d":"2021.08.28","n":"來山中說書","w":"鄭侑青","c":"","r":"","y":"2021"},{"t":"08","d":"","n":"高雄羽球團","w":"Robert","c":"","r":"","y":""},{"t":"08","d":"2021.09.30","n":"微解封的微相親","w":"鄭侑青","c":"","r":"","y":"2021"},{"t":"08","d":"2021.11.27","n":"前進後退。野餐日","w":"林子欽","c":"","r":"","y":"2021"},{"t":"08","d":"2021.11.28","n":"斷捨離派對","w":"烜丞","c":"","r":"","y":"2021"},{"t":"08","d":"2021.12.18","n":"南部姨友見面會","w":"吳軒宇","c":"","r":"","y":"2021"},{"t":"08","d":"2022.06.19","n":"正念","w":"Kuang、Fu C","c":"","r":"","y":"2022"},{"t":"08","d":"2022.08.14","n":"音樂","w":"Eos Lu","c":"","r":"","y":"2022"},{"t":"08","d":"2022.10.15","n":"夜半萬聖節","w":"Molly Huang","c":"","r":"","y":"2022"},{"t":"08","d":"2022.12.10","n":"跟著茶師美好生活","w":"呂錡濡","c":"","r":"","y":"2022"},{"t":"08","d":"2023.01.08","n":"一起來爬柴山吧！","w":"邱薰儀","c":"","r":"","y":"2023"},{"t":"08","d":"2023.02.13","n":"斷捨離×書籍×永續","w":"賴筱安","c":"","r":"","y":"2023"},{"t":"08","d":"2023.03.19","n":"橋頭知性之旅","w":"施淑芳","c":"","r":"","y":"2023"},{"t":"08","d":"2023.04.01","n":"喝咖啡聊塔羅","w":"薇琪","c":"","r":"","y":"2023"},{"t":"08","d":"2023.05.21","n":"攝影輕鬆聚","w":"蘿蔔先生、阿濡米","c":"","r":"","y":"2023"},{"t":"08","d":"2023.06.03","n":"劇本馬拉松","w":"Celine、滋玹","c":"","r":"","y":"2023"},{"t":"08","d":"2023.08.13","n":"字裡行間的夏日野餐","w":"林子欽","c":"","r":"","y":"2023"},{"t":"08","d":"2023.09.09","n":"再下雨我就書不起！","w":"林子欽","c":"","r":"","y":"2023"},{"t":"08","d":"2023.10.01","n":"萬聖節變裝派對","w":"Molly、燕子","c":"","r":"","y":"2023"},{"t":"08","d":"2023.11.24","n":"晚餐+公益愛心物資贈與無家者活動","w":"Eos John","c":"","r":"","y":"2023"},{"t":"08","d":"2023.12.08","n":"年末聖誕聚餐+二手好物交換趴","w":"小Q、查爾斯","c":"","r":"","y":"2023"},{"t":"08","d":"2024.03.30","n":"繪本X美食 飢餓遊戲-夜市少年版","w":"一吉、昭嘉","c":"","r":"","y":"2024"},{"t":"08","d":"2024.04.20","n":"來去柴山公益淨山","w":"June、John","c":"","r":"","y":"2024"},{"t":"08","d":"2024.05.19","n":"再不野餐就書不起－一場旅行故事的交流盛會","w":"林子欽","c":"","r":"","y":"2024"},{"t":"08","d":"2024.06.29","n":"千呼萬喚的桌遊團","w":"蔡之苓","c":"","r":"","y":"2024"},{"t":"08","d":"2024.07.06","n":"HPX運動會：鐵男躲避球","w":"一吉","c":"","r":"","y":"2024"},{"t":"08","d":"2024.08.31","n":"射箭","w":"烜丞","c":"","r":"","y":"2024"},{"t":"08","d":"2024.12.15","n":"紙模型手作輕鬆聚","w":"點點、育安","c":"","r":"","y":"2024"},{"t":"08","d":"2024.12.22","n":"品茶、放輕鬆","w":"賴賴","c":"","r":"","y":"2024"},{"t":"08","d":"2025.01.18","n":"創客機台體驗會","w":"孟璇","c":"","r":"","y":"2025"},{"t":"08","d":"2025.02.16","n":"一起看電影、聊電影","w":"雲水自在","c":"","r":"","y":"2025"},{"t":"08","d":"2025.06.14","n":"HPX公益輕鬆聚","w":"賴賴、John","c":"","r":"","y":"2025"},{"t":"08","d":"2025.07.12","n":"MBIT測量與認識自己","w":"曾心儀","c":"","r":"","y":"2025"},{"t":"08","d":"2025.08.02","n":"一起趣淨山","w":"賴賴、John","c":"","r":"","y":"2025"},{"t":"08","d":"2025.10.26","n":"秋日書香野餐輕鬆聚","w":"林子欽","c":"","r":"","y":"2025"},{"t":"08","d":"2025.11.28","n":"KTV 輕鬆唱","w":"余青黛","c":"","r":"","y":"2025"},{"t":"08","d":"2025.12.27","n":"HPX 公益送餐&交換禮物","w":"賴賴、John","c":"","r":"","y":"2025"},{"t":"08","d":"2026.03.14","n":"海賊王角色扮演","w":"Angie Chi","c":"","r":"","y":"2026"},{"t":"08","d":"2026.04.26","n":"有一種頻率，只有我們這個年紀才懂","w":"嫙㛄","c":"","r":"","y":"2026"},{"t":"09","d":"2017.12.17","n":"2017 HP1KH 說書．換書．過聖誕","w":"說書人：Celine、游雅忻、黃慧萍 創業小講：曾信文","c":"","r":"","y":"2017"},{"t":"09","d":"2018.02.25","n":"2018 HP2KH 新春讀書會．一元復始","w":"說書人：魏景承、鄭新國、許維真","c":"","r":"","y":"2018"},{"t":"09","d":"2018.06.03","n":"2018 HP3KH 讀書會大聚．生日快樂","w":"說書人：陳宛萱、陳祐霖、薛仲翔 / Ofa 小組交流與分享：譚珮秀/阿秀、阿翔 /Shawn、Wasame、姿潔","c":"","r":"","y":"2018"},{"t":"09","d":"2018.12.09","n":"2018 HP4KH 聖誕節讀書會","w":"說書人：胡凈悟/ Jim(吉姆)、李日韋 書聚分享：羅暄喬、Mina、許曉涵","c":"","r":"","y":"2018"},{"t":"09","d":"2019.06.02","n":"2019 HP5KH 2周年慶&讀書會大聚","w":"說書人：張謙榆、張道舜、張芳綺 書聚分享：鄭存閔、陳宛萱、AMOS HPX高雄總召：李日韋","c":"","r":"","y":"2019"},{"t":"09","d":"2020.12.19","n":"2020 HP6KH 聖誕節大聚","w":"主持人：張謙榆,李盈瑩 HPX高雄總召：李日韋 設計組：Chad Liao,黃尹俞,Wood PJ 活動組、場務與行政和機動組： 張佳珈,JH Chen,吳泰毅,GraceLin,MiaWu,漠月馡,蔡昇翰,文森特,Mason Chien,賴筱安,蔡旻軒,陳泓名,黃昭嘉 攝影組：Tseyuan Yu,呂錡濡 說書人邱茂恒,顏彩玲 書聚分享的小組Kevin Chen,張佳珈 視覺導圖Tammy Wu Wee聯合辦公室 劉祥德 高雄數位內容創意中心Dakuo","c":"","r":"","y":"2020"},{"t":"09","d":"2023.11.18","n":"2023 HP7KH × HP1TN × 好南人Fun學趣 (聯合大聚－高雄場) 主題：《讀冊南雄讚》","w":"台南聯合大聚管理群：羅伊真、司馬娘、顏鈺玲、王金枝 HPX 高雄總召：李日韋 台南 Fun 學趣夥伴：林信昌 高雄場活動講者：吳泰毅、June Hung、黃益喬、Esther Lin、吳幸蓉 台南場活動講者：旻曄、王聖凱、邱茂恒 優秀設計師：蔣婷、Eve Ye 美國遠端支持與協調：譚珮秀 活動主持人：李盈瑩 視覺設計與主視覺呈現：Tammy Wu 活動攝影師：Tseyuan Yu 幕後工作人員：John Kuo、Vincent Chuang、蔡旻軒、Wood PJ","c":"","r":"","y":"2023"},{"t":"09","d":"2023.11.25","n":"2023 HP7KH × HP1TN × 好南人Fun學趣 (聯合大聚－台南場) 主題：《讀冊南雄讚》","w":"台南聯合大聚管理群：羅伊真、司馬娘、顏鈺玲、王金枝 HPX 高雄總召：李日韋 台南 Fun 學趣夥伴：林信昌 高雄場活動講者：吳泰毅、June Hung、黃益喬、Esther Lin、吳幸蓉 台南場活動講者：旻曄、王聖凱、邱茂恒 優秀設計師：蔣婷、Eve Ye 美國遠端支持與協調：譚珮秀 活動主持人：李盈瑩 視覺設計與主視覺呈現：Tammy Wu 活動攝影師：Tseyuan Yu 幕後工作人員：John Kuo、Vincent Chuang、蔡旻軒、Wood PJ","c":"","r":"","y":"2023"},{"t":"09","d":"2024.12.07","n":"2024 HP8KH x HP2TN x 好南人Fun學趣 (聯合大聚) 主題：《聚》","w":"台南讀書會：羅伊真 好南人 Fun 學趣：林信昌 活動共同總召：司馬娘、王金枝 主視覺設計師：Angie Chi 美國遠端設計協作：譚珮秀 主持人：李盈瑩 HPX 高雄總召：李日韋 視覺導圖：Tammy Wu 攝影師：張維哲、司馬 現場行政與活動協力：念念（場地探勘、簽到、舉牌與時間控管等） 說書人：賴賴、G先生 特別感謝：邱茂恒（帶來高含金量的豐富知識）","c":"","r":"","y":"2024"},{"t":"09","d":"2025.12.07","n":"2025 HP9KH x 好南人 Fun學趣 (聯合大聚) 主題：《遇》書 x 知識 x 人 x AI​","w":"主持人：李盈瑩 高雄 HPX 總召：李日韋 好南人 Fun 學趣講者：林信昌 主視覺設計師／講者：Angie Chi AI 設計師／講者：曾昭巽 多元講者：黃益喬、Sumin Hong、余青黛、張貽晴 視覺圖像紀錄：Tammy Wu 工作人員：邱茂恒、張慈婷、譚珮秀 攝影師：張維哲","c":"","r":"","y":"2025"}];
+const VEN=[{"name":"宮上韻 空間 / 簡餐 宮前咖啡","tel":"","addr":"800高雄市新興區球庭路79號2樓","fee":"一小時300,無人數限制跟低消,可攜帶外食,有飲料暢飲方案&附餐飲方案","cap":"25-30人 超過25人最好先場勘過","food":"是","room":"是","note":"55吋液晶螢幕, 無線麥克風,音響, 白板(建議事先場勘過確認器具) 否"},{"name":"Wee威易聯合辦公室-中正店","tel":"中正店：07-9526599#3","addr":"800高雄市新興區中正三路55號28樓","fee":"優惠價格是算人頭數100/人，或是75折優惠","cap":"5-60人 (不同會議室)","food":"是","room":"是","note":"投影機、布幕、麥克風、白板都有 是"},{"name":"Wee威易聯合辦公室-博愛店","tel":"博愛店：07-9526599#5","addr":"807高雄市三民區博愛一路366號14樓","fee":"優惠價格是算人頭數100/人，或是75折優惠","cap":"10~80人 (不同會議室)","food":"是","room":"是","note":"投影機、布幕、麥克風、白板都有 是"},{"name":"高雄文學館","tel":"07-2611706","addr":"801高雄市前金區民生二路39號","fee":"免費 (適合靜態書聚)，採預約制 http://ksm.ksml.edu.tw/Web_Cht/news/NewsForm?sn_id=87&gd_id=7655&fbclid=IwAR14_2T8Q0LNHuvAj6HV6lvUMQcVkWYVMhZlCAA7MBfYjWPSfUPFT_FZYZg","cap":"最少5人以上 限辦理讀書會/討論會","food":"否","room":"","note":""},{"name":"隅.光咖啡 (文學館1樓進入左手邊)","tel":"0921-591-485","addr":"高雄市前金區民生二路39號","fee":"可與店長接洽討論 (專案報價)","cap":"小聚會、包場皆可","food":"","room":"可包場","note":"螢幕、麥克風可租借"},{"name":"36咖啡館","tel":"07-397-0136","addr":"高雄市三民區正興路74號","fee":"營業時間租借600元/hr，非營業時間700元/hr、假日800元/hr (活動時間超過15分另計費200元)","cap":"最多容納20人","food":"可","room":"可包場","note":"無 (小蜜蜂/麥克風)需店洽"},{"name":"萃空間","tel":"0955479876","addr":"高雄市新興區民主橫路33號","fee":"3小時700元","cap":"最多容納20人","food":"可","room":"是","note":"有投影機"},{"name":"無畏咖啡","tel":"0915056758","addr":"高雄市三民區愛國路74號","fee":"","cap":"","food":"","room":"","note":""},{"name":"BDigital創客基地","tel":"0900255816","addr":"高雄市前金區市中一路35號","fee":"每小時300 (社團書友舉辦每小時250元）無發票","cap":"最多13人（含主講人）","food":"可 （但不可油湯類,不代處理廚餘）","room":"獨立一樓教室","note":"55吋電視,小米喇叭,300M網數"},{"name":"知己共享空間","tel":"0966 882 668","addr":"高雄市新興區林森一路196號二樓(全家裡面2F)","fee":"可與老闆娘接洽討須說明是HPX書友以專案報價","cap":"10人-100人皆可","food":"可","room":"包場","note":"投影機、布幕、麥克風、白板都有"}];
+const YEARS=[...new Set(SESS.map(x=>x.y).filter(Boolean))].sort().reverse();
+let fType="all", fYear="all", fSort="desc", page=1;
+const PER=10;
+const sKey=x=>{
+  const d=(x.d||"").trim();
+  if(/^\d{4}\.\d{2}\.\d{2}/.test(d)) return d;
+  return (x.y||"0000")+".99.99";
+};
+const chips=document.getElementById("chips"),years=document.getElementById("years"),
+      sess=document.getElementById("sess"),cnt=document.getElementById("count");
+if(chips){
+  chips.innerHTML='<button class="chip" data-t="all" aria-pressed="true">全部形式</button>'+
+    TYPES.map(t=>'<button class="chip" data-t="'+t.no+'" aria-pressed="false">'+t.zh+'</button>').join("");
+  years.innerHTML='<button class="chip" data-y="all" aria-pressed="true">全部年份</button>'+
+    YEARS.map(y=>'<button class="chip" data-y="'+y+'" aria-pressed="false">'+y+'</button>').join("");
+}
+function filtered(){
+  const arr=SESS.filter(x=>(fType==="all"||x.t===fType)&&(fYear==="all"||x.y===fYear));
+  const dated=arr.filter(x=>x.y||x.d), undated=arr.filter(x=>!(x.y||x.d));
+  dated.sort((a,b)=>{const ka=sKey(a),kb=sKey(b);return fSort==="desc"?(ka<kb?1:ka>kb?-1:0):(ka>kb?1:ka<kb?-1:0);});
+  return dated.concat(undated);
+}
+function renderSess(){
+  if(!sess)return;
+  const rows=filtered(), pages=Math.max(1,Math.ceil(rows.length/PER));
+  if(page>pages) page=pages;
+  const from=(page-1)*PER, view=rows.slice(from,from+PER);
+  sess.innerHTML=view.length?view.map(r=>{
+    const ty=TYPES.find(t=>t.no===r.t)||{zh:""};
+    return '<div class="ses"><span class="ses__y">'+(r.d||r.y||"—")+'</span>'+
+      '<span class="ses__k">'+ty.zh+'</span><span class="ses__t">'+r.n+'</span>'+
+      (r.c?'<span class="ses__c">'+r.c+'</span>':'')+
+      (r.w?'<span class="ses__p">'+r.w+'</span>':'')+'</div>';
+  }).join(""):'<div class="empty">這個條件下沒有場次紀錄。</div>';
+  cnt.textContent=rows.length?("第 "+(from+1)+"–"+Math.min(from+PER,rows.length)+" 筆　·　共 "+rows.length+" 場　·　全站 "+SESS.length+" 場紀錄"):"";
+  const pg=document.getElementById("sessPager");
+  if(pg){
+    if(pages<=1){pg.innerHTML="";}
+    else{
+      const nums=[]; const win=1;
+      for(let i=1;i<=pages;i++){
+        if(i===1||i===pages||Math.abs(i-page)<=win) nums.push(i);
+        else if(nums[nums.length-1]!=="…") nums.push("…");
+      }
+      pg.innerHTML='<button class="pg-b" type="button" data-p="'+(page-1)+'"'+(page===1?' disabled':'')+' aria-label="上一頁">‹</button>'+
+        nums.map(n=>n==="…"?'<span class="pg-e">…</span>':
+          '<button class="pg-b'+(n===page?' is-on':'')+'" type="button" data-p="'+n+'"'+(n===page?' aria-current="page"':'')+'>'+n+'</button>').join("")+
+        '<button class="pg-b" type="button" data-p="'+(page+1)+'"'+(page===pages?' disabled':'')+' aria-label="下一頁">›</button>';
+    }
+  }
+  chips.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===fType));
+  years.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.y===fYear));
+  const so=document.getElementById("sorts");
+  if(so) so.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===fSort));
+}
+if(chips){
+  chips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;fType=b.dataset.t;page=1;renderSess();});
+  years.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;fYear=b.dataset.y;page=1;renderSess();});
+  const pg=document.getElementById("sessPager");
+  if(pg) pg.addEventListener("click",e=>{
+    const b=e.target.closest("[data-p]"); if(!b||b.disabled)return;
+    page=Math.max(1,parseInt(b.dataset.p,10)); renderSess();
+    const head=document.getElementById("chips");
+    if(head) head.scrollIntoView({block:"start",behavior:"smooth"});
+  });
+  const so=document.getElementById("sorts");
+  if(so) so.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;fSort=b.dataset.s;page=1;renderSess();});
+}
+(document.getElementById("venues")||{}).innerHTML=VEN.map(v=>
+ '<div class="venue__i"><div class="venue__h"><h4>'+v.name+'</h4>'+(v.tel?'<span class="tel">'+v.tel+'</span>':'')+'</div>'+
+ (v.addr?'<p class="venue__addr">'+v.addr+'</p>':'')+'<div class="venue__meta">'+
+ (v.fee?'<div><b>費用</b><span>'+v.fee+'</span></div>':'')+
+ (v.cap?'<div><b>人數</b><span>'+v.cap+'</span></div>':'')+
+ (v.food?'<div><b>飲食</b><span>'+v.food+'</span></div>':'')+
+ (v.room?'<div><b>包廂</b><span>'+v.room+'</span></div>':'')+
+ (v.note?'<div><b>備註</b><span>'+v.note+'</span></div>':'')+
+ '</div></div>').join("");
+renderSess();
+
+const RULES=[
+ {h:"書聚正式成員都要有貢獻",i:["每位正式成員皆需有貢獻（導讀、分享或實作）","分配方式由主辦決定或成員表決","旁聽生不列入義務，由主辦決定是否貢獻"]},
+ {h:"書聚次數限制",i:["每個書聚至少 4 次（含行前會）","正式成員至少出席率為 7 成","主辦可制定更高門檻"]},
+ {h:"旁聽書聚的規定",i:["無法固定參加者可旁聽","同一書聚最多旁聽 2 次","主辦可限制次數或不開放"]},
+ {h:"完全禁止發布的文章",key:true,i:["禁止違反社會善良風俗之內容","違者刪文、禁言，嚴重者退社","由管理人員認定，不接受異議"]},
+ {h:"勿任意刪除社團上文章",i:["包含自己的文章，禁止自行刪除","管理團隊可依規範刪除或調整內容","違者禁言，嚴重者退社"]},
+ {h:"張貼行銷宣傳的文章須經同意",i:["非書聚相關文章需先申請並取得管理員或版主同意","不適當宣傳內容將被刪除","刪文後補申請一律不通過"]},
+ {h:"非社團活動分享規範",i:["非社團內容，當月份的總貼文數比例不得超過 20%","同一來源每月最多 2 篇，需間隔 2 週","禁止洗版與低品質推廣","管理團隊保留審核、刪文與限制權"]},
+ {h:"請勿騷擾書友",key:true,i:["尊重他人自主與界線，禁止持續私訊或電話騷擾","不得以任何形式造成壓力，影響他人參與社團或書聚意願","個人行為需自行負責，違者將退出書聚或社團","社團做為學習與交流場域，不協助處理感情、金錢或其他私人關係"]},
+ {h:"鼓勵知識分享但請盡量合併貼文",i:["鼓勵分享書籍心得與討論","建議合併貼文，避免短時間多次發文","不建議作為個人專版宣傳用途","貼文過於頻繁將可能被刪除"]},
+ {h:"未完善之規定",i:["版規將依社團運作與實際狀況調整更新","管理團隊保有最終解釋權"]}
+];
+
+
+const META={
+  home:"HPX 高雄讀書會",
+  about:"關於我們｜HPX 高雄讀書會",
+  start:"新人指引｜HPX 高雄讀書會",
+  meetups:"社團書聚｜HPX 高雄讀書會",
+  calendar:"行事曆｜HPX 高雄讀書會",
+  docs:"文件與表單｜HPX 高雄讀書會",
+  venues:"常辦書聚地點｜HPX 高雄讀書會",
+  faq:"常見問題｜HPX 高雄讀書會",
+  gallery:"活動花絮｜HPX 高雄讀書會",
+  rules:"社團版規｜HPX 高雄讀書會",
+  contact:"聯繫我們｜HPX 高雄讀書會"
+};
+const pgs=[...document.querySelectorAll(".pg")],navA=[...document.querySelectorAll("#nav a[href^='#/']")];
+function route(){
+  const k=location.hash.replace(/^#\/?/,"")||"home";
+  const p=META[k]?k:"home";
+  pgs.forEach(el=>el.hidden=el.dataset.pg!==p);
+  document.title=META[p];
+  navA.forEach(a=>{
+    const t=a.getAttribute("href").replace(/^#\//,"");
+    t===p?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current");
+  });
+  if(typeof syncNav==="function")syncNav(false);
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+/* ══ 關於頁資料（來自「[正式版] HPX 高雄讀書會 - 新人小聚、社團介紹 v1.3」） ══ */
+const MILE=[
+ {d:"2017.06.05",t:"HPX 高雄讀書會成立"},
+ {d:"2019",t:"累計書聚與活動突破 100 場",s:"依歷年活動清單統計"},
+ {d:"2020.11.02",t:"社團成員突破 1,000 位"},
+ {d:"2020.11.03",t:"HPXKH 2.0 正式啟動"},
+ {d:"2024.10.22",t:"社團成員突破 2,000 位"},
+ {d:"2026.11.29",t:"HPXKH 高雄讀書會官方網站正式啟用"},
+ {d:"至今",t:"300 場以上書聚、150 場以上社團活動",c:"now"}
+];
+const el=id=>document.getElementById(id);
+if(el("mile")) el("mile").innerHTML=MILE.map(m=>
+ '<li class="'+(m.c||'')+'"><time>'+m.d+'</time><b>'+m.t+'</b>'+(m.s?'<span>'+m.s+'</span>':'')+'</li>').join("");
+
+const TOPICS=["服務","設計","人類","心理","商業","哲學","行銷","產品","管理","技術","科技","創業","經濟","財商"];
+if(el("topics")) el("topics").innerHTML=TOPICS.map(t=>'<span>'+t+'</span>').join("");
+
+
+if(el("now")) el("now").innerHTML=["讀書會","講座","粉絲專頁","社群經營","年度盛會","網站"].map(t=>'<span>'+t+'</span>').join("");
+if(el("future")) el("future").innerHTML=["協會","出版社","社會公益","產學合作","文件傳承","數據分析"].map(t=>'<span>'+t+'</span>').join("");
+
+const NOTS=[
+ {b:"不是教學，不是上課",p:"沒有老師和學生。每個人都是帶著自己的理解來，不是來聽人講課的。"},
+ {b:"不是單純交友聚會",p:"我們確實會認識朋友，但那是一起讀書之後自然發生的事，不是聚會的目的。"},
+ {b:"不是只讀一本書",p:"一個書聚以一本書為核心，但社團同時有很多組別在讀不同的書。"},
+ {b:"不是限定一個主題",p:"軟體開發、設計、財商管理、專案企劃、人際關係、創業⋯⋯什麼領域都有人在讀。"}
+];
+
+const FAQG=[{"k": "加入社團", "t": "加入社團與社團生活", "d": "第一次來，先弄清楚這些。", "q": [["這個社團在做什麼？", "以「書」為核心的社群。一起看書、想書、說書——成就一本書的價值，需要不同的心得彼此碰撞融合。成員來自各行各業，年齡分布也很廣。"], ["加入社團後可以做什麼？", "可以參加社團的所有活動：書聚、講座、輕鬆聚等等。要注意大多數活動都有名額限制，看到喜歡的請評估確定能參加再報名。"], ["可以邀請朋友加入嗎？", "可以。請朋友先填寫社群表單，再到「HPX 高雄讀書會」社團按加入，接著等待管理員審核。"], ["參加要付費嗎？", "加入社團不需要任何費用。書聚或講座可能會有場地費、餐點低消，各活動的貼文裡都會寫清楚。"], ["活動結餘的錢用在哪裡？", "社團活動結餘通常所剩不多，有時甚至是虧損。款項主要用於場地租借、講師鐘點費與餐點，結餘會在社團公告，也可查閱現金流明細表。"], ["怎麼樣可以快速融入？", "在社團貼一篇自我介紹：你是誰、有哪些興趣、從事什麼工作、喜歡讀哪類書、正在看什麼書都可以，沒有固定格式。然後踴躍參加書聚與活動。"], ["社團有版規嗎？", "有，十條版規在「社團版規」頁面可以看到。簡單說：對自己的行為負責、尊重他人；管理員不介入協調私人關係。"]]}, {"k": "參加書聚", "t": "參加書聚", "d": "從報名到結束，一場書聚會經過的事。", "q": [["書聚是什麼？", "以一本書為核心的聚會，一群人共讀、交流觀點。參加的書友都會被要求認領章節導讀——每個人都必須要有貢獻。"], ["剛加入、完全沒經驗，可以報名嗎？", "可以，任何社團成員都能報名。只要在報名前想清楚自己能不能持續參加就好，避免造成雙方困擾。"], ["怎麼報名書聚？", "書聚由社團成員自發性發起。看到主揪的徵人貼文後，大多是在留言串「+1」報名，少部分用表單，實際依貼文說明為準。"], ["怎麼知道自己報名成功了？", "主揪通常會在數小時到數天內以留言或私訊回覆。如果過了好幾天還沒消息，建議主動詢問主揪。"], ["報名成功後要注意什麼？", "主揪通常會建立 LINE 或 FB 群組，用來通知行前會與每次書聚的時間地點，請留意群組訊息。"], ["什麼是「行前會」？", "書聚正式開始前的第一次聚會。主揪會說明運作方式、次數、時間與地點，同時讓大家互相認識——你也可以藉此評估這團適不適合自己。"], ["不確定適不適合，可以先報名嗎？", "可以。大部分書聚都有行前會，聽完之後如果覺得不適合，可以告知主揪。"], ["要準備什麼？", "「書」一定要準備，其餘就是帶一顆快樂的心。書的形式沒有規定——圖書館借閱、實體書、電子書、二手書、跟朋友借都可以。"], ["每一次都一定要出席嗎？", "不一定，但希望盡量全勤，總出席率至少 7 成。每個書聚都是主揪用心發起的，報名而不珍惜會影響到主揪、其他成員，也佔掉備取書友的名額。"], ["臨時有事不能到或會晚到怎麼辦？", "提前幾天或當天告知主揪。如果只是晚到仍想參加，跟主揪說一聲即可，路上注意安全。"], ["報名後發生狀況無法繼續參加？", "請主動聯繫主揪說明狀況，一起看看有沒有辦法處理。"], ["可以只旁聽嗎？", "可以。部分書聚會開放旁聽名額，留意貼文或直接詢問主揪。同一個書聚最多旁聽 2 次，主揪也可以限制為 1 次或不開放。"]]}, {"k": "聚會形式", "t": "各種聚會形式", "d": "書聚之外，社團還有這些。", "q": [["新人小聚", "針對新人開的聚會，平均每 1～3 個月一次，帶新書友認識社團與各種活動。每位成員只能參加一次。"], ["輕鬆聚", "由成員發起的輕鬆聚會，每個月最多兩場。曾經辦過野餐、躲避球、爬山、桌遊、甜點烹飪、圍棋、射箭等等。"], ["月讀（R4A）", "每個月一本書、一次聚會，成員都可以參加導讀或旁聽。一次選六本書、為期半年，由參加行前會的成員共同投票決定書單與時間。"], ["TALK 講座", "邀請業界講師或作者分享不同主題，結尾有 QA 解惑時間。"], ["大聚", "半年或一年一次，讓不同書聚的成員有機會互相認識與交流。"], ["職人分享會", "邀請社團裡的專業職人開的工作坊，讓對該領域有興趣的成員多一些學習與交流。"], ["這些活動怎麼報名？", "社團貼文裡都會寫清楚，每場活動的報名方式不太一樣，請留意貼文說明。"]]}, {"k": "開一場書聚", "t": "我想開一場書聚", "d": "想當主揪？這些是最常被問到的。", "q": [["我可以開書聚嗎？", "可以，歡迎任何社團書友擔任主揪。不知道怎麼規劃的話，可以私訊管理員或版主加入社團的「開團討論 LINE 群組」。"], ["開書聚的心態？", "抱著願意分享、共好共贏的心態，並做好前期規劃。最忌諱的是「為了開團而開團」——毫無準備就開始，容易讓參加者體驗不佳，甚至一兩次就滅團。"], ["怎麼選書？", "書評網站、暢銷排行、自己感興趣的書、朋友推薦都可以。最重要的一個考量是：這本書適不適合「討論與交流」。"], ["建議開幾個人？", "3～8 人是比較理想的規模，3 人以上就能成團。經驗豐富之後再挑戰 10 人以上——人多需要更好的規劃與場控。"], ["多久聚一次？一次多久？", "一般固定單週或雙週，週間或假日皆可。單次建議 2 小時、最長 2.5 小時，再長專注力會下降、學習品質也不好。"], ["總共要聚幾次？", "看書的難易度與章節數，通常每次導讀 1～2 章。例如《如何閱讀一本書》21 章，可以規劃 9～11 次。別忘了把行前會和輕鬆聚也算進去。"], ["章節怎麼分配？", "平均分配即可：人數對章節數平均分，或 2～3 人一組分配章節。當天抽籤、爬樓梯、先搶先贏都可以，重點是公平，而且主揪也要認領導讀。"], ["怎麼招募？", "在社團發文，把書聚預計的進行方式寫清楚：時間、週期、次數、地點、導讀分配。把報名方式也寫清楚（留言 +1 或表單）。"], ["報名人數太少或太多怎麼辦？", "太少仍然可以成團，只是每人分配的章節變多。額滿時記得在貼文或留言告知「已額滿」，並可以再收 2～3 位備取——行前會後常常會有遞補機會。"], ["開團後想取消怎麼辦？", "請一一聯繫已報名的書友說明原因並致歉。切勿直接刪除開團貼文，這會依社團版規處理，輕則禁言、重則退社。"], ["行前會要做什麼？", "破冰自我介紹 → 說明書聚運作方式 → 章節分配 → 確認參加者 → 加入群組 → 合照。同時說明出席率期待（7～8 成以上）。"], ["怎麼確保書聚品質與熱度？", "可以加入小組合作、簡報導讀、思考題互動、遊戲元素、邀請講者或 Workshop。線上則透過群組分享文章與觀點，鼓勵書友對外發文分享。"], ["有人請假頻率過高怎麼辦？", "主揪可以主動私訊關心，了解狀況並確認是否還想繼續。如果不願意，就把名額釋出給備取書友，依順序公平遞補。這是常態，平常心面對即可。"], ["遇到人身攻擊、言語歧視等狀況？", "機率很低，但發生時主揪必須出面制止；未改進者主揪有權請對方退出書聚。不知道怎麼處理可以私訊管理員或版主協助。"]]}];
+(function(){
+  const tabs=document.getElementById("faqTabs"), wrap=document.getElementById("faqPanels");
+  if(!tabs||!wrap)return;
+  tabs.innerHTML=FAQG.map((g,i)=>'<button class="tab" type="button" role="tab" id="fq-'+i+'" aria-controls="fq-p'+i+'" aria-selected="'+(i===0)+'">'+g.k+'</button>').join("");
+  wrap.innerHTML=FAQG.map((g,i)=>'<div id="fq-p'+i+'" role="tabpanel" aria-labelledby="fq-'+i+'"'+(i?' hidden':'')+'>'+
+    '<section class="blk pad"><div class="blk__h faqhead"><h3>'+g.t+'</h3><p>'+g.d+'</p></div>'+
+    '<div class="faq">'+g.q.map(x=>'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>').join("")+
+    '</div></section></div>').join("");
+})();
+
+/* ══ 書聚流程 ══ */
+const FLOW=[
+ {n:"Step 01",h:"組團",i:["提出想讀的書，推薦與調查","找到願意一起讀的夥伴","決定正式成員與旁聽方式"]},
+ {n:"Step 02",h:"決定",i:["決定時間與地點","決定頻率：隔雙週／隔三週／隔月／不定期","決定導讀方式與分工"]},
+ {n:"Step 03",h:"持續",i:["每個書聚至少 4 次，含行前會","正式成員出席率至少 7 成","結束後申請獎勵徽章、對外成果分享"]}
+];
+if(el("flow")) el("flow").innerHTML=FLOW.map(f=>
+ '<div class="flow__s"><span class="flow__n">'+f.n+'</span><h4>'+f.h+'</h4><ul>'+
+ f.i.map(x=>'<li>'+x+'</li>').join("")+'</ul></div>').join("");
+
+/* ══ 網站原生申請表單 ══
+   送出後以預填網址開啟對應的官方 Google 表單，欄位已自動帶入，
+   使用者確認後按下提交即可。部署到自有網域後可改為直接送出、免跳轉。 */
+const KINDS=["新人小聚","書聚","R4A 月讀","主題聚","十分鐘分享會","職人分享會","TALK 講座","輕鬆聚","大聚"];
+const FORMS={
+ join:{
+  local:"join",
+  title:"加入社團申請",
+  intro:"填寫後會產生一份自我介紹，複製貼到臉書社團的入社提問即可，管理員審核通常 1～3 天。想先了解社團，可以看新人指引。",
+  go:{href:"https://www.facebook.com/groups/KaohsiungHPX",label:"前往臉書社團申請入社"},
+  fields:[
+   {k:"name",l:"姓名／稱呼",t:"text",req:true,ph:"平常希望大家怎麼叫你"},
+   {k:"fb",l:"Facebook 名稱",t:"text",req:true,ph:"請填寫 FB 上顯示的名稱",hint:"審核時以此核對，請與臉書帳號一致。"},
+   {k:"email",l:"Email",t:"text",req:true,ph:"name@example.com",hint:"用於後續聯繫，約 3～5 個工作天以 Email 回覆。"},
+   {k:"area",l:"居住縣市／區域",t:"text",req:true,ph:"例：高雄市仁武區",hint:"社團群組的名稱格式是「暱稱 - 縣市區域」。"},
+   {k:"job",l:"職業／產業",t:"text",ph:"選填，例：產品企劃、設計、教育"},
+   {k:"topic",l:"最想讀的領域",t:"select",opts:["都想看看","自我成長與思考","心理與人際","人文社會與歷史","職涯與工作方法","商業與經營","健康與生活","理財與投資","行銷與品牌","設計與使用者體驗","科技與數位"]},
+   {k:"kind",l:"最想參加的聚會形式",t:"select",opts:["還在觀望，先看看"].concat(KINDS)},
+   {k:"from",l:"怎麼知道 HPX",t:"select",opts:["臉書搜尋","朋友介紹","粉絲專頁","活動現場","Google 搜尋","其他"]},
+   {k:"say",l:"想對我們說的話",t:"textarea",wide:true,ph:"選填。簡單自我介紹、最近在讀的書，或想從讀書會得到什麼。"}
+  ]
+ },
+ venue:{
+  local:"venue",
+  title:"書聚場地登記",
+  intro:"主揪確定時間地點後填寫本表，管理團隊會協助登錄行事曆並公告。若場地尚未訂位，也可以先登記、再由管理團隊協助。",
+  go:{href:"https://www.facebook.com/hpxkaohsiung",label:"私訊粉專送出登記"},
+  fields:[
+   {k:"host",l:"主揪（Facebook 名稱）",t:"text",req:true,ph:"請填寫 FB 上顯示的名稱"},
+   {k:"email",l:"Email",t:"text",req:true,ph:"name@example.com",hint:"用於回覆登記結果，約 3～5 個工作天以 Email 回覆。"},
+   {k:"title",l:"書聚／活動名稱",t:"text",req:true,ph:"例：原子習慣 第三次書聚"},
+   {k:"kind",l:"聚會形式",t:"select",req:true,opts:KINDS},
+   {k:"date",l:"預定日期",t:"date",req:true},
+   {k:"t1",l:"開始時間",t:"time",req:true},
+   {k:"t2",l:"結束時間",t:"time"},
+   {k:"place",l:"場地名稱",t:"text",req:true,ph:"例：高雄市立圖書館總館 4F 討論室"},
+   {k:"addr",l:"場地地址／區域",t:"text",req:true,ph:"例：高雄市前鎮區新光路 61 號"},
+   {k:"size",l:"預估人數",t:"select",opts:["2～4 人","5～8 人","9～12 人","13～20 人","20 人以上"]},
+   {k:"booked",l:"訂位狀態",t:"select",opts:["已完成訂位","已詢問，等待回覆","尚未訂位，需要協助"]},
+   {k:"cost",l:"費用／低消",t:"text",ph:"選填，例：低消一杯飲料、場地費 100 元／人"},
+   {k:"gear",l:"場地設備（可複選）",t:"checks",wide:true,
+    opts:["投影機","布幕","麥克風／音響","電視螢幕","白板／海報紙","延長線／插座","可自由排列的桌椅","Wi-Fi","停車位","無障礙空間"],
+    hint:"勾選這個場地已具備、或這場書聚需要的設備，管理團隊會一併登錄。"},
+   {k:"note",l:"補充說明",t:"textarea",wide:true,ph:"選填。上述設備的補充（例：投影機需自備轉接線）、停車資訊、或其他要提醒的事。"}
+  ]
+ },
+ collab:{
+  local:"collab",
+  title:"合作提案申請",
+  intro:"品牌、店家、其他讀書會或社群都歡迎提案：共同舉辦、場地提供、講師分享、贈書贊助或互相宣傳皆可。填寫後請將整理好的內容私訊粉專，管理團隊約 3～5 個工作天以 Email 回覆。",
+  go:{href:"https://www.facebook.com/hpxkaohsiung",label:"私訊粉專送出提案"},
+  fields:[
+   {k:"org",l:"單位／組織名稱",t:"text",req:true,ph:"公司、品牌、店家、社團或讀書會名稱"},
+   {k:"who",l:"聯絡人姓名",t:"text",req:true,ph:"含職稱更好，例：王小明 行銷企劃"},
+   {k:"email",l:"Email",t:"text",req:true,ph:"name@example.com",hint:"用於回覆提案結果，約 3～5 個工作天以 Email 回覆。"},
+   {k:"contact",l:"其他聯絡方式",t:"text",ph:"選填，電話、LINE ID、FB 名稱"},
+   {k:"link",l:"官網／粉專連結",t:"url",ph:"讓我們認識你們在做什麼"},
+   {k:"type",l:"合作性質",t:"select",req:true,
+    opts:["異業合作（品牌／店家／空間）","同業合作（其他讀書會／學習社群）","講師、作者分享","書籍或商品贊助","媒體、內容合作","公益或產學合作","其他"]},
+   {k:"form",l:"希望的合作形式（可複選）",t:"checks",req:true,wide:true,
+    opts:["共同舉辦書聚","講座或工作坊","提供場地","贈書／商品贊助","社群互相宣傳","聯名徽章或紀念品","內容轉載／專訪","市集或年度盛會參與"],
+    hint:"至少勾選一項；細節可寫在下方說明。"},
+   {k:"when",l:"預計檔期",t:"text",ph:"選填，例：2026 Q4、12 月中旬週末"},
+   {k:"size",l:"預計規模",t:"select",opts:["尚未確定","10 人以內","10～30 人","30～60 人","60 人以上"]},
+   {k:"cost",l:"費用與資源",t:"select",opts:["純資源交換，無金流","我方提供贊助／資源","希望社團協助宣傳為主","需再討論"]},
+   {k:"say",l:"合作內容說明",t:"textarea",req:true,wide:true,
+    ph:"想合作的內容、希望社團配合的事、你們能提供什麼，以及任何已有的構想。",
+    hint:"寫得越具體，越快能評估。"}
+  ]
+ },
+ badge:{
+  eid:"1FAIpQLSf47L5B2OmuY17pUMTqza2wvtU-EFH0ShHz-xF4tnG8UWC4mg",
+  title:"HPX 高雄徽章申請表",
+  intro:"書聚完成後，由主揪填寫本表為成員申請徽章。書名與主揪為必填；管理團隊將於約 3～5 個工作天以 Email 回覆。",
+  fields:[
+   {k:"entry.2128733173",l:"書名",t:"text",req:true,ph:"例：原子習慣"},
+   {k:"entry.354965278",l:"書本連結",t:"url",ph:"圖書館網址、博客來⋯⋯",hint:"選填。方便管理員核對書目。"},
+   {k:"entry.672451609",l:"主揪（Facebook 名稱）",t:"text",req:true,ph:"請填寫 FB 上顯示的名稱"},
+   {k:"entry.1276859094",l:"副揪",t:"text",ph:"若無可留空"},
+   {k:"entry.1754347746",l:"申請徽章總數",t:"select",opts:Array.from({length:15},(_,i)=>String(i+1)),hint:"含主揪、副揪在內的申請人數。"},
+   {k:"local_email_badge",l:"Email",t:"text",req:true,ph:"name@example.com",hint:"用於回覆申請結果，約 3～5 個工作天以 Email 回覆。"}
+  ]
+ },
+ post:{
+  eid:"1FAIpQLScAGlNWMkvr0Vko8xfCl5BPhUk38ap6ZPFi6mupqNk_tA8lRg",
+  title:"HPX 高雄社團外貼文申請表",
+  intro:"送出後請記得私訊「書香南國—HPX 高雄讀書會」粉專告知已申請，管理團隊將於約 3～5 個工作天以 Email 回覆審核結果。",
+  fields:[
+   {k:"entry.743950925",l:"填寫日期",t:"date",req:true,hint:"預設為今天。"},
+   {k:"entry.690971509",l:"申請人（FB 名稱）",t:"text",req:true,ph:"請填寫 FB 上顯示的名稱"},
+   {k:"entry.1489119638",l:"主題",t:"text",req:true,ph:"這則貼文要宣傳什麼"},
+   {k:"entry.685530215",l:"相關連結",t:"url",ph:"活動頁、報名表、問卷⋯⋯"},
+   {k:"local_email_post",l:"Email",t:"text",req:true,ph:"name@example.com",hint:"用於回覆審核結果，約 3～5 個工作天以 Email 回覆。"},
+   {k:"entry.676858315",l:"貼文內容",t:"textarea",req:true,wide:true,ph:"請貼上完整的貼文全文，管理員會依此審核",hint:"請填寫實際要張貼的完整內容，方便管理員直接審核。"}
+  ]
+ }
+};
+
+function fval(c){
+  if(c.classList && c.classList.contains("chks"))
+    return [...c.querySelectorAll("input:checked")].map(i=>i.value).join("、");
+  return c.value||"";
+}
+function buildForm(mount,spec){
+  const body=spec.fields.map((f,i)=>{
+    const id=(spec.eid?spec.eid.slice(-6):spec.local)+"_"+i;
+    const req=f.req?'<span class="req">必填</span>':'';
+    let ctrl;
+    if(f.t==="checks"){
+      ctrl='<div class="chks" data-k="'+f.k+'" role="group" aria-labelledby="'+id+'_l">'+
+        f.opts.map((o,j)=>'<label class="chk"><input type="checkbox" value="'+o+'">'+
+          '<span>'+o+'</span></label>').join("")+'</div>';
+    }else if(f.t==="select"){
+      ctrl='<select id="'+id+'" data-k="'+f.k+'">'+f.opts.map(o=>'<option>'+o+'</option>').join("")+'</select>';
+    }else if(f.t==="textarea"){
+      ctrl='<textarea id="'+id+'" data-k="'+f.k+'" placeholder="'+(f.ph||"")+'"'+(f.req?' required':'')+'></textarea>';
+    }else{
+      ctrl='<input id="'+id+'" type="'+(f.t==="date"?"date":f.t==="time"?"time":f.t==="url"?"url":"text")+'" data-k="'+f.k+'" placeholder="'+(f.ph||"")+'"'+(f.req?' required':'')+'>';
+    }
+    return '<div class="fld'+(f.wide?' fld--wide':'')+'">'+
+      (f.t==="checks"
+        ? '<span class="fldlab" id="'+id+'_l">'+f.l+req+'</span>'
+        : '<label for="'+id+'">'+f.l+req+'</label>')+ctrl+
+      (f.hint?'<span class="hint">'+f.hint+'</span>':'')+
+      '<span class="err" data-err></span></div>';
+  }).join("");
+
+  mount.innerHTML=
+   '<div class="appform__h"><div class="sec-h"><h4 style="font-family:var(--disp);font-size:16px;font-weight:600;letter-spacing:.07em">'+spec.title+'</h4></div><p>'+spec.intro+'</p></div>'+
+   '<form class="appform__b" novalidate>'+body+'</form>'+
+   '<div class="appform__f">'+
+     '<button class="btn" type="button" data-submit>送出申請</button>'+
+     '<button class="btn btn--line" type="button" data-clear>清空</button>'+
+     '<span class="note">'+(spec.local?'送出後會整理成一段文字，按「複製」帶著它到下一步即可。':'送出後會開啟官方表單，欄位已自動帶入，確認無誤後按下「提交」即完成。')+'</span>'+
+   '</div>';
+
+  const form=mount.querySelector("form");
+  const d=mount.querySelector('input[type="date"]');
+  if(d && !spec.local) d.value=new Date().toISOString().slice(0,10);
+
+  mount.querySelector("[data-clear]").addEventListener("click",()=>{
+    form.reset(); if(d && !spec.local) d.value=new Date().toISOString().slice(0,10);
+    mount.querySelectorAll("[data-err]").forEach(e=>e.textContent="");
+    mount.querySelectorAll("[aria-invalid]").forEach(e=>e.removeAttribute("aria-invalid"));
+    const ok=mount.querySelector(".formok"); if(ok) ok.remove();
+  });
+
+  mount.querySelector("[data-submit]").addEventListener("click",()=>{
+    let bad=null;
+    spec.fields.forEach((f,i)=>{
+      const c=form.querySelector('[data-k="'+f.k+'"]');
+      const errEl=c.parentElement.querySelector("[data-err]");
+      errEl.textContent=""; c.removeAttribute("aria-invalid");
+      if(f.req && !fval(c).trim()){
+        errEl.textContent="請填寫「"+f.l+"」";
+        c.setAttribute("aria-invalid","true");
+        if(!bad) bad=c;
+      }else if(f.l==="Email" && fval(c).trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fval(c).trim())){
+        errEl.textContent="Email 格式看起來不正確";
+        c.setAttribute("aria-invalid","true");
+        if(!bad) bad=c;
+      }
+    });
+    if(bad){bad.focus();return;}
+
+    if(spec.local){
+      const lines=[spec.title,"—————"];
+      spec.fields.forEach(f=>{
+        const c=form.querySelector('[data-k="'+f.k+'"]');
+        const v=fval(c).trim(); if(!v) return;
+        lines.push(f.l+"："+v);
+      });
+      const txt=lines.join("\n");
+      let ok=mount.querySelector(".formok");
+      if(!ok){ok=document.createElement("div");ok.className="formok";mount.appendChild(ok);}
+      ok.innerHTML='<b>已整理</b><span>以下是你填寫的內容，按「複製」後到下一步貼上即可。</span>'+
+        '<pre class="formok__txt"></pre>'+
+        '<div class="formok__act"><button class="btn" type="button" data-copy>複製內容</button>'+
+        '<a class="btn btn--line" href="'+spec.go.href+'" target="_blank" rel="noopener">'+spec.go.label+'</a></div>';
+      ok.querySelector(".formok__txt").textContent=txt;
+      ok.querySelector("[data-copy]").addEventListener("click",ev=>{
+        const b=ev.currentTarget;
+        const done=()=>{b.textContent="已複製";setTimeout(()=>{b.textContent="複製內容"},1800)};
+        if(navigator.clipboard&&navigator.clipboard.writeText){
+          navigator.clipboard.writeText(txt).then(done,()=>fallback());
+        }else fallback();
+        function fallback(){
+          const ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";
+          document.body.appendChild(ta);ta.select();
+          try{document.execCommand("copy");done();}catch(e){b.textContent="請手動選取複製";}
+          ta.remove();
+        }
+      });
+      ok.scrollIntoView({block:"nearest"});
+      return;
+    }
+
+    const u=new URL("https://docs.google.com/forms/d/e/"+spec.eid+"/viewform");
+    u.searchParams.set("usp","pp_url");
+    spec.fields.forEach(f=>{
+      if(f.k.indexOf("entry.")!==0) return;
+      const c=form.querySelector('[data-k="'+f.k+'"]');
+      const v=c.value.trim(); if(!v) return;
+      if(f.t==="date"){
+        const [y,m,dd]=v.split("-");
+        u.searchParams.set(f.k+"_year",y);
+        u.searchParams.set(f.k+"_month",String(+m));
+        u.searchParams.set(f.k+"_day",String(+dd));
+      }else{
+        u.searchParams.set(f.k,v);
+      }
+    });
+    window.open(u.toString(),"_blank","noopener");
+
+    let ok=mount.querySelector(".formok");
+    if(!ok){
+      ok=document.createElement("div");
+      ok.className="formok";
+      mount.appendChild(ok);
+    }
+    ok.innerHTML='<b>已帶入</b><span>官方表單已在新分頁開啟，你填的內容都帶進去了。請確認一次，然後按表單最下方的「提交」完成申請。'+
+      (spec.eid.indexOf("cAGl")>-1?'<br>送出後別忘了私訊粉專告知已申請。':'')+'</span>';
+    ok.scrollIntoView({block:"nearest"});
+  });
+}
+if(el("formJoin")) buildForm(el("formJoin"),FORMS.join);
+if(el("formVenue")) buildForm(el("formVenue"),FORMS.venue);
+if(el("formCollab")) buildForm(el("formCollab"),FORMS.collab);
+if(el("formBadge")) buildForm(el("formBadge"),FORMS.badge);
+if(el("formPost")) buildForm(el("formPost"),FORMS.post);
+
+/* ══ 照片 ══ */
+const IMG={"heroMain": "assets/heroMain.webp", "th1": "assets/th1.webp", "th2": "assets/th2.webp", "th3": "assets/th3.webp", "th4": "assets/th4.webp", "band": "assets/band.webp", "trio1": "assets/trio1.webp", "trio2": "assets/trio2.webp", "trio3": "assets/trio3.webp", "cl1": "assets/cl1.webp", "cl2": "assets/cl2.webp", "cl3": "assets/cl3.webp", "cal": "assets/cal.webp", "night": "assets/night.webp", "casual": "assets/casual.webp", "g0": "assets/g0.webp", "g1": "assets/g1.webp", "g2": "assets/g2.webp", "g3": "assets/g3.webp", "g4": "assets/g4.webp", "g5": "assets/g5.webp", "g6": "assets/g6.webp", "g7": "assets/g7.webp", "g8": "assets/g8.webp", "g9": "assets/g9.webp", "g10": "assets/g10.webp", "g11": "assets/g11.webp", "g12": "assets/g12.webp", "g13": "assets/g13.webp", "g14": "assets/g14.webp", "g15": "assets/g15.webp", "g16": "assets/g16.webp", "g17": "assets/g17.webp", "reunion": "assets/reunion.webp", "pRichard": "assets/pRichard.webp", "pEgg": "assets/pEgg.webp", "pRobert": "assets/pRobert.webp", "r1": "assets/r1.webp", "r2": "assets/r2.webp", "r3": "assets/r3.webp", "r4": "assets/r4.webp", "r5": "assets/r5.webp", "r6": "assets/r6.webp", "r7": "assets/r7.webp", "r8": "assets/r8.webp", "r9": "assets/r9.webp", "r10": "assets/r10.webp", "pTammy": "assets/pTammy.webp", "pPei": "assets/pPei.webp", "pYing": "assets/pYing.webp", "vs_y1": "assets/vs_y1.webp", "vs_y2": "assets/vs_y2.webp", "vs_y3": "assets/vs_y3.webp", "vs_y4": "assets/vs_y4.webp", "vs_n1": "assets/vs_n1.webp", "vs_n2": "assets/vs_n2.webp", "vs_n3": "assets/vs_n3.webp", "vs_n4": "assets/vs_n4.webp", "s01": "assets/s01.webp", "s02": "assets/s02.webp", "s03": "assets/s03.webp", "s04": "assets/s04.webp", "s05": "assets/s05.webp", "s06": "assets/s06.webp", "s07": "assets/s07.webp", "s08": "assets/s08.webp", "f1": "assets/f1.webp", "f2": "assets/f2.webp", "f3": "assets/f3.webp", "f4": "assets/f4.webp", "f5": "assets/f5.webp"};
+document.querySelectorAll(".shot[data-img]").forEach(el=>{
+ const k=el.dataset.img; if(!IMG[k]||el.querySelector("img"))return;
+ const im=new Image(); im.src=IMG[k]; im.alt=""; im.loading="lazy";
+ const on=()=>im.classList.add("on"); im.onload=on; if(im.complete)on();
+ el.appendChild(im);
+});
+const notsHTML=NOTS.map((n,i)=>'<div class="nots__i"><span class="vsic"><img src="'+(IMG["vs_n"+(i+1)]||"")+'" alt="" loading="lazy"></span>'+
+ '<div class="nots__tx"><b>'+n.b+'</b><p>'+n.p+'</p></div></div>').join("");
+if(el("nots")) el("nots").innerHTML=notsHTML;
+
+const STEPS=[
+ {st:"先認識我們",sd:"花十分鐘，知道這個社團在做什麼、怎麼運作。",items:[
+   {n:"01",h:"認識 HPX",d:"社團的理念與歷程，我們的起點與價值。",u:L.intro},
+   {n:"02",h:"加入臉書社團",d:"書友日常交流的主要空間，公告與報名都在這裡。",u:L.group}]},
+ {st:"參加第一場社團活動",sd:"不用等人邀請，挑一場有興趣的，直接報名就好。",items:[
+   {n:"03",h:"如何開始一場書聚",d:"新手必看，一次掌握書聚的流程與核心。",u:L.start},
+   {n:"04",h:"常辦書聚地點",d:"常見的聚會場地，先看看哪一區離你近。",u:L.place},
+   {n:"05",h:"高雄讀書會行事曆",d:"每月活動行程，挑一場時間對得上的。",u:L.cal}]},
+ {st:"繼續走下去",sd:"參加過一次之後，這些讓你更快融入。",items:[
+   {n:"06",h:"歷年活動清單索引",d:"歷年書聚、新人聚、輕鬆聚與講座都在這裡。",u:L.books},
+   {n:"07",h:"粉絲專頁 書香南國",d:"追蹤「書香南國—HPX 高雄讀書會」，掌握最新活動資訊。",u:L.fb},
+   {n:"08",h:"HPX 高雄宵夜團",d:"聚會後的延長賽，在輕鬆氛圍中認識更多書友。",u:L.night}]}
+];
+(document.getElementById("stepPath")||{}).innerHTML=STEPS.map((g,i)=>
+ '<section class="step">'+
+ '<div class="step__h"><span class="step__eye">Step '+(i+1)+' / 3</span>'+
+ '<h3>'+g.st+'</h3></div>'+
+ '<p class="step__d">'+g.sd+'</p>'+
+ '<div class="step__b">'+g.items.map(x=>{
+   const ext=x.u.startsWith("#")?"":' target="_blank" rel="noopener"';
+   return '<a href="'+x.u+'"'+ext+'><span class="step__ic"><img src="'+(IMG["s"+x.n]||"")+'" alt="" loading="lazy"></span>'+
+     '<span class="step__tx"><span class="step__t"><span class="step__n">'+x.n+'</span>'+
+     '<h4>'+x.h+'</h4></span><p>'+x.d+'</p></span><span class="go" aria-hidden="true">→</span></a>';
+ }).join("")+'</div></section>').join("");
+
+
+if(el("flow2")) el("flow2").innerHTML=FLOW.map(f=>
+ '<div class="flow__s"><span class="flow__n">'+f.n+'</span><h4>'+f.h+'</h4><ul>'+
+ f.i.map(x=>'<li>'+x+'</li>').join("")+'</ul></div>').join("");
+
+const HOSTKIT=[
+ {st:"開書聚之前",sd:"先把書、夥伴和場地準備好。",items:[
+   {n:"03",h:"如何開始一場書聚",d:"官方簡報，一次掌握開團的流程與核心。",u:L.start},
+   {n:"04",h:"常辦書聚地點",d:"社團常用的場地整理，含費用與低消。",u:"#/venues"},
+   {n:"06",h:"歷年活動清單索引",d:"看看別人讀過什麼、怎麼安排，避免重複。",u:L.books}]},
+ {st:"進行與結束",sd:"開始之後的維持，以及結束時該做的事。",items:[
+   {n:"05",h:"高雄讀書會行事曆",d:"把你的場次排進社團行事曆，讓大家看得到。",u:L.cal},
+   {n:"",h:"書聚徽章申請",d:"書聚完成後，由主揪為成員申請徽章。",u:"#/docs"},
+   {n:"",h:"社團外貼文申請",d:"非書聚的宣傳貼文，張貼前請先送出申請。",u:"#/docs"}]}
+];
+(document.getElementById("hostKit")||{}).innerHTML=HOSTKIT.map((g,i)=>
+ '<section class="step">'+
+ '<div class="step__h"><span class="step__eye">'+(i===0?"Before":"During & After")+'</span>'+
+ '<h3>'+g.st+'</h3></div>'+
+ '<p class="step__d">'+g.sd+'</p>'+
+ '<div class="step__b">'+g.items.map(x=>{
+   const ext=x.u.startsWith("#")?"":' target="_blank" rel="noopener"';
+   const ic=x.n?'<span class="step__ic"><img src="'+(IMG["s"+x.n]||"")+'" alt="" loading="lazy"></span>':'<span class="step__ic step__ic--dot"></span>';
+   return '<a href="'+x.u+'"'+ext+'>'+ic+
+     '<span class="step__tx"><span class="step__t"><h4>'+x.h+'</h4></span><p>'+x.d+'</p></span>'+
+     '<span class="go" aria-hidden="true">→</span></a>';
+ }).join("")+'</div></section>').join("");
+
+
+const BOOKLIST=[{"n": "逆思維", "c": "自我成長與思考", "y": "2026", "k": 1}, {"n": "變化中的選擇：易經六十四卦共讀", "c": "人文社會與歷史", "y": "2026", "k": 1}, {"n": "紫微斗數新手村", "c": "健康與生活", "y": "2026", "k": 1}, {"n": "圖解麻衣神相：古代人體工學，解讀運勢密碼", "c": "健康與生活", "y": "2026", "k": 1}, {"n": "人體使用手冊", "c": "健康與生活", "y": "2026", "k": 1}, {"n": "自律上癮", "c": "自我成長與思考", "y": "2025", "k": 1}, {"n": "納瓦爾寶典", "c": "自我成長與思考", "y": "2025", "k": 2}, {"n": "男人都不說真話", "c": "心理與人際", "y": "2025", "k": 1}, {"n": "用AI打造素人影響力：開啟斜槓定位、內容變現與AI應用的24堂實戰指南", "c": "科技與數位", "y": "2025", "k": 1}, {"n": "最後一次相遇，我們只談喜悅", "c": "自我成長與思考", "y": "2025", "k": 1}, {"n": "愛的藝術", "c": "心理與人際", "y": "2025", "k": 1}, {"n": "少，但是更好", "c": "職涯與工作方法", "y": "2025", "k": 1}, {"n": "專注力協定", "c": "職涯與工作方法", "y": "2025", "k": 1}, {"n": "如果你的內心是一個房間", "c": "心理與人際", "y": "2025", "k": 1}, {"n": "垃圾與它們的產地", "c": "人文社會與歷史", "y": "2025", "k": 1}, {"n": "你的人生，他們六個說了算", "c": "心理與人際", "y": "2025", "k": 1}, {"n": "人生4千個禮拜", "c": "自我成長與思考", "y": "2025", "k": 1}, {"n": "精準投資 x 頂尖財務顧問的48堂財商素養課", "c": "理財與投資", "y": "2024", "k": 1}, {"n": "深夜食堂21 - 味蕾與心靈的對話", "c": "健康與生活", "y": "2024", "k": 1}, {"n": "改變你人生的想法整理術", "c": "職涯與工作方法", "y": "2024", "k": 1}, {"n": "我，刀槍不入", "c": "自我成長與思考", "y": "2024", "k": 1}, {"n": "我所告訴你關於那座山的一切", "c": "健康與生活", "y": "2024", "k": 1}, {"n": "我想好好跟你說話", "c": "心理與人際", "y": "2024", "k": 1}, {"n": "成交的技術", "c": "行銷與品牌", "y": "2024", "k": 1}, {"n": "底層邏輯", "c": "自我成長與思考", "y": "2024", "k": 1}, {"n": "學會愛人的100堂課", "c": "心理與人際", "y": "2024", "k": 1}, {"n": "內在成就", "c": "自我成長與思考", "y": "2024", "k": 1}, {"n": "做自己的工作設計師", "c": "職涯與工作方法", "y": "2024", "k": 1}, {"n": "QBQ！問題背後的問題", "c": "職涯與工作方法", "y": "2024", "k": 1}, {"n": "OGSM變革領導", "c": "商業與經營", "y": "2024", "k": 1}, {"n": "麥肯錫精準提問術，突破盲點，直搗問題核心", "c": "職涯與工作方法", "y": "2023", "k": 1}, {"n": "豐盛", "c": "自我成長與思考", "y": "2023", "k": 1}, {"n": "護腳聖經", "c": "健康與生活", "y": "2023", "k": 1}, {"n": "薩提爾", "c": "心理與人際", "y": "2023", "k": 1}, {"n": "蒙格之道", "c": "理財與投資", "y": "2023", "k": 1}, {"n": "莊子", "c": "人文社會與歷史", "y": "2023", "k": 1}, {"n": "自我提問的力量", "c": "自我成長與思考", "y": "2023", "k": 1}, {"n": "破壞式創新", "c": "商業與經營", "y": "2023", "k": 1}, {"n": "當下的力量", "c": "自我成長與思考", "y": "2023", "k": 2}, {"n": "用桌遊陪孩子玩出天賦和好個性", "c": "健康與生活", "y": "2023", "k": 1}, {"n": "獨立鍛造", "c": "自我成長與思考", "y": "2023", "k": 1}, {"n": "橫斷台灣", "c": "人文社會與歷史", "y": "2023", "k": 1}, {"n": "晶片戰爭", "c": "心理與人際", "y": "2023", "k": 1}, {"n": "我可能錯了", "c": "自我成長與思考", "y": "2023", "k": 1}, {"n": "安靜是種超能力", "c": "職涯與工作方法", "y": "2023", "k": 1}, {"n": "大人學選擇", "c": "自我成長與思考", "y": "2023", "k": 1}, {"n": "只工作、不上班的自主人生", "c": "職涯與工作方法", "y": "2023", "k": 1}, {"n": "原諒，宇宙法則中最強大的祝福", "c": "自我成長與思考", "y": "2023", "k": 1}, {"n": "創傷療癒手冊", "c": "心理與人際", "y": "2023", "k": 1}, {"n": "一期一會的生命禮物", "c": "自我成長與思考", "y": "2023", "k": 1}, {"n": "一人登山完全攻略", "c": "健康與生活", "y": "2023", "k": 1}, {"n": "OGSM", "c": "商業與經營", "y": "2023", "k": 1}, {"n": "1.任何人都說服、想挺你的DISC性格溝通學 2.順勢溝通", "c": "心理與人際", "y": "2023", "k": 1}, {"n": "雜訊", "c": "自我成長與思考", "y": "2022", "k": 1}, {"n": "集體倦怠", "c": "人文社會與歷史", "y": "2022", "k": 1}, {"n": "關係結束後，成為更好的自己", "c": "心理與人際", "y": "2022", "k": 1}, {"n": "走進自然：滋養身心的正念幸福手冊", "c": "健康與生活", "y": "2022", "k": 1}, {"n": "說話藝術&心理學系列書聚(影響力、好好拜託、精準提問、從說話洞察人心)", "c": "心理與人際", "y": "2022", "k": 1}, {"n": "破壞式創新系列書聚(創新者的DNA)", "c": "商業與經營", "y": "2022", "k": 1}, {"n": "用瑜伽療癒創傷", "c": "健康與生活", "y": "2022", "k": 1}, {"n": "正義一場思辨之旅", "c": "人文社會與歷史", "y": "2022", "k": 1}, {"n": "正念溝通：在衝突、委屈、情緒勒索場景下說出真心話", "c": "心理與人際", "y": "2022", "k": 1}, {"n": "是情緒糟，不是你很糟", "c": "科技與數位", "y": "2022", "k": 1}, {"n": "我家沒垃圾", "c": "健康與生活", "y": "2022", "k": 1}, {"n": "成為一個人：一個治療者對心理治療的觀點", "c": "心理與人際", "y": "2022", "k": 1}, {"n": "平面國 - 向上而非向北​", "c": "人文社會與歷史", "y": "2022", "k": 1}, {"n": "孤獨世紀：衝擊全球商業模式，危及生活、工作與健康的疏離浪潮", "c": "人文社會與歷史", "y": "2022", "k": 1}, {"n": "哈佛法學院的情緒談判課：5大核心情緒策略，創造共贏成果", "c": "心理與人際", "y": "2022", "k": 1}, {"n": "做自己生命的設計師", "c": "自我成長與思考", "y": "2022", "k": 1}, {"n": "非暴力溝通", "c": "心理與人際", "y": "2021", "k": 1}, {"n": "集體倦怠：沒有熱情、沒有夢想、沒有未來，這就是千禧世代生活的殘酷世界", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "開始簡單生活", "c": "健康與生活", "y": "2021", "k": 1}, {"n": "錢買不到的東西", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "選對池塘釣大魚", "c": "職涯與工作方法", "y": "2021", "k": 1}, {"n": "財商 - 主題式閱讀", "c": "理財與投資", "y": "2021", "k": 1}, {"n": "讀歷史，我可以學會什麼？", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "行為投資金律", "c": "理財與投資", "y": "2021", "k": 1}, {"n": "行為上癮", "c": "心理與人際", "y": "2021", "k": 1}, {"n": "老黑的FIRE生活哲學", "c": "理財與投資", "y": "2021", "k": 1}, {"n": "精準購買", "c": "理財與投資", "y": "2021", "k": 1}, {"n": "生死的覺醒", "c": "自我成長與思考", "y": "2021", "k": 1}, {"n": "玩心設計", "c": "設計與使用者體驗", "y": "2021", "k": 1}, {"n": "演算法圖鑑", "c": "科技與數位", "y": "2021", "k": 1}, {"n": "民主式經濟的誕生", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "正義：一場思辨之旅", "c": "人文社會與歷史", "y": "2021", "k": 2}, {"n": "樊登講論語", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "最後14堂星期二的課", "c": "自我成長與思考", "y": "2021", "k": 1}, {"n": "投資最重要的事", "c": "理財與投資", "y": "2021", "k": 2}, {"n": "成為1%的創業存活者", "c": "商業與經營", "y": "2021", "k": 1}, {"n": "愛情市場學：寫給80分女生，提升戀愛力的不敗思維", "c": "心理與人際", "y": "2021", "k": 1}, {"n": "愛情市場學", "c": "心理與人際", "y": "2021", "k": 1}, {"n": "忙碌的意義", "c": "職涯與工作方法", "y": "2021", "k": 1}, {"n": "心理學原來是神隊友", "c": "心理與人際", "y": "2021", "k": 1}, {"n": "從負債2000萬到心想事成的每一天", "c": "自我成長與思考", "y": "2021", "k": 1}, {"n": "寫作鬥陣俱樂部書聚", "c": "職涯與工作方法", "y": "2021", "k": 1}, {"n": "孫子兵法", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "哲學與人生", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "和自己，相愛不相礙", "c": "自我成長與思考", "y": "2021", "k": 1}, {"n": "名媛養成班", "c": "健康與生活", "y": "2021", "k": 1}, {"n": "原則：生活和工作", "c": "商業與經營", "y": "2021", "k": 1}, {"n": "匱乏經濟學", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "動盪 : 國家如何化解危局、成功轉型？", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "創造生命的奇蹟｜影響五千萬人的自我療癒經典", "c": "自我成長與思考", "y": "2021", "k": 1}, {"n": "創意提問力", "c": "自我成長與思考", "y": "2021", "k": 1}, {"n": "你只要做好一件事就夠了", "c": "職涯與工作方法", "y": "2021", "k": 2}, {"n": "人類大歷史", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "也許你該找人聊聊", "c": "心理與人際", "y": "2021", "k": 1}, {"n": "世界大局-地圖全解讀", "c": "人文社會與歷史", "y": "2021", "k": 1}, {"n": "一人創業", "c": "商業與經營", "y": "2021", "k": 1}, {"n": "一人創富", "c": "商業與經營", "y": "2021", "k": 1}, {"n": "高難度溝通", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "高勝率創新", "c": "商業與經營", "y": "2020", "k": 1}, {"n": "雷浩斯教你破解巴菲特護城河選股祕密", "c": "理財與投資", "y": "2020", "k": 1}, {"n": "零工經濟來了", "c": "職涯與工作方法", "y": "2020", "k": 1}, {"n": "阿甘投資法", "c": "理財與投資", "y": "2020", "k": 1}, {"n": "遠距工作這樣做", "c": "職涯與工作方法", "y": "2020", "k": 1}, {"n": "超速學習", "c": "自我成長與思考", "y": "2020", "k": 1}, {"n": "讓寫作成為自我精進的武器", "c": "職涯與工作方法", "y": "2020", "k": 1}, {"n": "覺醒的你", "c": "自我成長與思考", "y": "2020", "k": 1}, {"n": "親愛的女生：去做每一件妳所喜歡的事情，去成為妳想成為的美好", "c": "自我成長與思考", "y": "2020", "k": 1}, {"n": "見樹又見林", "c": "人文社會與歷史", "y": "2020", "k": 1}, {"n": "行銷 4.0", "c": "行銷與品牌", "y": "2020", "k": 1}, {"n": "職場上，你需要搞點政治", "c": "職涯與工作方法", "y": "2020", "k": 1}, {"n": "聲音魅力學", "c": "職涯與工作方法", "y": "2020", "k": 1}, {"n": "繁榮的悖論", "c": "商業與經營", "y": "2020", "k": 2}, {"n": "練習的心境", "c": "自我成長與思考", "y": "2020", "k": 1}, {"n": "絕對續訂", "c": "商業與經營", "y": "2020", "k": 1}, {"n": "精準決策", "c": "商業與經營", "y": "2020", "k": 1}, {"n": "窮查理的普通常識(周三)", "c": "理財與投資", "y": "2020", "k": 1}, {"n": "男人來自火星，女人來自金星", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "生活槓桿", "c": "職涯與工作方法", "y": "2020", "k": 1}, {"n": "槍炮、病菌與鋼鐵", "c": "人文社會與歷史", "y": "2020", "k": 1}, {"n": "最高學以致用法", "c": "自我成長與思考", "y": "2020", "k": 1}, {"n": "星座決定我愛你", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "數位形象力：平台就是你的資本和機會，經營個人品牌不能不知的技術與藝術", "c": "行銷與品牌", "y": "2020", "k": 1}, {"n": "教練", "c": "商業與經營", "y": "2020", "k": 2}, {"n": "我離開之後", "c": "健康與生活", "y": "2020", "k": 1}, {"n": "宣傳學", "c": "行銷與品牌", "y": "2020", "k": 1}, {"n": "姿勢決定你是誰", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "好好拜託", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "大器可以晚成", "c": "自我成長與思考", "y": "2020", "k": 1}, {"n": "壞男人的紅藥丸法則", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "執行力的修練", "c": "商業與經營", "y": "2020", "k": 1}, {"n": "圈粉法則", "c": "行銷與品牌", "y": "2020", "k": 1}, {"n": "告別玻璃心的十三件事", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "反脆弱", "c": "自我成長與思考", "y": "2020", "k": 1}, {"n": "個人品牌", "c": "行銷與品牌", "y": "2020", "k": 1}, {"n": "你可以不生氣", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "人際關係的藝術", "c": "心理與人際", "y": "2020", "k": 1}, {"n": "一流的人如何保持巔峰", "c": "自我成長與思考", "y": "2020", "k": 1}, {"n": "UX策略", "c": "設計與使用者體驗", "y": "2020", "k": 1}, {"n": "2030世界未來報告書", "c": "科技與數位", "y": "2020", "k": 1}, {"n": "電商從0到1", "c": "商業與經營", "y": "2019", "k": 1}, {"n": "隨機騙局", "c": "理財與投資", "y": "2019", "k": 1}, {"n": "過勞腦", "c": "健康與生活", "y": "2019", "k": 1}, {"n": "遊戲改變世界，讓現實更美好!", "c": "科技與數位", "y": "2019", "k": 1}, {"n": "遊戲化實戰全書", "c": "設計與使用者體驗", "y": "2019", "k": 3}, {"n": "跟錢好好相處", "c": "理財與投資", "y": "2019", "k": 1}, {"n": "說出影響力：3分鐘說一個好故事，不說理也能服人", "c": "職涯與工作方法", "y": "2019", "k": 1}, {"n": "設計心理學", "c": "設計與使用者體驗", "y": "2019", "k": 1}, {"n": "解憂雜貨店", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "行銷天才思考聖經", "c": "行銷與品牌", "y": "2019", "k": 1}, {"n": "蔡康永的情商課", "c": "心理與人際", "y": "2019", "k": 2}, {"n": "莊子：以自在之心開發無限潛能", "c": "人文社會與歷史", "y": "2019", "k": 1}, {"n": "與成功有約", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "給予", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "精實UX設計 Lean UX", "c": "設計與使用者體驗", "y": "2019", "k": 1}, {"n": "窮查理的普通常識", "c": "理財與投資", "y": "2019", "k": 5}, {"n": "社交天性", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "生活的藝術", "c": "健康與生活", "y": "2019", "k": 1}, {"n": "猶太媽媽這樣教思考", "c": "健康與生活", "y": "2019", "k": 1}, {"n": "牧羊少年奇幻之旅", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "照護的邏輯", "c": "健康與生活", "y": "2019", "k": 1}, {"n": "為愛徬徨的勇氣", "c": "心理與人際", "y": "2019", "k": 2}, {"n": "沒有資本的資本主義", "c": "人文社會與歷史", "y": "2019", "k": 1}, {"n": "決策的兩難", "c": "商業與經營", "y": "2019", "k": 1}, {"n": "機率陷阱", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "極簡閱讀", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "未來地圖", "c": "科技與數位", "y": "2019", "k": 1}, {"n": "新絕對成交", "c": "行銷與品牌", "y": "2019", "k": 1}, {"n": "教學的技術", "c": "職涯與工作方法", "y": "2019", "k": 1}, {"n": "把妹達人之謎男方法", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "房間裡最有智慧的人", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "我，跟自己拚了！：挪威最頂尖的心智訓練師讓你潛能發揮100％/我，跟自己拚了！2：挑戰地獄週，證明我可以！7天激發潛能100％，讓你人生很暢快！/我，跟自己拚了！3 當下！：把握每分每秒，讓你活得淋漓盡致！", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "我要心動一輩子", "c": "健康與生活", "y": "2019", "k": 1}, {"n": "我是GaryVee", "c": "行銷與品牌", "y": "2019", "k": 1}, {"n": "我們為何成為貓奴?這群食肉動物不僅佔領沙發，更要接管世界", "c": "人文社會與歷史", "y": "2019", "k": 1}, {"n": "情緒寄生：與自我和解的34則情感教育", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "心靈寫作", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "心流", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "幸運人生的四大心理學法則", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "師父", "c": "商業與經營", "y": "2019", "k": 1}, {"n": "寫作，是最好的自我投資", "c": "職涯與工作方法", "y": "2019", "k": 2}, {"n": "富爸爸，有錢有理", "c": "理財與投資", "y": "2019", "k": 1}, {"n": "學會改變", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "如果父母老後難相處：如何陪伴他們走過晚年，而不再彼此傷害？", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "大腦衝浪", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "哥說的不是星座,是人際關係", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "哈利波特終極哲學觀：麻瓜的霍格華茲", "c": "人文社會與歷史", "y": "2019", "k": 1}, {"n": "原子習慣", "c": "自我成長與思考", "y": "2019", "k": 3}, {"n": "原則", "c": "商業與經營", "y": "2019", "k": 1}, {"n": "再也沒有難談的事：哈佛法學院教你如何開口，解決切身的大小事", "c": "心理與人際", "y": "2019", "k": 1}, {"n": "共好與同贏", "c": "商業與經營", "y": "2019", "k": 1}, {"n": "做自己的生命設計師：史丹佛最夯的生涯規畫課，用「設計思考」重擬問題，打造全新生命藍圖", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "你，很好－接受過去的你，喜歡現在的自己", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "人生思考題", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "丟掉你的爛劇本", "c": "自我成長與思考", "y": "2019", "k": 1}, {"n": "一人公司", "c": "商業與經營", "y": "2019", "k": 1}, {"n": "重建生命的內在模式", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "輕鬆駕馭意志力", "c": "自我成長與思考", "y": "2018", "k": 1}, {"n": "誰說人是理性的", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "說話的品格：把真心放入話中的24個練習", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "被誤解的犯罪學", "c": "人文社會與歷史", "y": "2018", "k": 1}, {"n": "行銷前必修的購物心理學", "c": "行銷與品牌", "y": "2018", "k": 1}, {"n": "蘋果橘子經濟學", "c": "人文社會與歷史", "y": "2018", "k": 1}, {"n": "脆弱的力量", "c": "心理與人際", "y": "2018", "k": 2}, {"n": "真確", "c": "人文社會與歷史", "y": "2018", "k": 1}, {"n": "王牌大律師", "c": "人文社會與歷史", "y": "2018", "k": 1}, {"n": "為什麼人這麼難懂", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "漣漪詞", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "更快樂：哈佛最受歡迎的一堂課", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "日本溝通大師教你生氣的技術", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "斜槓青年", "c": "職涯與工作方法", "y": "2018", "k": 2}, {"n": "打開大家的Evernote筆記本", "c": "科技與數位", "y": "2018", "k": 1}, {"n": "心靈寫作：創造你的異想世界", "c": "自我成長與思考", "y": "2018", "k": 1}, {"n": "影響力", "c": "心理與人際", "y": "2018", "k": 2}, {"n": "寫給每個人的社會學讀本", "c": "人文社會與歷史", "y": "2018", "k": 1}, {"n": "寫作吧!你值得被看見", "c": "職涯與工作方法", "y": "2018", "k": 1}, {"n": "如何閱讀一本書", "c": "自我成長與思考", "y": "2018", "k": 1}, {"n": "培養寫作力的6項修練", "c": "職涯與工作方法", "y": "2018", "k": 1}, {"n": "卡內基溝通與人際關係", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "內向心理學", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "人類圖：區分的科學", "c": "自我成長與思考", "y": "2018", "k": 1}, {"n": "不斷幸福論", "c": "心理與人際", "y": "2018", "k": 1}, {"n": "上台的技術", "c": "職涯與工作方法", "y": "2018", "k": 1}, {"n": "About Face 4：交互設計精髓", "c": "設計與使用者體驗", "y": "2018", "k": 1}, {"n": "21世紀的21堂課", "c": "人文社會與歷史", "y": "2018", "k": 1}, {"n": "設計的心理學", "c": "設計與使用者體驗", "y": "2017", "k": 1}, {"n": "我是誰？如果有我，有幾個我？", "c": "人文社會與歷史", "y": "2017", "k": 1}, {"n": "大腦拒絕不了的行銷", "c": "行銷與品牌", "y": "2017", "k": 1}, {"n": "刻意練習", "c": "自我成長與思考", "y": "2017", "k": 2}, {"n": "做自己的生命設計師", "c": "自我成長與思考", "y": "2017", "k": 2}, {"n": "愛的業力法則", "c": "自我成長與思考", "y": "", "k": 1}];
+(function(){
+  const list=document.getElementById("bkList"); if(!list)return;
+  const q=document.getElementById("bkQ"), cats=document.getElementById("bkCats"),
+        cnt=document.getElementById("bkCount"), moreW=document.getElementById("bkMoreWrap"),
+        more=document.getElementById("bkMore");
+  let fc="all", shown=40;
+  const allCats=[...new Set(BOOKLIST.map(b=>b.c).filter(Boolean))];
+  cats.innerHTML='<button class="chip" type="button" data-c="all" aria-pressed="true">全部領域</button>'+
+    allCats.map(c=>'<button class="chip" type="button" data-c="'+c+'" aria-pressed="false">'+c+'</button>').join("");
+  function filtered(){
+    const kw=(q.value||"").trim().toLowerCase();
+    return BOOKLIST.filter(b=>(fc==="all"||b.c===fc)&&(!kw||b.n.toLowerCase().indexOf(kw)>-1));
+  }
+  function render(){
+    const arr=filtered();
+    list.innerHTML=arr.slice(0,shown).map(b=>'<div class="bkr"><span class="bkr__y">'+(b.y||"—")+'</span>'+
+      '<span class="bkr__n">'+b.n+(b.k>1?' <span class="bkr__k">×'+b.k+' 場</span>':'')+'</span>'+
+      '<span class="bkr__c">'+(b.c||"")+'</span></div>').join("")||
+      '<div class="empty">找不到符合的書目。</div>';
+    cnt.textContent="顯示 "+Math.min(shown,arr.length)+" / "+arr.length+" 本";
+    moreW.hidden = arr.length<=shown;
+  }
+  cats.addEventListener("click",e=>{
+    const b=e.target.closest("[data-c]"); if(!b)return;
+    fc=b.dataset.c; shown=40;
+    cats.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",String(c===b)));
+    render();
+  });
+  q.addEventListener("input",()=>{shown=40;render();});
+  more.addEventListener("click",()=>{shown+=60;render();});
+  render();
+})();
+
+
+const FIVEW=[
+ {l:"人",h:"誰一起讀",p:"找到願意固定出席的夥伴，先講清楚誰是正式成員、誰是旁聽。",i:["正式成員每人都要有貢獻","旁聽同一書聚最多 2 次","4～8 人是好討論的規模"]},
+ {l:"事",h:"讀什麼、怎麼讀",p:"決定書目與導讀方式：輪流導讀、分章認領，或每次一個主題。",i:["提出想讀的書並做推薦調查","決定導讀方式與分工","討論比講述重要"]},
+ {l:"時",h:"多久聚一次",p:"決定頻率與時段，並排進社團行事曆讓大家找得到。",i:["隔雙週／隔三週／隔月皆可","一團至少 4 次，含行前會","正式成員出席率至少 7 成"]},
+ {l:"地",h:"在哪裡聚",p:"挑一個能安靜討論、待得久的地方；社團有常用場地清單。",i:["咖啡廳、共享空間、圖書館皆可","確認低消、時段與插座","線上也可以，但先說好形式"]},
+ {l:"物",h:"要準備什麼",p:"書、導讀素材，以及結束後的收尾工作。",i:["書由成員自行準備","導讀人備簡報或討論提綱","結束後由主揪申請徽章"]}
+];
+(document.getElementById("fiveW")||{}).innerHTML=FIVEW.map((f,n)=>
+ '<div class="five__i"><span class="five__hd">'+
+ '<span class="five__ic"><img src="'+(IMG["f"+(n+1)]||"")+'" alt="" loading="lazy"></span>'+
+ '<span class="five__l">'+f.l+'</span></span>'+
+ '<h4>'+f.h+'</h4><p>'+f.p+'</p><ul>'+
+ f.i.map(x=>'<li>'+x+'</li>').join("")+'</ul></div>').join("");
+
+const RULES_HTML=RULES.map((r,n)=>
+ '<article class="rulex'+(r.key?" rulex--key":"")+'"><div class="rulex__h">'+
+ '<span class="rulex__ic"><img src="'+(IMG["r"+(n+1)]||"")+'" alt="" loading="lazy"></span>'+
+ '<span class="rulex__n">'+String(n+1).padStart(2,"0")+'</span><h4>'+r.h+'</h4></div><ul>'+
+ r.i.map(x=>'<li>'+x+'</li>').join("")+'</ul></article>').join("");
+(document.getElementById("rulesGrid")||{}).innerHTML=RULES_HTML;
+(document.getElementById("rulesGrid2")||{}).innerHTML=RULES_HTML;
+
+const GAL_KEYS=Object.keys(IMG).filter(k=>/^g\d+$/.test(k));
+function buildGal(el,keys){
+ if(!el)return;
+ el.innerHTML=keys.map((k,i)=>'<button type="button" data-g="'+k+'" aria-label="放大第 '+(i+1)+' 張活動照片"></button>').join("");
+ el.querySelectorAll("button").forEach(b=>{
+  const im=new Image(); im.src=IMG[b.dataset.g]; im.alt="HPX 高雄讀書會活動照片"; im.loading="lazy";
+  const on=()=>im.classList.add("on"); im.onload=on; if(im.complete)on(); b.appendChild(im);
+ });
+ el.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-g]"); if(!b)return;
+  const lb=document.createElement("div"); lb.className="lb";
+  lb.innerHTML='<img src="'+IMG[b.dataset.g]+'" alt="HPX 高雄讀書會活動照片"><button type="button">關閉</button>';
+  const close=()=>lb.remove();
+  lb.addEventListener("click",ev=>{if(ev.target===lb||ev.target.tagName==="BUTTON")close();});
+  document.addEventListener("keydown",function esc(ev){if(ev.key==="Escape"){close();document.removeEventListener("keydown",esc);}});
+  document.body.appendChild(lb); lb.querySelector("button").focus();
+ });
+}
+buildGal(document.getElementById("galAll"),GAL_KEYS);
+
+
+
+/* ══ 首頁區塊 ══ */
+const NINE_IC={"01": "assets/01.webp", "02": "assets/02.webp", "03": "assets/03.webp", "04": "assets/04.webp", "05": "assets/05.webp", "06": "assets/06.webp", "07": "assets/07.webp", "08": "assets/08.webp", "09": "assets/09.webp"};
+const NINE_S={"01":"第一次來，先從這裡認識大家","02":"一本書，用幾次聚會慢慢讀完","03":"每月一本，導讀加上小組討論",
+"04":"閱讀 × 美食、運動的跨界聚會","05":"十分鐘，說一本書或一個觀點","06":"社團裡的專業人士談實務經驗",
+"07":"邀請外部講師的公開分享場","08":"桌遊、野餐、爬山的生活場","09":"年度盛會，各書聚一起交會"};
+const _t=document.getElementById("typeCardsHome");
+if(_t&&typeof TYPES!=="undefined"){
+  _t.innerHTML=TYPES.map(t=>'<a href="#/meetups" title="'+NINE_S[t.no]+'">'+'<span class="nine__ic"><img src="'+NINE_IC[t.no]+'" alt="" loading="lazy"></span>'+'<b>'+t.zh+'</b></a>').join("");
+}
+(document.getElementById("typeCards")||{}).innerHTML=TYPES.map(t=>
+ '<article class="cardx"><div class="cardx__top">'+
+ '<span class="cardx__ic"><img src="'+(NINE_IC[t.no]||"")+'" alt="" loading="lazy"></span>'+
+ '<span class="cardx__no">'+t.no+'</span><h4>'+t.zh+'</h4></div>'+
+ '<span class="cardx__en">'+t.en+'</span><p>'+t.d+'</p>'+
+ (t.note?'<span class="cardx__note">'+t.note+'</span>':'')+'</article>').join("");
+
+const _m=document.getElementById("mileHome");
+if(_m&&typeof MILE!=="undefined"){
+  _m.innerHTML=MILE.map(m=>'<li class="'+(m.c||'')+'"><time>'+m.d+'</time><b>'+m.t+'</b>'+(m.s?'<span>'+m.s+'</span>':'')+'</li>').join("");
+}
+
+const BOOKSTATS=[{"k": "自我成長與思考", "v": 59}, {"k": "心理與人際", "v": 58}, {"k": "人文社會與歷史", "v": 34}, {"k": "職涯與工作方法", "v": 28}, {"k": "商業與經營", "v": 22}, {"k": "健康與生活", "v": 19}, {"k": "理財與投資", "v": 19}, {"k": "行銷與品牌", "v": 11}, {"k": "設計與使用者體驗", "v": 9}, {"k": "科技與數位", "v": 7}];
+(function(){
+  const el=document.getElementById("bookStats"); if(!el)return;
+  const tot=BOOKSTATS.reduce((a,b)=>a+b.v,0), max=BOOKSTATS[0].v;
+  el.innerHTML=BOOKSTATS.map(r=>'<div class="brow"><span class="brow__k">'+r.k+'</span>'+
+    '<span class="brow__bar"><i style="width:'+(r.v/max*100).toFixed(1)+'%"></i></span>'+
+    '<span class="brow__v"><b>'+r.v+'</b> 場　'+(r.v/tot*100).toFixed(1)+'%</span></div>').join("");
+})();
+
+/* ══ 主視覺輪播 ══ */
+(function(){
+  const wrap=document.getElementById("heroSlides"), dots=document.getElementById("heroDots");
+  if(!wrap||!dots)return;
+  const slides=[...wrap.children]; if(slides.length<2){dots.remove();return;}
+  let i=0,timer=null;
+  dots.innerHTML=slides.map((_,k)=>'<button type="button" role="tab" aria-selected="'+(k===0)+'" aria-label="第 '+(k+1)+' 張"></button>').join("");
+  const btns=[...dots.children];
+  function go(k){
+    i=(k+slides.length)%slides.length;
+    slides.forEach((s,n)=>s.classList.toggle("is-on",n===i));
+    btns.forEach((b,n)=>b.setAttribute("aria-selected",String(n===i)));
+  }
+  function start(){stop();timer=setInterval(()=>go(i+1),6000);}
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+  btns.forEach((b,k)=>b.addEventListener("click",()=>{go(k);start();}));
+
+  /* 滑動 / 拖曳切換 */
+  let x0=null,y0=null,drag=false;
+  const TH=40;
+  const down=(x,y)=>{x0=x;y0=y;drag=true;stop();};
+  const up=x=>{
+    if(!drag||x0===null){drag=false;return;}
+    const dx=x-x0; drag=false; x0=null;
+    if(Math.abs(dx)>TH) go(dx<0?i+1:i-1);
+    else go(i+1);            /* 點一下／輕觸 → 下一張 */
+    start();
+  };
+  wrap.addEventListener("touchstart",e=>{const t=e.changedTouches[0];down(t.clientX,t.clientY);},{passive:true});
+  wrap.addEventListener("touchend",e=>{const t=e.changedTouches[0];
+    if(y0!==null&&Math.abs(t.clientY-y0)>Math.abs(t.clientX-x0)){drag=false;x0=null;start();return;}
+    up(t.clientX);},{passive:true});
+  wrap.addEventListener("mousedown",e=>{e.preventDefault();down(e.clientX,e.clientY);});
+  window.addEventListener("mouseup",e=>{if(drag)up(e.clientX);});
+  wrap.style.cursor="pointer";
+  wrap.addEventListener("mousedown",()=>wrap.style.cursor="grabbing");
+  wrap.setAttribute("role","group");
+  wrap.setAttribute("aria-label","主視覺，可左右滑動或點擊切換");
+  window.addEventListener("mouseup",()=>wrap.style.cursor="pointer");
+  dots.addEventListener("keydown",e=>{
+    if(e.key==="ArrowRight"){go(i+1);start();}
+    if(e.key==="ArrowLeft"){go(i-1);start();}
+  });
+  wrap.addEventListener("mouseenter",stop); wrap.addEventListener("mouseleave",start);
+  document.addEventListener("visibilitychange",()=>document.hidden?stop():start());
+  if(!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches)) start();
+})();
+
+/* ══ 里程碑捲動動畫 ══ */
+(function(){
+  const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  document.querySelectorAll(".mile").forEach(ol=>{
+    if(!ol.children.length)return;
+    ol.classList.add("rv");
+    const items=[...ol.children];
+    if(reduce||!("IntersectionObserver" in window)){
+      ol.classList.add("in"); items.forEach(li=>li.classList.add("in")); return;
+    }
+    items.forEach((li,i)=>li.style.transitionDelay=(i*110)+"ms");
+    const io=new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(!e.isIntersecting)return;
+        if(e.target===ol){ol.classList.add("in");}
+        else{e.target.classList.add("in");}
+        io.unobserve(e.target);
+      });
+    },{threshold:.15,rootMargin:"0px 0px -8% 0px"});
+    io.observe(ol); items.forEach(li=>io.observe(li));
+  });
+})();
+const _n=document.getElementById("notsHome");
+if(_n&&typeof NOTS!=="undefined"){
+  _n.innerHTML=NOTS.map(n=>'<div class="nots__i"><b>'+n.b+'</b><p>'+n.p+'</p></div>').join("");
+}
+const _w=document.getElementById("why");
+if(_w){
+  _w.innerHTML=[
+   {n:"01",h:"以書會友，交流分享",p:"不同領域的人因為一本書相遇。這就是 HPX 那個 X 的意思——Cross，交會。"},
+   {n:"02",h:"結合實務，提升職能",p:"讀完不是結束。一本書經過導讀、討論與實作，才會真正變成某個人的行動。"},
+   {n:"03",h:"組別自治，節奏自訂",p:"每個組別讀不同的書，自行決定導讀方式、頻率、時間與地點。誰都可以揪團。"},
+   {n:"04",h:"規律學習，彼此督促",p:"每個書聚至少 4 次，正式成員出席率至少 7 成。有結構，才走得遠。"}
+  ].map((w,i)=>'<div class="why__i"><span class="vsic"><img src="'+(IMG["vs_y"+(i+1)]||"")+'" alt="" loading="lazy"></span>'+
+   '<div class="why__tx"><h4>'+w.h+'</h4><p>'+w.p+'</p></div></div>').join("");
+}
+
+
+/* ══ 手機選單 ══ */
+const navBtn=document.getElementById("navbtn"),navEl=document.getElementById("nav");
+const isMobile=()=>matchMedia("(max-width:820px)").matches;
+function syncNav(open){
+  if(!isMobile()){navEl.hidden=false;navBtn.setAttribute("aria-expanded","false");return;}
+  navEl.hidden=!open; navBtn.setAttribute("aria-expanded",String(!!open));
+  navBtn.textContent=open?"關閉":"選單";
+}
+navBtn.addEventListener("click",()=>syncNav(navEl.hidden));
+navEl.addEventListener("click",e=>{if(e.target.closest("a"))syncNav(false);});
+addEventListener("resize",()=>syncNav(false));
+syncNav(false);
+
+
+/* ══ 通用子分頁切換 ══ */
+document.querySelectorAll("[data-tabs]").forEach(group=>{
+  const tabs=[...group.querySelectorAll(".tab")];
+  const panes=tabs.map(t=>document.getElementById(t.getAttribute("aria-controls")));
+  const pick=i=>tabs.forEach((t,j)=>{
+    t.setAttribute("aria-selected",String(j===i));
+    if(panes[j])panes[j].hidden=j!==i;
+  });
+  tabs.forEach((t,i)=>{
+    t.addEventListener("click",()=>pick(i));
+    t.addEventListener("keydown",e=>{
+      if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;
+      e.preventDefault();
+      const n=(i+(e.key==="ArrowRight"?1:tabs.length-1))%tabs.length;
+      tabs[n].focus(); pick(n);
+    });
+  });
+  pick(0);
+});
+
+
+
+addEventListener("hashchange",route);
+route();
+</script>
