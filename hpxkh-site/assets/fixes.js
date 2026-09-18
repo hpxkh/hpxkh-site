@@ -1,21 +1,16 @@
-/* 前端小調整。等 index.html 整理過後可以併回原始碼。
+/* 前端版面調整。等 index.html 整理過後可以併回原始碼。
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：把「我們讀些什麼」併進「歷年書聚書單」
    3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
-   5. 新人指引：拿掉 Part 01／02，改小標記；兩段說明重寫
+   5. 新人指引：拿掉 Part 01／02，改小標記
    6. 首頁與新人指引補上「加入社團申請」的入口
    7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註
 
-   單純改某一句話，不要動這個檔案 —— 加到 assets/copy.js 的替換表就好。 */
+   ★ 只是要改某一句話的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
 (function () {
-  /* 新人指引兩個分頁的開場說明（key 是該區塊的 h3） */
-  var START_TX = {
-    '先當一次參加者':
-      '先挑一場有興趣的書聚，旁聽或正式參加都可以。什麼都不用準備，下面是三個階段、八個步驟。',
-    '我想開書聚':
-      '沒參加過書聚也可以直接發起，已經參加過幾次、想自己揪一團當然更好——只要你是社員，都能辦一場。下面是完整流程和會用到的表單。'
-  };
+  var TX = window.HPXKH_TX || {};          // 文字都放在 copy.js
+  var START_TX = TX.start || {};
 
   function fix(root) {
     if (!root) return;
@@ -85,15 +80,9 @@
     old.parentNode.replaceChild(box, old);
 
     var note = document.querySelector('.hpx__note');
-    if (note) {
+    if (note && TX.hpxNote) {
       note.className = '';
-      note.innerHTML =
-        '<p class="hpx2__n">深色的字是 <b>HPX 1.0（2009 起）</b>：Happy People Cross——' +
-        '一群人因為一本書相遇，開心地交會。<em>橘色的字</em>是 <b>HPX 2.0（2020 起）</b>' +
-        '在原本三個字上再長出來的一層：不只交流，也把讀到的東西變成計畫、練習與連結。</p>' +
-        '<p class="hpx2__n">不論哪一個版本，<strong>X 都是交會</strong>：Planner、Prototyper、Producer、' +
-        'Project Manager、Product Manager、Programmer、Professor、Person、People、Player⋯⋯' +
-        '全部都是 P，全部在這裡交叉。</p>';
+      note.innerHTML = TX.hpxNote;
     }
   }
 
@@ -154,12 +143,11 @@
     }
 
     var top = document.querySelector('[data-pg="start"] .top');
-    if (top && !top.querySelector('[data-join-note]')) {
+    if (top && !top.querySelector('[data-join-note]') && TX.startJoin) {
       var p = document.createElement('p');
       p.className = 'start__join';
       p.setAttribute('data-join-note', '');
-      p.innerHTML = '還沒加入社團嗎？先到「<a href="#/docs">加入社團申請</a>」' +
-        '填一份自我介紹，送出後再回來看這一頁。';
+      p.innerHTML = TX.startJoin;
       top.appendChild(p);
     }
   }
@@ -207,11 +195,11 @@
     }
 
     // 剩下的「我們是什麼、不是什麼」：分頁名與說明句改寫
-    if (tab2) tab2.textContent = '適不適合你';
+    if (tab2 && TX.aboutTab) tab2.textContent = TX.aboutTab;
     var rest = p2.querySelector('.blk__h');
-    if (rest) {
+    if (rest && TX.aboutVsLede) {
       var p = rest.querySelector('p');
-      if (p) p.textContent = '兩邊都先說清楚，你比較好判斷要不要來。';
+      if (p) p.textContent = TX.aboutVsLede;
     }
   }
 
