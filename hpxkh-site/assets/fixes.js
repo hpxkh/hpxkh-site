@@ -3,13 +3,22 @@
    2. 社團書聚：把「我們讀些什麼」併進「歷年書聚書單」
    3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
-   5. 文案替換表（COPY）：要改哪一句就加一列 */
+   5. 新人指引：拿掉 Part 01／02，改小標記；兩段說明重寫
+   6. 文案替換表（COPY）：要改哪一句就加一列 */
 (function () {
   /* 要改的句子加在這裡：[原句, 新句]。整站文字節點一次換掉。 */
   var COPY = [
     ['分成兩條路線：先當參加者，或直接開一場自己的書聚。選一個開始就好。',
      '兩條路都可以走：先當參加者，或自己發起一場書聚。選一個方向開始就好。']
   ];
+
+  /* 新人指引兩個分頁的開場說明（key 是該區塊的 h3） */
+  var START_TX = {
+    '先當一次參加者':
+      '先挑一場有興趣的書聚，旁聽或正式參加都可以。什麼都不用準備，下面是三個階段、八個步驟。',
+    '我想開書聚':
+      '沒參加過書聚也可以直接發起，已經參加過幾次、想自己揪一團當然更好——只要你是社員，都能辦一場。下面是完整流程和會用到的表單。'
+  };
 
   function fix(root) {
     if (!root) return;
@@ -29,6 +38,45 @@
       for (i = 0; i < COPY.length; i++) {
         if (n.nodeValue.indexOf(COPY[i][0]) !== -1) {
           n.nodeValue = n.nodeValue.split(COPY[i][0]).join(COPY[i][1]);
+        }
+      }
+    }
+  }
+
+  /* 新人指引：兩個分頁是「二選一」，不是先後順序，
+     標成 Part 01 / Part 02 反而像是要照順序做完。
+     改成一個小橘色菱形標記，整段往左靠齊標題。 */
+  function tidyStart() {
+    var parts = document.querySelectorAll('[data-pg="start"] .part');
+    if (!parts.length || document.getElementById('startTidy')) return;
+
+    var s = document.createElement('style');
+    s.id = 'startTidy';
+    s.textContent =
+      '[data-pg="start"] .part{gap:12px;align-items:flex-start}' +
+      '[data-pg="start"] .part__k{display:none}' +
+      '[data-pg="start"] .part__m{flex:0 0 auto;width:9px;height:9px;border-radius:2px;' +
+        'background:var(--orange,#EF8200);transform:rotate(45deg);' +
+        'margin-top:calc(clamp(18px,2.3vw,23px) * .5 - 4px)}' +
+      '[data-pg="start"] .part__t p{max-width:60ch;text-wrap:pretty}';
+    document.head.appendChild(s);
+
+    for (var i = 0; i < parts.length; i++) {
+      var k = parts[i].querySelector('.part__k');
+      if (k) k.parentNode.removeChild(k);
+      if (!parts[i].querySelector('.part__m')) {
+        var m = document.createElement('span');
+        m.className = 'part__m';
+        m.setAttribute('aria-hidden', 'true');
+        parts[i].insertBefore(m, parts[i].firstChild);
+      }
+      var h = parts[i].querySelector('h3');
+      var p = parts[i].querySelector('p');
+      if (h && p) {
+        var tx = START_TX[h.textContent.trim()];
+        if (tx) {
+          p.textContent = tx;
+          p.classList.remove('part__p1');     // 原本設了 nowrap，新文字較長
         }
       }
     }
@@ -136,6 +184,7 @@
     fix(document.querySelector('footer'));
     fix(document.getElementById('contactCards'));
     copy();
+    tidyStart();
     mergeBooks();
     mergeAbout();
     upgradeJoinForm();
