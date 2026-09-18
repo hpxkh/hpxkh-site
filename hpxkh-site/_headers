@@ -1,18 +1,35 @@
 # 快取規則
 #
-# 預設 Cloudflare Pages 會把靜態檔快取 4 小時，導致改版後訪客
-# 仍載入舊的程式碼。這裡把會變動的檔案改成「每次都跟伺服器確認」，
-# 內容沒變時伺服器回 304，幾乎不耗流量；不會變的圖片則維持長快取。
+# Cloudflare Pages 預設把靜態檔快取 4 小時，改版後訪客會繼續載入舊程式碼。
+# 這裡把會變動的檔案改成「每次跟伺服器確認」，內容沒變時回 304，幾乎不耗流量。
+# 圖片檔名固定、內容不再變動，維持一年長快取。
 
-/assets/*.js
+/assets/calendar.js
   Cache-Control: public, max-age=0, must-revalidate
 
-/assets/*.css
+/assets/fixes.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/app.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/app-1.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/app-2.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/app-3.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/data-sess.js
   Cache-Control: public, max-age=0, must-revalidate
 
 /favicon.svg
   Cache-Control: public, max-age=0, must-revalidate
 
-# 圖片檔名固定、內容不再變動，快取一年
+/favicon.ico
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/*.webp
   Cache-Control: public, max-age=31536000, immutable
