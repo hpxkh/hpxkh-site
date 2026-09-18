@@ -4,6 +4,8 @@
  */
 const ICS = 'https://calendar.google.com/calendar/ical/kaohsiunghpx%40gmail.com/public/basic.ics';
 const MAX_RECUR = 60;
+/** 不對外顯示的內部行程（標題含這些字就略過） */
+const HIDE = ['任勞任怨'];
 
 function unfold(text) {
   return text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '').replace(/\r\n/g, '\n');
@@ -91,6 +93,7 @@ function parse(ics) {
     }
     if (title.startsWith('【') && title.endsWith('】')) title = title.slice(1, -1).trim();
     if (!title) continue;
+    if (HIDE.some(function (k) { return title.indexOf(k) !== -1; })) continue;
 
     const rr = /^RRULE:(.+)$/m.exec(b);
     const stamps = rr ? expand(st.date, rr[1]) : [st.date];
