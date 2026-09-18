@@ -3,7 +3,7 @@
 hpxkh-site 建置腳本（由 GitHub Actions 執行，可重複執行）
 
 1. 把 index.html 內嵌的 <style> / <script> 拆成 assets/ 底下的獨立檔案
-2. 從社團公開行事曆抓取近期場次，重新產生行事曆頁的文字清單
+2. 產生行事曆頁：靜態的近期場次清單（SEO / 無 JavaScript 用）＋ 互動月曆掛載點
 3. 補齊 <head> 必要標籤
 
 沒有變動時不寫入任何檔案。
@@ -16,15 +16,12 @@ INDEX = os.path.join(ROOT, 'index.html')
 ASSETS = os.path.join(ROOT, 'assets')
 
 ICS = 'https://calendar.google.com/calendar/ical/kaohsiunghpx%40gmail.com/public/basic.ics'
-EMBED = ('https://calendar.google.com/calendar/embed?src=kaohsiunghpx%40gmail.com'
-         '&amp;ctz=Asia%2FTaipei&amp;mode=MONTH&amp;showTitle=0&amp;showPrint=0'
-         '&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;wkst=2&amp;bgcolor=%23ffffff')
 
 BEGIN = '<!-- CAL:BEGIN 由 tools/build.py 自動產生，請勿手動編輯 -->'
 END = '<!-- CAL:END -->'
 
 EXTRA_CSS = '''
-/* ══ 行事曆頁 ══ */
+/* ══ 行事曆頁：靜態清單 ══ */
 .up{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
 .up__i{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:4px 16px;
   padding:14px 2px;border-bottom:1px solid var(--hair)}
@@ -61,7 +58,7 @@ def fetch_events():
             continue
         title = s.group(1).strip().replace('\\,', ',').replace('\\;', ';').replace('\\n', ' ')
         host = ''
-        hm = re.search(r'[（(]\s*主辦人\s*[:：]\s*(.*?)\s*[）)]', title)
+        hm = re.search(r'[（(]\s*(?:主辦人|主辦|主揪|導讀人|導讀)\s*[:：]\s*(.*?)\s*[）)]', title)
         if hm:
             host = hm.group(1).strip()
             title = title[:hm.start()].strip()
@@ -72,6 +69,8 @@ def fetch_events():
 
 
 def calendar_block(events):
+    """靜態的近期場次清單（給搜尋引擎與未啟用 JavaScript 的訪客）。
+    assets/calendar.js 載入成功後會把 #calMount 換成可翻月的互動月曆。"""
     wd = '一二三四五六日'
     rows = []
     for d, title, host in events:
@@ -83,27 +82,23 @@ def calendar_block(events):
             f'<span class="up__t">{html.escape(title)}</span>'
             + (f'<span class="up__h">{html.escape(host)}</span>' if host else '')
             + '</li>')
-    body = '\n'.join(rows) if rows else '        <li class="up__i"><span class="up__t">近期尚無已排定的活動，請看下方月曆。</span></li>'
+    body = '\n'.join(rows) if rows else '        <li class="up__i"><span class="up__t">近期尚無已排定的活動。</span></li>'
     stamp = datetime.date.today().isoformat()
-    return f'''{BEGIN}
+    return f"""{BEGIN}
   <section class="blk pad">
-    <div class="blk__h"><h3>近期場次</h3><p>接下來已經排定的活動。點下方月曆可看完整行程與細節。</p></div>
-    <ul class="up">
+    <div id="calMount">
+      <div class="blk__h"><h3>近期場次</h3><p>接下來已經排定的活動。</p></div>
+      <ul class="up">
 {body}
-    </ul>
-    <p class="up__note">資料更新於 {stamp}，以行事曆上的內容為準。</p>
-  </section>
-  <section class="blk pad">
-    <div class="blk__h"><h3>完整月曆</h3></div>
-    <div class="calwrap">
-      <iframe src="{EMBED}" title="HPX 高雄讀書會行事曆" loading="lazy" style="border:0" frameborder="0" scrolling="no"></iframe>
+      </ul>
+      <p class="up__note">靜態清單更新於 {stamp}。
+        <a href="https://hpxkh.pse.is/hpxkh_calendar" target="_blank" rel="noopener">開啟完整行事曆 →</a></p>
     </div>
-    <p class="up__note"><a href="https://hpxkh.pse.is/hpxkh_calendar" target="_blank" rel="noopener">在新分頁開啟行事曆 →</a></p>
   </section>
   <section class="blk pad">
     <div class="blk__h"><h3>訂閱到自己的日曆</h3><p>在月曆右下角點「＋ Google 日曆」，之後社團新增的活動就會自動同步，不必每次回來查。</p></div>
   </section>
-{END}'''
+{END}"""
 
 
 def main():
@@ -162,6 +157,11 @@ def main():
         else:
             end = src.index('</div>\n\n<!-- 文件表單 -->', start)
             src = src[:start] + block + '\n' + src[end:]
+
+    # ---- 3b. 掛上互動月曆 ----
+    if 'assets/calendar.js' not in src:
+        src = src.replace('</body>', '<script src="assets/calendar.js"></script>\n</body>', 1) \
+            if '</body>' in src else src + '\n<script src="assets/calendar.js"></script>\n'
 
     # ---- 4. head ----
     head = ''
