@@ -19,7 +19,6 @@
     '.cal__b{font:inherit;font-size:13px;letter-spacing:.04em;cursor:pointer;background:transparent;color:var(--cal-ink);' +
       'border:1px solid var(--cal-line);border-radius:999px;padding:7px 14px;line-height:1;transition:.15s}' +
     '.cal__b:hover{border-color:var(--cal-ink)}' +
-    '.cal__b[disabled]{opacity:.35;cursor:default}' +
     '.cal__grid{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--cal-line);border-left:1px solid var(--cal-line)}' +
     '.cal__wd{padding:8px 6px;text-align:center;font-size:11.5px;letter-spacing:.1em;color:var(--cal-dim);' +
       'border-right:1px solid var(--cal-line);border-bottom:1px solid var(--cal-line);background:var(--cal-bg)}' +
@@ -34,7 +33,11 @@
       'border-left:2px solid var(--cal-key);padding:3px 5px;overflow:hidden;text-overflow:ellipsis;' +
       'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}' +
     '.cal__more{font-size:11px;color:var(--cal-dim)}' +
-    '.cal__note{margin-top:12px;font-size:12.5px;color:var(--cal-dim)}' +
+    '.cal__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:16px}' +
+    '.cal__subb{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;letter-spacing:.04em;text-decoration:none;' +
+      'color:#fff;background:var(--cal-key);border:1px solid var(--cal-key);border-radius:999px;padding:10px 20px;transition:.15s}' +
+    '.cal__subb:hover{filter:brightness(1.06)}' +
+    '.cal__note{font-size:12.5px;color:var(--cal-dim);margin:0}' +
     '.cal__fb{border:1px solid var(--cal-line);background:#fff;height:min(78vh,720px);overflow:hidden}' +
     '.cal__fb iframe{width:100%;height:100%;display:block;border:0}' +
     '@media (max-width:760px){' +
@@ -44,7 +47,15 @@
       '.cal__c--today .cal__n{width:18px;height:18px;font-size:11px}' +
       '.cal__e{font-size:8.5px;line-height:1.25;padding:2px 3px;border-left-width:2px;-webkit-line-clamp:3}' +
       '.cal__more{font-size:9px}' +
+      '.cal__foot{flex-direction:column;align-items:stretch}' +
+      '.cal__subb{justify-content:center}' +
     '}';
+
+  function FOOT(note) {
+    return '<div class="cal__foot">' +
+      '<a class="cal__subb" href="' + SUB + '" target="_blank" rel="noopener">＋ 訂閱到自己的日曆</a>' +
+      '<span class="cal__note">' + note + '</span></div>';
+  }
 
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
@@ -66,9 +77,7 @@
     if (failed) {
       // 讀取失敗時退回 Google 內嵌月曆，畫面不會開天窗
       host.innerHTML = '<div class="cal__fb"><iframe title="HPX 高雄讀書會行事曆" loading="lazy" src="' +
-        EMBED + '"></iframe></div>' +
-        '<p class="cal__note">目前改以 Google 月曆顯示。' +
-        '<a href="' + SUB + '" target="_blank" rel="noopener">訂閱到自己的日曆 →</a></p>';
+        EMBED + '"></iframe></div>' + FOOT('目前改以 Google 月曆顯示。');
       return;
     }
     var y = cur.getFullYear(), m = cur.getMonth();
@@ -111,8 +120,7 @@
         WD.map(function (w) { return '<div class="cal__wd">' + w + '</div>'; }).join('') +
         cells +
       '</div>' +
-      '<p class="cal__note">資料直接讀取社團 Google 行事曆。' +
-      '<a href="' + SUB + '" target="_blank" rel="noopener">訂閱到自己的日曆 →</a></p>';
+      FOOT('直接讀取社團 Google 行事曆，社團那邊一更新這裡就會跟著變。');
 
     host.querySelectorAll('[data-go]').forEach(function (b) {
       b.addEventListener('click', function () {
