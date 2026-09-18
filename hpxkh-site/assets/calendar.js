@@ -41,6 +41,7 @@
     '.cal__e{font-size:11.5px;line-height:1.35;color:var(--cal-ink);background:var(--cal-bg);' +
       'border-left:3px solid var(--cal-key);padding:3px 5px 3px 6px;overflow:hidden;text-overflow:ellipsis;' +
       'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}' +
+    '.cal__cont{color:var(--cal-dim);margin-right:3px}' +
     '.cal__more{font-size:11px;color:var(--cal-dim)}' +
     '.cal__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:16px}' +
     '.cal__subb{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;letter-spacing:.04em;text-decoration:none;' +
@@ -163,8 +164,11 @@
       var evs = key ? mine.filter(function (e) { return e.d === key; }) : [];
       var body = evs.slice(0, 2).map(function (e) {
         var c = cmap[e.t] || PAL[0];
+        var cont = e.n && e.i > 1;   // 跨日活動的第二天之後
         return '<span class="cal__e" style="border-left-color:' + c + ';background:' + tint(c, '.10') + '"' +
-          ' title="' + esc(e.t) + (e.h ? '（' + esc(e.h) + '）' : '') + '">' + esc(e.t) + '</span>';
+          ' title="' + esc(e.t) + (e.h ? '（' + esc(e.h) + '）' : '') +
+          (e.n ? '　第 ' + e.i + ' 天／共 ' + e.n + ' 天' : '') + '">' +
+          (cont ? '<span class="cal__cont">↳</span>' : '') + esc(e.t) + '</span>';
       }).join('');
       if (evs.length > 2) body += '<span class="cal__more">+' + (evs.length - 2) + '</span>';
 
