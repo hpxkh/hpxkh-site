@@ -2,16 +2,15 @@
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
    3. 表單：加入社團申請補題目與可複選、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
-   4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
+   4. 關於我們：H·P·X 改成三張並排卡片，併進「社團介紹」；分頁改名「適不適合你」
    5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
    6. 首頁與新人指引補上「加入社團申請」的入口
-   7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註，P 那排帶出所有 P 開頭的職稱
-   8. 九種聚會形式排成 3×3
-   9. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
-  10. 文件表單分成左右兩區：書友常用／店家、單位與其他社群
-  11. 步驟區塊的欄數配合實際張數，不再固定三欄
-  12. 開書聚的流程改成四個階段（內容在 copy.js）
-  13. 常見問題多一個「反映與建議」分頁
+   7. 九種聚會形式排成 3×3
+   8. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
+   9. 文件表單分成左右兩區：書友常用／店家、單位與其他社群
+  10. 步驟區塊的欄數配合實際張數，不再固定三欄
+  11. 開書聚的流程改成四個階段（內容在 copy.js）
+  12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
 (function () {
@@ -60,12 +59,8 @@
       '.part__t p{max-width:46em}' +
       '.end__p{max-width:38em}' +
       '.cal__foot p{max-width:46em}' +
-      '.hpx2__n{max-width:54em}' +
       '#startCan .step__d{padding-right:clamp(20px,22vw,320px)}' +
-      /* ── 步驟卡片的欄數 ──
-         原始碼固定三欄，但每個區塊的張數不一樣：
-         四張會排成 3+1、兩張會空掉一欄、一張更是只佔三分之一。
-         依張數指定欄數，右邊就不會開天窗。 */
+      /* ── 步驟卡片的欄數 ── */
       '@media (min-width:900px){' +
         '#stepPath{grid-template-columns:repeat(2,minmax(0,1fr))}' +   /* 四張 → 2×2 */
         '#hostKit{grid-template-columns:repeat(2,minmax(0,1fr))}' +    /* 兩張 → 並排 */
@@ -91,6 +86,10 @@
         '.dgrp + .dgrp{margin-top:0;padding-right:0;padding-left:clamp(18px,2.4vw,30px);' +
           'border-left:1px solid var(--hair)}' +
       '}' +
+      /* 常見問題頁尾的一句話 */
+      '.faq__ask{font-size:13px;line-height:2;color:var(--ink-3,#918B81);max-width:46em;' +
+        'padding-top:clamp(18px,2.4vw,26px);border-top:1px solid var(--hair);margin:0}' +
+      '.faq__ask a{color:var(--orange,#EF8200)}' +
       /* 新人指引 */
       '[data-pg="start"] .part{gap:12px;align-items:flex-start}' +
       '[data-pg="start"] .part__k{display:none}' +
@@ -147,44 +146,45 @@
     }).join('');
   }
 
-  /* H·P·X：原本一個字母就佔掉一整排、右半邊大片留白，
-     下面 1.0／2.0 又用三段長文再解釋一次顏色的意思。
-     改成一行一個字母：字母 → 英文字 → 中文說明 → 2.0 的字（橘色）。
-     桌機用 display:contents 讓三行共用同一組欄位，四欄一起靠左對齊。
-     簡報裡那一長串 P 開頭的職稱，就接在 P 那一排下面。 */
-  function compactHpx() {
+  /* H·P·X：三個字母排成三張並排的卡片。
+     每張卡由上而下是：大字母 → 1.0 的英文字 → 中文說明 →（分隔線）→「2.0」小標 → 橘色的字。
+     三張等高、2.0 那一段靠底對齊，所以分隔線在三張卡上會連成一條水平線。
+     顏色與 2.0 標籤本身就是圖例，下面的說明只要兩句。
+     簡報裡那串 P 開頭的職稱放在卡片下方，當整體的註腳。 */
+  function hpxCards() {
     var old = document.querySelector('.hpxr');
-    if (!old || document.getElementById('hpx2css')) return;
+    if (!old || document.getElementById('hpx3css')) return;
 
     var s = document.createElement('style');
-    s.id = 'hpx2css';
+    s.id = 'hpx3css';
     s.textContent =
-      '.hpx2{border-top:1px solid var(--hair)}' +
-      '.hpx2__r{display:grid;grid-template-columns:1.6em auto minmax(0,1fr);align-items:baseline;' +
-        'gap:3px clamp(12px,1.8vw,20px);padding:clamp(11px,1.5vw,15px) 0;border-bottom:1px solid var(--hair)}' +
-      '.hpx2__l{font-family:var(--display);font-size:clamp(24px,3vw,32px);line-height:1;color:var(--ink)}' +
-      '.hpx2__w{font-family:var(--display);font-size:clamp(16px,1.9vw,20px);font-weight:600;letter-spacing:.06em}' +
-      '.hpx2__d{font-size:13px;color:var(--ink-2);letter-spacing:.04em}' +
-      '.hpx2__x{grid-column:2/-1;font-family:var(--display);font-size:13.5px;letter-spacing:.06em;' +
-        'color:var(--orange)}' +
-      '.hpx2__p{font-size:12px;line-height:1.95;color:var(--muted);' +
-        'padding:0 0 clamp(11px,1.5vw,15px);border-bottom:1px solid var(--hair)}' +
-      '.hpx2__r--nb{border-bottom:0;padding-bottom:4px}' +
-      '.hpx2__n{margin-top:16px;font-size:13px;line-height:2;color:var(--ink-2);text-wrap:pretty}' +
+      '.hpx3{display:grid;grid-template-columns:1fr;' +
+        'border-top:1px solid var(--hair);border-left:1px solid var(--hair)}' +
+      '.hpx3__c{display:flex;flex-direction:column;padding:clamp(20px,2.6vw,28px) clamp(18px,2.2vw,24px);' +
+        'border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}' +
+      '.hpx3__l{font-family:var(--display);font-size:clamp(38px,4.6vw,54px);line-height:1;' +
+        'color:var(--ink);margin-bottom:clamp(10px,1.4vw,14px)}' +
+      '.hpx3__w{font-family:var(--display);font-size:clamp(19px,2.2vw,23px);font-weight:600;' +
+        'letter-spacing:.06em;margin:0;color:var(--ink)}' +
+      '.hpx3__d{font-size:13px;line-height:1.85;color:var(--ink-2);margin:6px 0 0}' +
+      '.hpx3__t{margin:clamp(16px,2vw,22px) 0 0;padding-top:clamp(12px,1.6vw,16px);' +
+        'border-top:1px solid var(--hair);font-family:var(--display);font-size:11px;' +
+        'letter-spacing:.22em;color:var(--orange)}' +
+      '.hpx3__x{margin:5px 0 0;font-family:var(--display);font-size:15px;letter-spacing:.05em;' +
+        'line-height:1.75;color:var(--orange)}' +
+      '.hpx3__p{margin-top:clamp(14px,1.8vw,18px);font-size:12.5px;line-height:2;' +
+        'color:var(--muted);max-width:54em;text-wrap:pretty}' +
+      '.hpx2__n{margin-top:10px;font-size:13px;line-height:2;color:var(--ink-2);' +
+        'max-width:52em;text-wrap:pretty}' +
       '.hpx2__n + .hpx2__n{margin-top:6px}' +
       '.hpx2__n em{font-style:normal;color:var(--orange)}' +
       '@media (min-width:760px){' +
-        '.hpx2{display:grid;grid-template-columns:1.6em auto auto minmax(0,1fr);' +
-          'align-items:baseline;column-gap:clamp(14px,2vw,26px)}' +
-        '.hpx2__r{display:contents}' +
-        '.hpx2__r > *{padding:clamp(11px,1.5vw,15px) 0;border-bottom:1px solid var(--hair)}' +
-        '.hpx2__r--nb > *{border-bottom:0;padding-bottom:2px}' +
-        '.hpx2__p{grid-column:2/-1;padding-top:0}' +
-        '.hpx2__x{grid-column:auto;white-space:nowrap}' +
+        '.hpx3{grid-template-columns:repeat(3,minmax(0,1fr))}' +
+        '.hpx3__t{margin-top:auto}' +      /* 三張卡的分隔線連成一條 */
       '}';
     document.head.appendChild(s);
 
-    var rows = old.querySelectorAll('.hpxr__i'), html = '', i;
+    var rows = old.querySelectorAll('.hpxr__i'), cards = '', note = '', i;
     for (i = 0; i < rows.length; i++) {
       var r = rows[i];
       var l = r.querySelector('.hpxr__l');
@@ -195,24 +195,26 @@
       for (j = 0; j < xs.length; j++) words.push(xs[j].textContent.trim());
       var letter = l ? l.textContent.trim() : '';
       var extra = (TX.hpxExtra || {})[letter] || '';
-      html += '<div class="hpx2__r' + (extra ? ' hpx2__r--nb' : '') + '">' +
-        '<span class="hpx2__l">' + esc(letter) + '</span>' +
-        '<b class="hpx2__w">' + esc(w ? w.textContent.trim() : '') + '</b>' +
-        '<span class="hpx2__d">' + esc(d ? d.textContent.trim() : '') + '</span>' +
-        '<span class="hpx2__x">' + esc(words.join('・')) + '</span>' +
-        '</div>' +
-        (extra ? '<div class="hpx2__p">' + esc(extra) + '</div>' : '');
+      if (extra) note += '<p class="hpx3__p">' + esc(extra) + '</p>';
+      cards += '<div class="hpx3__c">' +
+        '<span class="hpx3__l">' + esc(letter) + '</span>' +
+        '<p class="hpx3__w">' + esc(w ? w.textContent.trim() : '') + '</p>' +
+        '<p class="hpx3__d">' + esc(d ? d.textContent.trim() : '') + '</p>' +
+        '<p class="hpx3__t">2.0</p>' +
+        '<p class="hpx3__x">' + esc(words.join('・')) + '</p>' +
+        '</div>';
     }
 
     var box = document.createElement('div');
-    box.className = 'hpx2';
-    box.innerHTML = html;
-    old.parentNode.replaceChild(box, old);
+    box.innerHTML = '<div class="hpx3">' + cards + '</div>' + note;
+    var frag = document.createDocumentFragment();
+    while (box.firstChild) frag.appendChild(box.firstChild);
+    old.parentNode.replaceChild(frag, old);
 
-    var note = document.querySelector('.hpx__note');
-    if (note && TX.hpxNote) {
-      note.className = '';
-      note.innerHTML = TX.hpxNote;
+    var nt = document.querySelector('.hpx__note');
+    if (nt && TX.hpxNote) {
+      nt.className = '';
+      nt.innerHTML = TX.hpxNote;
     }
   }
 
@@ -301,36 +303,18 @@
     wireTab(btn, pane, tabsEl, true);       // 預設停在這一頁
   }
 
-  /* 常見問題：最後加一個「反映與建議」。
-     不是 FAQ，而是一張表單——社團運作上的疑難雜症，以及對社團或網站的建議。
-     說明裡先講清楚管理群不介入私人事務，避免期待落差。 */
-  function addFeedbackTab() {
-    var tabsEl = document.getElementById('faqTabs');
+  /* 常見問題頁尾：一句話，不是表單。
+     管理群是志工、沒有輪值人力，表單會讓人期待「一定有人回」，
+     也會把人際糾紛這類最耗神的訊息引進來。既有的私訊管道沒有這個問題。 */
+  function faqNote() {
     var wrap = document.getElementById('faqPanels');
-    var spec = (TX.forms || {}).feedback;
-    if (!tabsEl || !wrap || !spec || document.getElementById('fq-say')) return;
-    if (typeof buildForm !== 'function') return;
-
-    var pane = document.createElement('div');
-    pane.id = 'fq-psay';
-    pane.setAttribute('role', 'tabpanel');
-    pane.setAttribute('aria-labelledby', 'fq-say');
-    pane.hidden = true;
-    pane.innerHTML = '<section class="blk pad"><div class="appform" id="formFeedback"></div></section>';
-    wrap.appendChild(pane);
-
-    var btn = document.createElement('button');
-    btn.className = 'tab';
-    btn.type = 'button';
-    btn.id = 'fq-say';
-    btn.setAttribute('role', 'tab');
-    btn.setAttribute('aria-controls', 'fq-psay');
-    btn.setAttribute('aria-selected', 'false');
-    btn.textContent = TX.feedbackTab || '反映與建議';
-    tabsEl.appendChild(btn);
-
-    buildForm(document.getElementById('formFeedback'), spec);
-    wireTab(btn, pane, tabsEl, false);
+    if (!wrap || !TX.faqNote || document.getElementById('faqAsk')) return;
+    var sec = document.createElement('section');
+    sec.className = 'blk pad';
+    sec.id = 'faqAsk';
+    sec.style.paddingTop = '0';
+    sec.innerHTML = '<p class="faq__ask">' + TX.faqNote + '</p>';
+    wrap.parentNode.insertBefore(sec, wrap.nextSibling);
   }
 
   /* 「加入社團申請」表單本身留在文件表單頁（那裡是大家回頭找表單的地方），
@@ -420,19 +404,18 @@
 
   /* 關於我們：「HPX 三個字母是什麼意思」其實是社團介紹的一部分，
      讀者看完開場三段正想問「所以 HPX 是什麼」，答案就應該接在那裡，
-     而不是要再點一個分頁。搬完之後原分頁只剩「我們是什麼、不是什麼」，
-     那一頁的作用是幫人判斷適不適合自己，分頁名也一併改成這件事。 */
+     而不是要再點一個分頁。搬完之後原分頁只剩「我們是什麼、不是什麼」。 */
   function mergeAbout() {
     var p1 = document.getElementById('ab-p1');
     var p2 = document.getElementById('ab-p2');
     var tab2 = document.getElementById('ab-2');
     if (!p1 || !p2) return;
-    if (p1.querySelector('.hpxr, .hpx2')) return;   // 已經處理過，不重複
+    if (p1.querySelector('.hpxr, .hpx3')) return;   // 已經處理過，不重複
 
     var secs = p2.querySelectorAll('section');
     var meaning = null, i;
     for (i = 0; i < secs.length; i++) {
-      if (secs[i].querySelector('.hpxr, .hpx2')) { meaning = secs[i]; break; }
+      if (secs[i].querySelector('.hpxr, .hpx3')) { meaning = secs[i]; break; }
     }
     if (meaning) {
       var first = p1.querySelector('section');    // 開場三段（intro2）
@@ -440,7 +423,6 @@
       else p1.appendChild(meaning);
     }
 
-    // 剩下的「我們是什麼、不是什麼」：分頁名與說明句改寫
     if (tab2 && TX.aboutTab) tab2.textContent = TX.aboutTab;
     var rest = p2.querySelector('.blk__h');
     if (rest && TX.aboutVsLede) {
@@ -587,13 +569,13 @@
     tidyStart();
     addStartOverview();
     joinCtas();
-    compactHpx();
+    hpxCards();
     mergeMeetups();
     mergeAbout();
     regroupDocs();
     upgradeJoinForm();
     reworkForms();
-    addFeedbackTab();
+    faqNote();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
