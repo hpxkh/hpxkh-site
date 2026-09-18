@@ -4,7 +4,7 @@
    3. 表單：加入社團申請補題目與可複選、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
    4. 關於我們：H·P·X 改成三張並排卡片，併進「社團介紹」；分頁改名「適不適合你」
    5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
-   6. 首頁與新人指引補上「加入社團申請」的入口
+   6. 首頁與新人指引補上「加入社團申請」的入口；首頁那顆「歷年場次」直接跳到對的檢視
    7. 九種聚會形式排成 3×3
    8. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
    9. 文件表單分成左右兩區：書友常用／店家、單位與其他社群，並新增「許願池」
@@ -391,6 +391,23 @@
     }
   }
 
+  /* 首頁那顆「看完整介紹與歷年場次」原本只到社團書聚的第一個分頁（九種聚會形式），
+     但按鈕講的是歷年場次。改成點下去直接切到「我們讀些什麼 → 歷年場次」。 */
+  function wireHomeLink() {
+    var as = document.querySelectorAll('[data-pg="home"] a[href="#/meetups"]');
+    for (var i = 0; i < as.length; i++) {
+      if (as[i].textContent.indexOf('歷年場次') === -1) continue;
+      as[i].addEventListener('click', function () {
+        setTimeout(function () {
+          var t = document.getElementById('mt-2');
+          if (t) t.click();
+          var c = document.querySelectorAll('#mtViews .chip');
+          if (c.length > 2) c[2].click();
+        }, 60);
+      });
+    }
+  }
+
   /* 社團書聚：「我們讀些什麼」（領域分布）、「歷年書聚書單」、「歷年場次」
      其實是同一批資料的三種看法，分成三個分頁要來回切換。
      合成一個分頁，上面放三顆按鈕切換呈現方式。 */
@@ -620,6 +637,7 @@
     joinCtas();
     hpxCards();
     mergeMeetups();
+    wireHomeLink();
     mergeAbout();
     addWishForm();
     regroupDocs();
