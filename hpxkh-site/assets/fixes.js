@@ -2,8 +2,15 @@
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：把「我們讀些什麼」併進「歷年書聚書單」
    3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
-   4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」 */
+   4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
+   5. 文案替換表（COPY）：要改哪一句就加一列 */
 (function () {
+  /* 要改的句子加在這裡：[原句, 新句]。整站文字節點一次換掉。 */
+  var COPY = [
+    ['分成兩條路線：先當參加者，或直接開一場自己的書聚。選一個開始就好。',
+     '兩條路都可以走：先當參加者，或自己發起一場書聚。選一個方向開始就好。']
+  ];
+
   function fix(root) {
     if (!root) return;
     var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
@@ -11,6 +18,18 @@
     while ((n = w.nextNode())) {
       if (n.nodeValue.indexOf('高雄讀會') !== -1) {
         n.nodeValue = n.nodeValue.replace(/高雄讀會/g, '高雄讀書會');
+      }
+    }
+  }
+
+  function copy() {
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var n, i;
+    while ((n = w.nextNode())) {
+      for (i = 0; i < COPY.length; i++) {
+        if (n.nodeValue.indexOf(COPY[i][0]) !== -1) {
+          n.nodeValue = n.nodeValue.split(COPY[i][0]).join(COPY[i][1]);
+        }
       }
     }
   }
@@ -116,6 +135,7 @@
   function run() {
     fix(document.querySelector('footer'));
     fix(document.getElementById('contactCards'));
+    copy();
     mergeBooks();
     mergeAbout();
     upgradeJoinForm();
