@@ -6,16 +6,9 @@
    5. 新人指引：拿掉 Part 01／02，改小標記；兩段說明重寫
    6. 首頁與新人指引補上「加入社團申請」的入口
    7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註
-   8. 文案替換表（COPY）：要改哪一句就加一列 */
-(function () {
-  /* 要改的句子加在這裡：[原句, 新句]。整站文字節點一次換掉。 */
-  var COPY = [
-    ['分成兩條路線：先當參加者，或直接開一場自己的書聚。選一個開始就好。',
-     '兩條路都可以走：先當參加者，或自己發起一場書聚。選一個方向開始就好。'],
-    ['每個書聚至少 4 次，正式成員出席率至少 7 成。有結構，才走得遠。',
-     '每個書聚至少 4 次，正式成員出席率至少 7 成；主題聚與各式活動則多半是 1～2 次的單場。有結構，才走得遠。']
-  ];
 
+   單純改某一句話，不要動這個檔案 —— 加到 assets/copy.js 的替換表就好。 */
+(function () {
   /* 新人指引兩個分頁的開場說明（key 是該區塊的 h3） */
   var START_TX = {
     '先當一次參加者':
@@ -31,18 +24,6 @@
     while ((n = w.nextNode())) {
       if (n.nodeValue.indexOf('高雄讀會') !== -1) {
         n.nodeValue = n.nodeValue.replace(/高雄讀會/g, '高雄讀書會');
-      }
-    }
-  }
-
-  function copy() {
-    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
-    var n, i;
-    while ((n = w.nextNode())) {
-      for (i = 0; i < COPY.length; i++) {
-        if (n.nodeValue.indexOf(COPY[i][0]) !== -1) {
-          n.nodeValue = n.nodeValue.split(COPY[i][0]).join(COPY[i][1]);
-        }
       }
     }
   }
@@ -284,7 +265,6 @@
   function run() {
     fix(document.querySelector('footer'));
     fix(document.getElementById('contactCards'));
-    copy();
     tidyStart();
     joinCtas();
     compactHpx();
