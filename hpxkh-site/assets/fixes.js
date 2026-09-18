@@ -7,9 +7,9 @@
    6. 首頁與新人指引補上「加入社團申請」的入口
    7. 九種聚會形式排成 3×3
    8. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
-   9. 文件表單分成左右兩區：書友常用／店家、單位與其他社群
+   9. 文件表單分成左右兩區：書友常用／店家、單位與其他社群，並新增「許願池」
   10. 步驟區塊的欄數配合實際張數，不再固定三欄
-  11. 開書聚的流程改成四個階段（內容在 copy.js）
+  11. 開書聚：書聚的精神移到四個階段前面，流程內容在 copy.js
   12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。
@@ -103,6 +103,7 @@
         'margin-top:calc(clamp(18px,2.3vw,23px) * .5 - 4px)}' +
       '.start__join{margin-top:14px;font-size:13px;line-height:1.9;color:var(--ink-3,#918B81)}' +
       '.start__join a{color:var(--orange,#EF8200)}' +
+      '.spirit--top{margin-bottom:clamp(20px,2.6vw,28px)}' +
       /* 社團書聚：三個檢視 */
       '.mtv{margin-top:14px}' +
       '.mtv__s{padding-top:clamp(18px,2.4vw,26px)!important}' +
@@ -140,10 +141,21 @@
     }).join('');
   }
 
-  /* 開一場書聚的流程（#flow2）。階段與細項都在 copy.js。 */
+  /* 開一場書聚的流程（#flow2）。階段與細項都在 copy.js。
+     「書聚的精神」原本排在流程後面，但它是這整段的前提——
+     先講清楚不是來上課、每個人都要有貢獻，後面的四個階段才站得住，
+     所以把它移到流程前面。 */
   function renderFlow() {
     var m = document.getElementById('flow2');
-    if (!m || !TX.flow || !TX.flow.length) return;
+    if (!m) return;
+
+    var sp = document.querySelector('[data-pg="start"] .spirit');
+    if (sp && !sp.classList.contains('spirit--top')) {
+      sp.classList.add('spirit--top');
+      m.parentNode.insertBefore(sp, m);
+    }
+
+    if (!TX.flow || !TX.flow.length) return;
     m.innerHTML = TX.flow.map(function (f) {
       return '<div class="flow__s"><span class="flow__n">' + esc(f.n) + '</span>' +
         '<h4>' + esc(f.h) + '</h4><ul>' +
@@ -154,9 +166,7 @@
 
   /* H·P·X：三個字母排成三張並排的卡片。
      每張卡由上而下是：大字母 → 1.0 的英文字 → 中文說明 →（分隔線）→「2.0」小標 → 橘色的字。
-     三張等高、2.0 那一段靠底對齊，所以分隔線在三張卡上會連成一條水平線。
-     顏色與 2.0 標籤本身就是圖例，下面的說明只要兩句。
-     簡報裡那串 P 開頭的職稱放在卡片下方，當整體的註腳。 */
+     三張等高、2.0 那一段靠底對齊，所以分隔線在三張卡上會連成一條水平線。 */
   function hpxCards() {
     var old = document.querySelector('.hpxr');
     if (!old || document.getElementById('hpx3css')) return;
@@ -309,6 +319,39 @@
     wireTab(btn, pane, tabsEl, true);       // 預設停在這一頁
   }
 
+  /* 文件表單：多一個「許願池」。
+     只收願望（網站功能、想辦的活動、想讀的主題），不收問題與糾紛——
+     那類仍然走私訊粉專。沒有 Email 欄位是刻意的：不留聯絡方式，
+     就不會產生「我填了你要回我」的期待。 */
+  function addWishForm() {
+    var bar = document.querySelector('[data-pg="docs"] .tabs[data-tabs]');
+    var host = document.getElementById('formJoin');
+    var spec = (TX.forms || {}).wish;
+    if (!bar || !host || !spec || document.getElementById('tab-wish')) return;
+    if (typeof buildForm !== 'function') return;
+
+    var pane = document.createElement('div');
+    pane.className = 'appform';
+    pane.id = 'formWish';
+    pane.setAttribute('role', 'tabpanel');
+    pane.setAttribute('aria-labelledby', 'tab-wish');
+    pane.hidden = true;
+    host.parentNode.appendChild(pane);
+
+    var btn = document.createElement('button');
+    btn.className = 'tab';
+    btn.type = 'button';
+    btn.id = 'tab-wish';
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-controls', 'formWish');
+    btn.setAttribute('aria-selected', 'false');
+    btn.textContent = TX.wishTab || '許願池';
+    bar.appendChild(btn);
+
+    buildForm(pane, spec);
+    wireTab(btn, pane, bar, false);
+  }
+
   /* 常見問題頁尾：一句話，不是表單。
      管理群是志工、沒有輪值人力，表單會讓人期待「一定有人回」，
      也會把人際糾紛這類最耗神的訊息引進來。既有的私訊管道沒有這個問題。 */
@@ -437,7 +480,7 @@
     }
   }
 
-  /* 文件表單：六個項目性質差很多，排成一列看起來是平的。
+  /* 文件表單：項目性質差很多，排成一列看起來是平的。
      分成左右兩區：左邊是書友自己會用到的，右邊是店家、單位或其他社群會用到的。
      按鈕節點直接搬過去，原本綁好的分頁切換照常運作。 */
   function regroupDocs() {
@@ -465,7 +508,7 @@
       });
     }
 
-    group('', G.a || '書友常用', ['tab-join', 'tab-badge', 'tab-files']);
+    group('', G.a || '書友常用', ['tab-join', 'tab-badge', 'tab-wish', 'tab-files']);
     group('docsGrpB', G.b || '店家、單位與其他社群', ['tab-venue', 'tab-collab', 'tab-post']);
     bar.parentNode.removeChild(bar);
   }
@@ -578,6 +621,7 @@
     hpxCards();
     mergeMeetups();
     mergeAbout();
+    addWishForm();
     regroupDocs();
     upgradeJoinForm();
     reworkForms();
