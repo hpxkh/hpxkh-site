@@ -17,7 +17,7 @@
  * 每次改動 calendar.js / fixes.js / favicon.svg 後把 VER 改掉，
  * 瀏覽器就會視為新檔案立刻重新下載。首頁本身不被快取，所以新版本號會馬上送達。
  */
-const VER = '20260918i';
+const VER = '20260918j';
 
 const MOUNT = '<div id="calMount"><p style="color:#918B81;font-size:13px">讀取行事曆中…</p></div>';
 const SCRIPTS = '<script src="/assets/calendar.js?v=' + VER + '"></script>' +
