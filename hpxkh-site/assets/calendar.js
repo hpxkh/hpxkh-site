@@ -15,10 +15,17 @@
     '.cal{--cal-line:var(--hair,#E6E1D9);--cal-ink:var(--ink,#2B2823);--cal-dim:var(--ink-3,#918B81);--cal-bg:var(--cream,#F7F4EF);--cal-key:var(--orange,#EF8200)}' +
     '.cal__bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}' +
     '.cal__ttl{font-family:var(--serif,Georgia,serif);font-size:clamp(20px,2.6vw,26px);letter-spacing:.02em;color:var(--cal-ink);margin:0}' +
-    '.cal__nav{display:flex;gap:8px}' +
+    '.cal__nav{display:flex;align-items:center;gap:10px}' +
     '.cal__b{font:inherit;font-size:13px;letter-spacing:.04em;cursor:pointer;background:transparent;color:var(--cal-ink);' +
-      'border:1px solid var(--cal-line);border-radius:999px;padding:7px 14px;line-height:1;transition:.15s}' +
+      'border:1px solid var(--cal-line);border-radius:999px;padding:8px 16px;line-height:1;transition:.15s}' +
     '.cal__b:hover{border-color:var(--cal-ink)}' +
+    '.cal__pair{display:inline-flex}' +
+    '.cal__a{display:grid;place-items:center;width:34px;height:32px;cursor:pointer;background:transparent;' +
+      'border:1px solid var(--cal-line);color:var(--cal-ink);padding:0;transition:.15s}' +
+    '.cal__a:first-child{border-radius:999px 0 0 999px}' +
+    '.cal__a:last-child{border-radius:0 999px 999px 0;margin-left:-1px}' +
+    '.cal__a:hover{border-color:var(--cal-ink);background:var(--cal-bg);z-index:1}' +
+    '.cal__a svg{width:7px;height:12px;display:block}' +
     '.cal__grid{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--cal-line);border-left:1px solid var(--cal-line)}' +
     '.cal__wd{padding:8px 6px;text-align:center;font-size:11.5px;letter-spacing:.1em;color:var(--cal-dim);' +
       'border-right:1px solid var(--cal-line);border-bottom:1px solid var(--cal-line);background:var(--cal-bg)}' +
@@ -41,7 +48,10 @@
     '.cal__fb{border:1px solid var(--cal-line);background:#fff;height:min(78vh,720px);overflow:hidden}' +
     '.cal__fb iframe{width:100%;height:100%;display:block;border:0}' +
     '@media (max-width:760px){' +
-      '.cal__bar{flex-direction:column;align-items:flex-start;gap:10px}' +
+      '.cal__bar{flex-direction:row;align-items:center;gap:10px}' +
+      '.cal__ttl{font-size:19px}' +
+      '.cal__b{padding:7px 12px;font-size:12.5px}' +
+      '.cal__a{width:30px;height:29px}' +
       '.cal__c{min-height:76px;padding:3px 3px;gap:2px}' +
       '.cal__n{font-size:12px}' +
       '.cal__c--today .cal__n{width:18px;height:18px;font-size:11px}' +
@@ -50,6 +60,12 @@
       '.cal__foot{flex-direction:column;align-items:stretch}' +
       '.cal__subb{justify-content:center}' +
     '}';
+
+  function CHEV(left) {
+    return '<svg viewBox="0 0 7 12" fill="none" aria-hidden="true">' +
+      '<path d="' + (left ? 'M6 1 L1 6 L6 11' : 'M1 1 L6 6 L1 11') + '" ' +
+      'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
 
   function FOOT(note) {
     return '<div class="cal__foot">' +
@@ -111,9 +127,11 @@
       '<div class="cal__bar">' +
         '<h3 class="cal__ttl">' + y + ' 年 ' + (m + 1) + ' 月</h3>' +
         '<div class="cal__nav">' +
-          '<button class="cal__b" type="button" data-go="-1" aria-label="上個月">←</button>' +
-          '<button class="cal__b" type="button" data-go="0">本月</button>' +
-          '<button class="cal__b" type="button" data-go="1" aria-label="下個月">→</button>' +
+          '<button class="cal__b" type="button" data-go="0">今天</button>' +
+          '<div class="cal__pair">' +
+            '<button class="cal__a" type="button" data-go="-1" aria-label="上個月">' + CHEV(1) + '</button>' +
+            '<button class="cal__a" type="button" data-go="1" aria-label="下個月">' + CHEV(0) + '</button>' +
+          '</div>' +
         '</div>' +
       '</div>' +
       '<div class="cal__grid" role="grid">' +
