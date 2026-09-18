@@ -11,6 +11,7 @@
   10. 步驟區塊的欄數配合實際張數，不再固定三欄
   11. 開書聚：書聚的精神移到四個階段前面，流程內容在 copy.js
   12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
+  13. 收掉每一頁分頁列上下的大片空白
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。
      卡片說明想標重點，就在 copy.js 用 dHtml 取代 d，可用 <b>、<span class="k">（橘色）、
@@ -62,6 +63,14 @@
       '.end__p{max-width:38em}' +
       '.cal__foot p{max-width:46em}' +
       '#startCan .step__d{padding-right:clamp(20px,22vw,320px)}' +
+      /* ── 分頁列上下的空白 ──
+         每一頁都是：.top（說明文字）→ 細線 → 一段空白 → 分頁按鈕 → 又一段空白 → 內容。
+         上下各 32～52px 的留白讓那條細線孤零零地浮在中間，按鈕也像漂著。
+         把按鈕收到細線下方，讓細線變成「標頭結束」的分隔，下面再留足夠的呼吸。 */
+      '.pg > .top{padding-bottom:clamp(18px,2.2vw,24px)}' +
+      '.pg > .top + .pad{padding-top:clamp(16px,1.9vw,20px)!important}' +
+      '.pg > .top + .blk{padding-top:clamp(22px,2.6vw,28px)}' +
+      '.pg > .top + .pad .tabs{margin-bottom:0}' +
       /* ── 步驟卡片的欄數 ── */
       '@media (min-width:900px){' +
         '#stepPath{grid-template-columns:repeat(2,minmax(0,1fr))}' +   /* 四張 → 2×2 */
@@ -82,11 +91,11 @@
       '.chk input:checked::after{left:50%;top:50%;width:4px;height:8px;' +
         'transform:translate(-50%,-60%) rotate(45deg)}' +
       '@media (min-width:900px){.chks{grid-template-columns:repeat(4,minmax(0,1fr))}}' +
-      /* 文件表單：兩類左右並排，中間一條線 */
+      /* 文件表單：兩類左右並排，中間一條線。左邊四顆、右邊三顆，左欄給多一點 */
       '.dgrp__k{font-size:11.5px;letter-spacing:.14em;color:var(--ink-3,#918B81);margin-bottom:9px}' +
       '.dgrp + .dgrp{margin-top:20px}' +
       '@media (min-width:900px){' +
-        '.dgrps{display:grid;grid-template-columns:1fr 1fr}' +
+        '.dgrps{display:grid;grid-template-columns:1.12fr .88fr}' +
         '.dgrp{padding-right:clamp(18px,2.4vw,30px)}' +
         '.dgrp + .dgrp{margin-top:0;padding-right:0;padding-left:clamp(18px,2.4vw,30px);' +
           'border-left:1px solid var(--hair)}' +
