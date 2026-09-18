@@ -4,6 +4,7 @@
  */
 const ICS = 'https://calendar.google.com/calendar/ical/kaohsiunghpx%40gmail.com/public/basic.ics';
 const MAX_RECUR = 60;
+const MAX_SPAN = 31;   // 單一活動最多展開的天數
 /** 不對外顯示的內部行程（標題含這些字就略過） */
 const HIDE = ['任勞任怨'];
 
@@ -95,18 +96,32 @@ function parse(ics) {
     if (!title) continue;
     if (HIDE.some(function (k) { return title.indexOf(k) !== -1; })) continue;
 
+    // 跨日活動：整段每一天都要出現（全天事件的 DTEND 不含當天）
+    const dm = /^DTEND[^:\n]*:(.+)$/m.exec(b);
+    const en = dm ? parseDT(dm[1]) : null;
+    let span = 1;
+    if (en && en.date > st.date) {
+      const raw = Math.round((en.date - st.date) / 86400000);
+      span = st.hm ? raw + 1 : raw;          // 全天事件的結束日是「不含」，定時事件則含
+      if (span < 1) span = 1;
+      if (span > MAX_SPAN) span = MAX_SPAN;
+    }
+
     const rr = /^RRULE:(.+)$/m.exec(b);
     const stamps = rr ? expand(st.date, rr[1]) : [st.date];
 
     for (const ms of stamps) {
-      const d = toYmd(ms);
-      const key = d + '|' + title;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      const e = { d, t: title };
-      if (host) e.h = host;
-      if (st.hm) e.s = st.hm;
-      events.push(e);
+      for (let k = 0; k < span; k++) {
+        const d = toYmd(ms + k * 86400000);
+        const key = d + '|' + title;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const e = { d, t: title };
+        if (host) e.h = host;
+        if (st.hm && k === 0) e.s = st.hm;
+        if (span > 1) { e.n = span; e.i = k + 1; }   // 第 i 天 / 共 n 天
+        events.push(e);
+      }
     }
   }
   events.sort((a, b) => (a.d < b.d ? -1 : a.d > b.d ? 1 : 0));
