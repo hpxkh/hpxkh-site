@@ -10,6 +10,8 @@
     '&showCalendars=0&showTz=0&wkst=2&bgcolor=%23ffffff';
   var SUB = 'https://calendar.google.com/calendar/u/0/r?cid=kaohsiunghpx@gmail.com';
   var WD = ['一', '二', '三', '四', '五', '六', '日'];
+  // 同一個活動名稱固定同一色；六色全配對通過色盲與一般視覺的分離度檢驗
+  var PAL = ['#2a78d6', '#EF8200', '#1baf7a', '#4a3aa7', '#b0447a', '#5e7d00'];
 
   var css = '' +
     '.cal{--cal-line:var(--hair,#E6E1D9);--cal-ink:var(--ink,#2B2823);--cal-dim:var(--ink-3,#918B81);--cal-bg:var(--cream,#F7F4EF);--cal-key:var(--orange,#EF8200)}' +
@@ -37,7 +39,7 @@
     '.cal__c--today .cal__n{color:#fff;background:var(--cal-key);border-radius:999px;' +
       'width:21px;height:21px;display:grid;place-items:center;font-size:12px}' +
     '.cal__e{font-size:11.5px;line-height:1.35;color:var(--cal-ink);background:var(--cal-bg);' +
-      'border-left:2px solid var(--cal-key);padding:3px 5px;overflow:hidden;text-overflow:ellipsis;' +
+      'border-left:3px solid var(--cal-key);padding:3px 5px 3px 6px;overflow:hidden;text-overflow:ellipsis;' +
       'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}' +
     '.cal__more{font-size:11px;color:var(--cal-dim)}' +
     '.cal__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:16px}' +
@@ -55,11 +57,56 @@
       '.cal__c{min-height:76px;padding:3px 3px;gap:2px}' +
       '.cal__n{font-size:12px}' +
       '.cal__c--today .cal__n{width:18px;height:18px;font-size:11px}' +
-      '.cal__e{font-size:8.5px;line-height:1.25;padding:2px 3px;border-left-width:2px;-webkit-line-clamp:3}' +
+      '.cal__e{font-size:8.5px;line-height:1.25;padding:2px 3px 2px 4px;border-left-width:3px;-webkit-line-clamp:3}' +
       '.cal__more{font-size:9px}' +
       '.cal__foot{flex-direction:column;align-items:stretch}' +
       '.cal__subb{justify-content:center}' +
     '}';
+
+  function slotOf(t) {
+    var h = 2166136261;
+    for (var i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+    return h % PAL.length;
+  }
+  /* 整月一次配色：
+     - 同一個活動名稱，整個月都是同一色
+     - 會在同一天出現的活動，保證不同色
+     先用名稱雜湊決定偏好色（讓顏色盡量穩定），再避開同日夥伴已用的顏色。 */
+  function colorMap(list) {
+    var titles = [], seen = {}, mates = {};
+    list.forEach(function (e) {
+      if (!seen[e.t]) { seen[e.t] = 1; titles.push(e.t); mates[e.t] = {}; }
+    });
+    var byDay = {};
+    list.forEach(function (e) { (byDay[e.d] = byDay[e.d] || []).push(e.t); });
+    Object.keys(byDay).forEach(function (d) {
+      var g = byDay[d];
+      g.forEach(function (a) {
+        g.forEach(function (b) { if (a !== b) mates[a][b] = 1; });
+      });
+    });
+    titles.sort();
+    var map = {}, usedInMonth = {};
+    titles.forEach(function (t) {
+      var taken = {};
+      Object.keys(mates[t]).forEach(function (n) { if (map[n]) taken[map[n]] = 1; });
+      var start = slotOf(t), pick = null, fallback = null;
+      for (var k = 0; k < PAL.length; k++) {
+        var c = PAL[(start + k) % PAL.length];
+        if (taken[c]) continue;
+        if (fallback === null) fallback = c;      // 同日不衝突即可用
+        if (!usedInMonth[c]) { pick = c; break; } // 本月還沒用過，優先
+      }
+      map[t] = pick || fallback || PAL[start];
+      usedInMonth[map[t]] = 1;
+    });
+    return map;
+  }
+
+  function tint(hex, a) {
+    var n = parseInt(hex.slice(1), 16);
+    return 'rgba(' + (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + a + ')';
+  }
 
   function CHEV(left) {
     return '<svg viewBox="0 0 7 12" fill="none" aria-hidden="true">' +
@@ -103,6 +150,7 @@
     var days = new Date(y, m + 1, 0).getDate();
     var prevDays = new Date(y, m, 0).getDate();
     var mine = byMonth(y, m);
+    var cmap = colorMap(mine);
 
     var cells = '';
     var total = Math.ceil((lead + days) / 7) * 7;
@@ -114,7 +162,9 @@
 
       var evs = key ? mine.filter(function (e) { return e.d === key; }) : [];
       var body = evs.slice(0, 2).map(function (e) {
-        return '<span class="cal__e" title="' + esc(e.t) + (e.h ? '（' + esc(e.h) + '）' : '') + '">' + esc(e.t) + '</span>';
+        var c = cmap[e.t] || PAL[0];
+        return '<span class="cal__e" style="border-left-color:' + c + ';background:' + tint(c, '.10') + '"' +
+          ' title="' + esc(e.t) + (e.h ? '（' + esc(e.h) + '）' : '') + '">' + esc(e.t) + '</span>';
       }).join('');
       if (evs.length > 2) body += '<span class="cal__more">+' + (evs.length - 2) + '</span>';
 
