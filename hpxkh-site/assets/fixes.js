@@ -12,7 +12,9 @@
   11. 開書聚的流程改成四個階段（內容在 copy.js）
   12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
 
-   ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
+   ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。
+     卡片說明想標重點，就在 copy.js 用 dHtml 取代 d，可用 <b>、<span class="k">（橘色）、
+     <span class="r">（另起一段、上面加一條細線）。 */
 (function () {
   var TX = window.HPXKH_TX || {};          // 文字與步驟資料都放在 copy.js
   var START_TX = TX.start || {};
@@ -68,11 +70,14 @@
         '#startCan .step{grid-row:auto;display:flex}' +
       '}' +
       '@media (min-width:760px){' +
-        '#startCan .step__b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}' +
+        '#startCan .step__b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr}' +
         '#startCan .step__b a{border-bottom:1px solid var(--hair)}' +
         '#startCan .step__b a:nth-child(odd){border-right:1px solid var(--hair)}' +
         '#startCan .step__b a:nth-last-child(-n+2){border-bottom:0}' +
       '}' +
+      /* 卡片說明裡的重點標示 */
+      '.step__b .k{color:var(--orange,#EF8200);font-weight:500}' +
+      '.step__b .r{display:block;margin-top:8px;padding-top:8px;border-top:1px solid var(--hair)}' +
       /* 勾選框：原本的勾勾用固定 px 定位，會偏一點。改成置中計算。 */
       '.chk input:checked::after{left:50%;top:50%;width:4px;height:8px;' +
         'transform:translate(-50%,-60%) rotate(45deg)}' +
@@ -108,7 +113,8 @@
   }
 
   /* 重繪 #stepPath / #hostKit / #startCan。
-     標籤與 class 沿用 index.html 原本的 .step 樣式，只換內容與分組。 */
+     標籤與 class 沿用 index.html 原本的 .step 樣式，只換內容與分組。
+     說明文字用 d（純文字）或 dHtml（可標重點）。 */
   function renderSteps(id, groups) {
     var mount = document.getElementById(id);
     if (!mount || !groups || !groups.length) return;
@@ -123,7 +129,7 @@
           '<span class="step__tx"><span class="step__t">' +
           '<span class="step__n">' + esc(x.n || '') + '</span>' +
           '<h4>' + esc(x.h) + '</h4></span>' +
-          '<p>' + esc(x.d) + '</p></span>' +
+          '<p>' + (x.dHtml || esc(x.d)) + '</p></span>' +
           '<span class="go" aria-hidden="true">→</span></a>';
       }).join('');
       return '<section class="step">' +
