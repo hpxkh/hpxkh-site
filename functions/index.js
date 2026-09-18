@@ -6,21 +6,26 @@
  *   1. 行事曆頁：舊的 Google Calendar 說明區換成 <div id="calMount">
  *   2. 行事曆頁：修正標題錯字、改寫開場說明
  *   3. 行事曆頁：移除舊的「訂閱到自己的日曆」區塊（已整併進月曆下方的卡片）
- *   4. 補上網站圖示，並掛上 assets/calendar.js 與 assets/fixes.js
+ *   4. 補上網站圖示，並掛上 assets/copy.js、calendar.js 與 fixes.js
  *
  * 之後若 tools/build.py 已把這些寫進 index.html，對應選擇器就不會命中，
  * 而 calendar.js 本身有防重入保護，重複掛載不會有副作用。
  *
+ * ── 載入順序 ──
+ * copy.js 必須排在 fixes.js 之前：文案（window.HPXKH_TX）由 copy.js 提供，
+ * fixes.js 只負責版面，讀取這份文案來套用。
+ *
  * ── 關於 VER ──
  * 本網域的 Cloudflare「Browser Cache TTL」設為 4 小時，會把靜態檔的
  * max-age 一律拉到 14400，_headers 只能拉長不能縮短。因此改用版本化網址：
- * 每次改動 calendar.js / fixes.js / favicon.svg 後把 VER 改掉，
+ * 每次改動 copy.js / calendar.js / fixes.js / favicon.svg 後把 VER 改掉，
  * 瀏覽器就會視為新檔案立刻重新下載。首頁本身不被快取，所以新版本號會馬上送達。
  */
-const VER = '20260918j';
+const VER = '20260918k';
 
 const MOUNT = '<div id="calMount"><p style="color:#918B81;font-size:13px">讀取行事曆中…</p></div>';
-const SCRIPTS = '<script src="/assets/calendar.js?v=' + VER + '"></script>' +
+const SCRIPTS = '<script src="/assets/copy.js?v=' + VER + '"></script>' +
+  '<script src="/assets/calendar.js?v=' + VER + '"></script>' +
   '<script src="/assets/fixes.js?v=' + VER + '"></script>';
 const ICON = '<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=' + VER + '">';
 const LEDE = '每月書聚與活動都在下面的月曆上，可以往前往後翻。同一個活動固定一種顏色，同一天有多場也分得出來。';
