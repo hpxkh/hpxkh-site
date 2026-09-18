@@ -514,17 +514,17 @@
       if (tv && F.venue.tab) tv.textContent = F.venue.tab;
     }
 
-    // 書聚徽章申請：說明與「是否已張貼貼文」
+    // 書聚徽章申請：說明、出席率門檻、Email 用途、是否已張貼貼文
     if (FORMS.badge) {
       if (F.badgeIntro) FORMS.badge.intro = F.badgeIntro;
-      if (F.badgePost) {
-        var B = FORMS.badge.fields, has = false, at = B.length;
-        for (i = 0; i < B.length; i++) {
-          if (B[i].k === F.badgePost.k) has = true;
-          if (B[i].k === 'local_email_badge') at = i;
-        }
-        if (!has) B.splice(at, 0, F.badgePost);
+      var B = FORMS.badge.fields, hasPost = false, at = B.length;
+      for (i = 0; i < B.length; i++) {
+        if (F.badgePost && B[i].k === F.badgePost.k) hasPost = true;
+        if (B[i].k === 'local_email_badge') at = i;
+        if (B[i].l === '申請徽章總數' && F.badgeCountHint) B[i].hint = F.badgeCountHint;
+        if (B[i].l === 'Email' && F.badgeEmailHint) B[i].hint = F.badgeEmailHint;
       }
+      if (F.badgePost && !hasPost) B.splice(at, 0, F.badgePost);
     }
 
     [['formJoin', 'join'], ['formVenue', 'venue'], ['formBadge', 'badge']].forEach(function (pair) {
