@@ -5,12 +5,15 @@
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
    5. 新人指引：拿掉 Part 01／02，改小標記；兩段說明重寫
    6. 首頁與新人指引補上「加入社團申請」的入口
-   7. 文案替換表（COPY）：要改哪一句就加一列 */
+   7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註
+   8. 文案替換表（COPY）：要改哪一句就加一列 */
 (function () {
   /* 要改的句子加在這裡：[原句, 新句]。整站文字節點一次換掉。 */
   var COPY = [
     ['分成兩條路線：先當參加者，或直接開一場自己的書聚。選一個開始就好。',
-     '兩條路都可以走：先當參加者，或自己發起一場書聚。選一個方向開始就好。']
+     '兩條路都可以走：先當參加者，或自己發起一場書聚。選一個方向開始就好。'],
+    ['每個書聚至少 4 次，正式成員出席率至少 7 成。有結構，才走得遠。',
+     '每個書聚至少 4 次，正式成員出席率至少 7 成；主題聚與各式活動則多半是 1～2 次的單場。有結構，才走得遠。']
   ];
 
   /* 新人指引兩個分頁的開場說明（key 是該區塊的 h3） */
@@ -41,6 +44,75 @@
           n.nodeValue = n.nodeValue.split(COPY[i][0]).join(COPY[i][1]);
         }
       }
+    }
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  /* H·P·X：原本一個字母就佔掉一整排、右半邊大片留白，
+     下面 1.0／2.0 又用三段長文再解釋一次顏色的意思。
+     改成一行一個字母：字母 → 英文字 → 中文說明 → 2.0 的字（橘色）。
+     顏色本身就是圖例，說明收成兩句話即可。 */
+  function compactHpx() {
+    var old = document.querySelector('.hpxr');
+    if (!old || document.getElementById('hpx2css')) return;
+
+    var s = document.createElement('style');
+    s.id = 'hpx2css';
+    s.textContent =
+      '.hpx2{border-top:1px solid var(--hair)}' +
+      '.hpx2__r{display:grid;grid-template-columns:1.6em auto minmax(0,1fr);align-items:baseline;' +
+        'gap:3px clamp(12px,1.8vw,20px);padding:clamp(11px,1.5vw,15px) 0;border-bottom:1px solid var(--hair)}' +
+      '.hpx2__l{font-family:var(--display);font-size:clamp(24px,3vw,32px);line-height:1;color:var(--ink)}' +
+      '.hpx2__w{font-family:var(--display);font-size:clamp(16px,1.9vw,20px);font-weight:600;letter-spacing:.06em}' +
+      '.hpx2__d{font-size:13px;color:var(--ink-2);letter-spacing:.04em}' +
+      '.hpx2__x{grid-column:2/-1;font-family:var(--display);font-size:13.5px;letter-spacing:.06em;' +
+        'color:var(--orange);white-space:normal}' +
+      '.hpx2__n{margin-top:16px;font-size:13px;line-height:2;color:var(--ink-2);max-width:74ch;text-wrap:pretty}' +
+      '.hpx2__n + .hpx2__n{margin-top:6px}' +
+      '.hpx2__n em{font-style:normal;color:var(--orange)}' +
+      '@media (min-width:760px){' +
+        '.hpx2__r{grid-template-columns:1.6em auto minmax(0,1fr) auto}' +
+        '.hpx2__x{grid-column:auto;justify-self:end;text-align:right;white-space:nowrap}' +
+      '}';
+    document.head.appendChild(s);
+
+    var rows = old.querySelectorAll('.hpxr__i'), html = '', i;
+    for (i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var l = r.querySelector('.hpxr__l');
+      var w = r.querySelector('.hpxr__b b');
+      var d = r.querySelector('.hpxr__d');
+      var xs = r.querySelectorAll('.hpxr__x span');
+      var words = [], j;
+      for (j = 0; j < xs.length; j++) words.push(xs[j].textContent.trim());
+      html += '<div class="hpx2__r">' +
+        '<span class="hpx2__l">' + esc(l ? l.textContent.trim() : '') + '</span>' +
+        '<b class="hpx2__w">' + esc(w ? w.textContent.trim() : '') + '</b>' +
+        '<span class="hpx2__d">' + esc(d ? d.textContent.trim() : '') + '</span>' +
+        '<span class="hpx2__x">' + esc(words.join('・')) + '</span>' +
+        '</div>';
+    }
+
+    var box = document.createElement('div');
+    box.className = 'hpx2';
+    box.innerHTML = html;
+    old.parentNode.replaceChild(box, old);
+
+    var note = document.querySelector('.hpx__note');
+    if (note) {
+      note.className = '';
+      note.innerHTML =
+        '<p class="hpx2__n">深色的字是 <b>HPX 1.0（2009 起）</b>：Happy People Cross——' +
+        '一群人因為一本書相遇，開心地交會。<em>橘色的字</em>是 <b>HPX 2.0（2020 起）</b>' +
+        '在原本三個字上再長出來的一層：不只交流，也把讀到的東西變成計畫、練習與連結。</p>' +
+        '<p class="hpx2__n">不論哪一個版本，<strong>X 都是交會</strong>：Planner、Prototyper、Producer、' +
+        'Project Manager、Product Manager、Programmer、Professor、Person、People、Player⋯⋯' +
+        '全部都是 P，全部在這裡交叉。</p>';
     }
   }
 
@@ -140,12 +212,12 @@
     var p2 = document.getElementById('ab-p2');
     var tab2 = document.getElementById('ab-2');
     if (!p1 || !p2) return;
-    if (p1.querySelector('.hpxr')) return;        // 已經處理過，不重複
+    if (p1.querySelector('.hpxr, .hpx2')) return;   // 已經處理過，不重複
 
     var secs = p2.querySelectorAll('section');
     var meaning = null, i;
     for (i = 0; i < secs.length; i++) {
-      if (secs[i].querySelector('.hpxr')) { meaning = secs[i]; break; }
+      if (secs[i].querySelector('.hpxr, .hpx2')) { meaning = secs[i]; break; }
     }
     if (meaning) {
       var first = p1.querySelector('section');    // 開場三段（intro2）
@@ -215,6 +287,7 @@
     copy();
     tidyStart();
     joinCtas();
+    compactHpx();
     mergeBooks();
     mergeAbout();
     upgradeJoinForm();
