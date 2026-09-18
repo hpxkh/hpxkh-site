@@ -32,7 +32,8 @@
   /* H·P·X：原本一個字母就佔掉一整排、右半邊大片留白，
      下面 1.0／2.0 又用三段長文再解釋一次顏色的意思。
      改成一行一個字母：字母 → 英文字 → 中文說明 → 2.0 的字（橘色）。
-     顏色本身就是圖例，說明收成兩句話即可。 */
+     桌機用 display:contents 讓三行共用同一組欄位，四欄一起靠左對齊，
+     多出來的空間留在最右邊，不會在中間開一個洞。 */
   function compactHpx() {
     var old = document.querySelector('.hpxr');
     if (!old || document.getElementById('hpx2css')) return;
@@ -47,13 +48,16 @@
       '.hpx2__w{font-family:var(--display);font-size:clamp(16px,1.9vw,20px);font-weight:600;letter-spacing:.06em}' +
       '.hpx2__d{font-size:13px;color:var(--ink-2);letter-spacing:.04em}' +
       '.hpx2__x{grid-column:2/-1;font-family:var(--display);font-size:13.5px;letter-spacing:.06em;' +
-        'color:var(--orange);white-space:normal}' +
+        'color:var(--orange)}' +
       '.hpx2__n{margin-top:16px;font-size:13px;line-height:2;color:var(--ink-2);max-width:74ch;text-wrap:pretty}' +
       '.hpx2__n + .hpx2__n{margin-top:6px}' +
       '.hpx2__n em{font-style:normal;color:var(--orange)}' +
       '@media (min-width:760px){' +
-        '.hpx2__r{grid-template-columns:1.6em auto minmax(0,1fr) auto}' +
-        '.hpx2__x{grid-column:auto;justify-self:end;text-align:right;white-space:nowrap}' +
+        '.hpx2{display:grid;grid-template-columns:1.6em auto auto minmax(0,1fr);' +
+          'align-items:baseline;column-gap:clamp(14px,2vw,26px)}' +
+        '.hpx2__r{display:contents}' +
+        '.hpx2__r > *{padding:clamp(11px,1.5vw,15px) 0;border-bottom:1px solid var(--hair)}' +
+        '.hpx2__x{grid-column:auto;white-space:nowrap}' +
       '}';
     document.head.appendChild(s);
 
