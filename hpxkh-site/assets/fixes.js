@@ -1,7 +1,7 @@
 /* 前端版面調整。等 index.html 整理過後可以併回原始碼。
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
-   3. 表單：加入社團申請補題目、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
+   3. 表單：加入社團申請補題目與可複選、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
    5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
    6. 首頁與新人指引補上「加入社團申請」的入口
@@ -487,12 +487,19 @@
     if (typeof FORMS === 'undefined' || typeof buildForm !== 'function') return;
     var F = TX.forms || {}, i;
 
-    // 加入社團申請：居住縣市改下拉、審核天數
+    // 加入社團申請：居住縣市改下拉、審核天數、聚會形式改可複選
     if (FORMS.join) {
       if (F.joinIntro) FORMS.join.intro = F.joinIntro;
-      if (F.joinArea) {
-        for (i = 0; i < FORMS.join.fields.length; i++) {
-          if (FORMS.join.fields[i].k === 'area') FORMS.join.fields[i] = F.joinArea;
+      for (i = 0; i < FORMS.join.fields.length; i++) {
+        var fd = FORMS.join.fields[i];
+        if (fd.k === 'area' && F.joinArea) FORMS.join.fields[i] = F.joinArea;
+        // 想參加哪幾種聚會本來就不會只有一種，單選會逼人二選一
+        if (fd.k === 'kind' && fd.t === 'select') {
+          fd.t = 'checks';
+          fd.wide = true;
+          fd.l = '最想參加的聚會形式（可複選）';
+          fd.opts = (fd.opts || []).filter(function (o) { return o !== '還在觀望，先看看'; });
+          fd.hint = '可以複選，也可以都不選——還在觀望就先跳過這題。';
         }
       }
     }
