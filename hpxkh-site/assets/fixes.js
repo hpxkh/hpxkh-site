@@ -5,11 +5,12 @@
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
    5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
    6. 首頁與新人指引補上「加入社團申請」的入口
-   7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註
+   7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註，P 那排帶出所有 P 開頭的職稱
    8. 九種聚會形式排成 3×3
    9. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
   10. 文件表單分成兩排：書友常用／店家、單位與其他社群
   11. 步驟區塊的欄數配合實際張數，不再固定三欄
+  12. 開書聚的流程改成四個階段（內容在 copy.js）
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
 (function () {
@@ -125,11 +126,23 @@
     }).join('');
   }
 
+  /* 開一場書聚的流程（#flow2）。階段與細項都在 copy.js。 */
+  function renderFlow() {
+    var m = document.getElementById('flow2');
+    if (!m || !TX.flow || !TX.flow.length) return;
+    m.innerHTML = TX.flow.map(function (f) {
+      return '<div class="flow__s"><span class="flow__n">' + esc(f.n) + '</span>' +
+        '<h4>' + esc(f.h) + '</h4><ul>' +
+        (f.i || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') +
+        '</ul></div>';
+    }).join('');
+  }
+
   /* H·P·X：原本一個字母就佔掉一整排、右半邊大片留白，
      下面 1.0／2.0 又用三段長文再解釋一次顏色的意思。
      改成一行一個字母：字母 → 英文字 → 中文說明 → 2.0 的字（橘色）。
-     桌機用 display:contents 讓三行共用同一組欄位，四欄一起靠左對齊，
-     多出來的空間留在最右邊，不會在中間開一個洞。 */
+     桌機用 display:contents 讓三行共用同一組欄位，四欄一起靠左對齊。
+     簡報裡那一長串 P 開頭的職稱，就接在 P 那一排下面。 */
   function compactHpx() {
     var old = document.querySelector('.hpxr');
     if (!old || document.getElementById('hpx2css')) return;
@@ -145,6 +158,9 @@
       '.hpx2__d{font-size:13px;color:var(--ink-2);letter-spacing:.04em}' +
       '.hpx2__x{grid-column:2/-1;font-family:var(--display);font-size:13.5px;letter-spacing:.06em;' +
         'color:var(--orange)}' +
+      '.hpx2__p{font-size:12px;line-height:1.95;color:var(--muted);' +
+        'padding:0 0 clamp(11px,1.5vw,15px);border-bottom:1px solid var(--hair)}' +
+      '.hpx2__r--nb{border-bottom:0;padding-bottom:4px}' +
       '.hpx2__n{margin-top:16px;font-size:13px;line-height:2;color:var(--ink-2);text-wrap:pretty}' +
       '.hpx2__n + .hpx2__n{margin-top:6px}' +
       '.hpx2__n em{font-style:normal;color:var(--orange)}' +
@@ -153,6 +169,8 @@
           'align-items:baseline;column-gap:clamp(14px,2vw,26px)}' +
         '.hpx2__r{display:contents}' +
         '.hpx2__r > *{padding:clamp(11px,1.5vw,15px) 0;border-bottom:1px solid var(--hair)}' +
+        '.hpx2__r--nb > *{border-bottom:0;padding-bottom:2px}' +
+        '.hpx2__p{grid-column:2/-1;padding-top:0}' +
         '.hpx2__x{grid-column:auto;white-space:nowrap}' +
       '}';
     document.head.appendChild(s);
@@ -166,12 +184,15 @@
       var xs = r.querySelectorAll('.hpxr__x span');
       var words = [], j;
       for (j = 0; j < xs.length; j++) words.push(xs[j].textContent.trim());
-      html += '<div class="hpx2__r">' +
-        '<span class="hpx2__l">' + esc(l ? l.textContent.trim() : '') + '</span>' +
+      var letter = l ? l.textContent.trim() : '';
+      var extra = (TX.hpxExtra || {})[letter] || '';
+      html += '<div class="hpx2__r' + (extra ? ' hpx2__r--nb' : '') + '">' +
+        '<span class="hpx2__l">' + esc(letter) + '</span>' +
         '<b class="hpx2__w">' + esc(w ? w.textContent.trim() : '') + '</b>' +
         '<span class="hpx2__d">' + esc(d ? d.textContent.trim() : '') + '</span>' +
         '<span class="hpx2__x">' + esc(words.join('・')) + '</span>' +
-        '</div>';
+        '</div>' +
+        (extra ? '<div class="hpx2__p">' + esc(extra) + '</div>' : '');
     }
 
     var box = document.createElement('div');
@@ -215,6 +236,7 @@
 
     renderSteps('stepPath', TX.steps);
     renderSteps('hostKit', TX.hostKit);
+    renderFlow();
   }
 
   /* 新人指引再加一個分頁排在最前面：剛加入可以做什麼。
