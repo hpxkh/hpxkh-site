@@ -1,6 +1,6 @@
 /* 前端版面調整。等 index.html 整理過後可以併回原始碼。
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
-   2. 社團書聚：把「我們讀些什麼」併進「歷年書聚書單」
+   2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
    3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
    5. 新人指引：拿掉 Part 01／02，改小標記；路徑與開書聚清單依 copy.js 重繪
@@ -135,7 +135,9 @@
         'margin-top:calc(clamp(18px,2.3vw,23px) * .5 - 4px)}' +
       '[data-pg="start"] .part__t p{max-width:60ch;text-wrap:pretty}' +
       '.start__join{margin-top:14px;font-size:13px;line-height:1.9;color:var(--ink-3,#918B81)}' +
-      '.start__join a{color:var(--orange,#EF8200)}';
+      '.start__join a{color:var(--orange,#EF8200)}' +
+      '.mtv{margin-top:14px}' +
+      '.mtv__s{padding-top:clamp(18px,2.4vw,26px)!important}';
     document.head.appendChild(s);
 
     for (var i = 0; i < parts.length; i++) {
@@ -187,24 +189,64 @@
     }
   }
 
-  /* 社團書聚：「我們讀些什麼」（領域分布）與「歷年書聚書單」講的是同一件事，
-     分成兩個分頁反而要來回切。把分布圖移到書單上方，合成一頁。 */
-  function mergeBooks() {
-    var tab2 = document.getElementById('mt-2');
+  /* 社團書聚：「我們讀些什麼」（領域分布）、「歷年書聚書單」、「歷年場次」
+     其實是同一批資料的三種看法，分成三個分頁要來回切換。
+     合成一個分頁，上面放三顆按鈕切換呈現方式。 */
+  function mergeMeetups() {
     var p2 = document.getElementById('mt-p2');
     var p3 = document.getElementById('mt-p3');
-    var tab3 = document.getElementById('mt-3');
-    if (!tab2 || !p2 || !p3) return;
+    var p4 = document.getElementById('mt-p4');
+    if (!p2 || !p3 || !p4 || document.getElementById('mtViews')) return;
 
-    var sec = p2.querySelector('section');
-    if (sec) {
-      var h = sec.querySelector('.blk__h h3');
+    var s2 = p2.querySelector('section');
+    var s3 = p3.querySelector('section');
+    var s4 = p4.querySelector('section');
+
+    var head = document.createElement('section');
+    head.className = 'blk pad';
+    head.style.paddingBottom = '0';
+    head.innerHTML =
+      '<div class="blk__h"><h3>我們讀些什麼</h3>' +
+      '<p>' + esc(TX.meetupsLede || '') + '</p></div>' +
+      '<div class="chips mtv" id="mtViews" role="group" aria-label="呈現方式">' +
+      '<button class="chip" type="button" aria-pressed="true">領域分布</button>' +
+      '<button class="chip" type="button" aria-pressed="false">歷年書單</button>' +
+      '<button class="chip" type="button" aria-pressed="false">歷年場次</button>' +
+      '</div>';
+    p2.insertBefore(head, p2.firstChild);
+
+    if (s3) p2.appendChild(s3);
+    if (s4) p2.appendChild(s4);
+
+    // 每個檢視自己的標題留著當小標；分布那一段改名，才不會跟分頁名重複
+    if (s2) {
+      var h = s2.querySelector('.blk__h h3');
       if (h) h.textContent = '讀過的書：領域分布';
-      p3.insertBefore(sec, p3.firstChild);
     }
-    p2.parentNode.removeChild(p2);
-    tab2.parentNode.removeChild(tab2);
-    if (tab3) tab3.textContent = '我們讀些什麼';
+
+    var views = [s2, s3, s4].filter(Boolean);
+    var btns = head.querySelectorAll('.chip');
+    views.forEach(function (v) { v.classList.add('mtv__s'); });
+
+    function show(i) {
+      views.forEach(function (v, k) { v.hidden = (k !== i); });
+      for (var b = 0; b < btns.length; b++) {
+        btns[b].setAttribute('aria-pressed', b === i ? 'true' : 'false');
+      }
+    }
+    for (var b = 0; b < btns.length; b++) {
+      (function (k) {
+        btns[k].addEventListener('click', function () { show(k); });
+      })(b);
+    }
+    show(0);
+
+    p3.parentNode.removeChild(p3);
+    p4.parentNode.removeChild(p4);
+    ['mt-3', 'mt-4'].forEach(function (id) {
+      var t = document.getElementById(id);
+      if (t) t.parentNode.removeChild(t);
+    });
   }
 
   /* 關於我們：「HPX 三個字母是什麼意思」其實是社團介紹的一部分，
@@ -291,7 +333,7 @@
     tidyStart();
     joinCtas();
     compactHpx();
-    mergeBooks();
+    mergeMeetups();
     mergeAbout();
     upgradeJoinForm();
   }
