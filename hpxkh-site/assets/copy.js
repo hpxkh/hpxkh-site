@@ -160,12 +160,12 @@
           { k: 'who', l: '你的稱呼（Facebook 名稱）', t: 'text', req: true, ph: '請填寫 FB 上顯示的名稱' },
           { k: 'email', l: 'Email', t: 'text', req: true, ph: 'name@example.com',
             hint: '用於回覆，約 3～5 個工作天。' },
+          { k: 'contact', l: '其他聯絡方式', t: 'text',
+            ph: '選填。電話、LINE ID，或方便聯繫的時段' },
           { k: 'title', l: '一句話主題', t: 'text', req: true, ph: '例：希望能多辦週間晚上的場次' },
           { k: 'say', l: '詳細說明', t: 'textarea', req: true, wide: true,
             ph: '發生了什麼、或你的想法是什麼。有時間、地點、相關貼文連結的話一起寫上。',
-            hint: '寫得越具體，越好處理。' },
-          { k: 'hope', l: '你希望的結果或做法', t: 'textarea', wide: true,
-            ph: '選填。例：希望管理群公告提醒、希望網站加上某個功能。' }
+            hint: '寫得越具體，越好處理。' }
         ]
       },
 
