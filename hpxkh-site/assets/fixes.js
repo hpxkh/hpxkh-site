@@ -3,12 +3,13 @@
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
    3. 表單：加入社團申請補題目、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
-   5. 新人指引：多一個「可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
+   5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
    6. 首頁與新人指引補上「加入社團申請」的入口
    7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註
    8. 九種聚會形式排成 3×3
    9. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
   10. 文件表單分成兩排：書友常用／店家、單位與其他社群
+  11. 步驟區塊的欄數配合實際張數，不再固定三欄
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
 (function () {
@@ -57,6 +58,22 @@
       '.end__p{max-width:38em}' +
       '.cal__foot p{max-width:46em}' +
       '.hpx2__n{max-width:54em}' +
+      /* ── 步驟卡片的欄數 ──
+         原始碼固定三欄，但每個區塊的張數不一樣：
+         四張會排成 3+1、兩張會空掉一欄、一張更是只佔三分之一。
+         依張數指定欄數，右邊就不會開天窗。 */
+      '@media (min-width:900px){' +
+        '#stepPath{grid-template-columns:repeat(2,minmax(0,1fr))}' +   /* 四張 → 2×2 */
+        '#hostKit{grid-template-columns:repeat(2,minmax(0,1fr))}' +    /* 兩張 → 並排 */
+        '#startCan{grid-template-columns:1fr}' +                       /* 一張 → 滿版 */
+        '#startCan .step{grid-row:auto;display:flex}' +
+      '}' +
+      '@media (min-width:760px){' +
+        '#startCan .step__b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}' +
+        '#startCan .step__b a{border-bottom:1px solid var(--hair)}' +
+        '#startCan .step__b a:nth-child(odd){border-right:1px solid var(--hair)}' +
+        '#startCan .step__b a:nth-last-child(-n+2){border-bottom:0}' +
+      '}' +
       /* 勾選框：原本的勾勾用固定 px 定位，會偏一點。改成置中計算。 */
       '.chk input:checked::after{left:50%;top:50%;width:4px;height:8px;' +
         'transform:translate(-50%,-60%) rotate(45deg)}' +
@@ -200,7 +217,7 @@
     renderSteps('hostKit', TX.hostKit);
   }
 
-  /* 新人指引再加一個分頁排在最前面：加入之後可以做什麼。
+  /* 新人指引再加一個分頁排在最前面：剛加入可以做什麼。
      index.html 的分頁腳本在載入時就把按鈕抓成快照，之後新增的按鈕不在裡面，
      所以這顆按鈕的開關要自己接：按自己 → 顯示自己並關掉別人；
      按別人 → 原本的腳本會處理它自己，這裡只要把自己關掉。 */
@@ -223,7 +240,7 @@
     btn.setAttribute('role', 'tab');
     btn.setAttribute('aria-controls', 'sg-p0');
     btn.setAttribute('aria-selected', 'false');
-    btn.textContent = TX.canTab || '可以做什麼';
+    btn.textContent = TX.canTab || '剛加入可以做什麼';
     tabsEl.insertBefore(btn, tabsEl.firstChild);
 
     renderSteps('startCan', TX.can);
