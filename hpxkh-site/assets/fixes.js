@@ -1,12 +1,14 @@
 /* 前端版面調整。等 index.html 整理過後可以併回原始碼。
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
-   3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
+   3. 表單：加入社團申請補題目、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
    5. 新人指引：多一個「可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
    6. 首頁與新人指引補上「加入社團申請」的入口
    7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註
    8. 九種聚會形式排成 3×3
+   9. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
+  10. 文件表單分成兩排：書友常用／店家、單位與其他社群
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
 (function () {
@@ -37,13 +39,37 @@
     var s = document.createElement('style');
     s.id = 'hpxkhFixCss';
     s.textContent =
+      /* ── 段落寬度 ──
+         原始碼用 ch 當上限（60ch、66ch…）。ch 是數字「0」的寬度，
+         中文字大約是它的兩倍，所以 60ch 實際只排得下 30 個中文字，
+         段落排到容器四成就斷行，右邊空一大片。
+         改用 em：1em 剛好等於一個中文字，數字就是每行的字數。 */
+      '.top p{max-width:42em}' +
+      '.blk__h p{max-width:44em}' +
+      '.prose{max-width:42em}' +
+      '.sec-lede{max-width:44em}' +
+      '.band p{max-width:46em}' +
+      '.band2__t p{max-width:52em}' +
+      '.embed p{max-width:40em}' +
+      '.appform__h p{max-width:54em}' +
+      '.part__t p{max-width:46em}' +
+      '.step__d{max-width:46em}' +
+      '.end__p{max-width:38em}' +
+      '.cal__foot p{max-width:46em}' +
+      '.hpx2__n{max-width:54em}' +
+      /* 勾選框：原本的勾勾用固定 px 定位，會偏一點。改成置中計算。 */
+      '.chk input:checked::after{left:50%;top:50%;width:4px;height:8px;' +
+        'transform:translate(-50%,-60%) rotate(45deg)}' +
+      '@media (min-width:900px){.chks{grid-template-columns:repeat(4,minmax(0,1fr))}}' +
+      /* 文件表單：兩排分類 */
+      '.dgrp + .dgrp{margin-top:20px}' +
+      '.dgrp__k{font-size:11.5px;letter-spacing:.14em;color:var(--ink-3,#918B81);margin-bottom:9px}' +
       /* 新人指引 */
       '[data-pg="start"] .part{gap:12px;align-items:flex-start}' +
       '[data-pg="start"] .part__k{display:none}' +
       '[data-pg="start"] .part__m{flex:0 0 auto;width:9px;height:9px;border-radius:2px;' +
         'background:var(--orange,#EF8200);transform:rotate(45deg);' +
         'margin-top:calc(clamp(18px,2.3vw,23px) * .5 - 4px)}' +
-      '[data-pg="start"] .part__t p{max-width:60ch;text-wrap:pretty}' +
       '.start__join{margin-top:14px;font-size:13px;line-height:1.9;color:var(--ink-3,#918B81)}' +
       '.start__join a{color:var(--orange,#EF8200)}' +
       /* 社團書聚：三個檢視 */
@@ -102,7 +128,7 @@
       '.hpx2__d{font-size:13px;color:var(--ink-2);letter-spacing:.04em}' +
       '.hpx2__x{grid-column:2/-1;font-family:var(--display);font-size:13.5px;letter-spacing:.06em;' +
         'color:var(--orange)}' +
-      '.hpx2__n{margin-top:16px;font-size:13px;line-height:2;color:var(--ink-2);max-width:74ch;text-wrap:pretty}' +
+      '.hpx2__n{margin-top:16px;font-size:13px;line-height:2;color:var(--ink-2);text-wrap:pretty}' +
       '.hpx2__n + .hpx2__n{margin-top:6px}' +
       '.hpx2__n em{font-style:normal;color:var(--orange)}' +
       '@media (min-width:760px){' +
@@ -340,6 +366,80 @@
     }
   }
 
+  /* 文件表單：六個項目性質差很多，排成一列看起來是平的。
+     分成兩排：上排是書友自己會用到的，下排是店家、單位或其他社群會用到的。
+     按鈕節點直接搬過去，原本綁好的分頁切換照常運作。 */
+  function regroupDocs() {
+    var bar = document.querySelector('[data-pg="docs"] .tabs[data-tabs]');
+    if (!bar || document.getElementById('docsGrpB')) return;
+    var G = TX.docsGroups || {};
+    var host = bar.parentNode;
+
+    function group(id, label, ids) {
+      var wrap = document.createElement('div');
+      wrap.className = 'dgrp';
+      if (id) wrap.id = id;
+      wrap.innerHTML = '<p class="dgrp__k">' + esc(label || '') + '</p>';
+      var row = document.createElement('div');
+      row.className = 'tabs';
+      row.setAttribute('role', 'tablist');
+      wrap.appendChild(row);
+      host.insertBefore(wrap, bar);
+      ids.forEach(function (tid) {
+        var t = document.getElementById(tid);
+        if (t) row.appendChild(t);
+      });
+    }
+
+    group('', G.a || '書友常用', ['tab-join', 'tab-badge', 'tab-files']);
+    group('docsGrpB', G.b || '店家、單位與其他社群', ['tab-venue', 'tab-collab', 'tab-post']);
+    bar.parentNode.removeChild(bar);
+  }
+
+  /* 表單內容調整（欄位與說明都定義在 copy.js） */
+  function reworkForms() {
+    if (typeof FORMS === 'undefined' || typeof buildForm !== 'function') return;
+    var F = TX.forms || {}, i;
+
+    // 加入社團申請：居住縣市改下拉、審核天數
+    if (FORMS.join) {
+      if (F.joinIntro) FORMS.join.intro = F.joinIntro;
+      if (F.joinArea) {
+        for (i = 0; i < FORMS.join.fields.length; i++) {
+          if (FORMS.join.fields[i].k === 'area') FORMS.join.fields[i] = F.joinArea;
+        }
+      }
+    }
+
+    // 書聚場地登記 → 推薦場地
+    if (FORMS.venue && F.venue) {
+      FORMS.venue.title = F.venue.title;
+      FORMS.venue.intro = F.venue.intro;
+      if (F.venue.go) FORMS.venue.go = F.venue.go;
+      FORMS.venue.fields = F.venue.fields;
+      var tv = document.getElementById('tab-venue');
+      if (tv && F.venue.tab) tv.textContent = F.venue.tab;
+    }
+
+    // 書聚徽章申請：說明與「是否已張貼貼文」
+    if (FORMS.badge) {
+      if (F.badgeIntro) FORMS.badge.intro = F.badgeIntro;
+      if (F.badgePost) {
+        var B = FORMS.badge.fields, has = false, at = B.length;
+        for (i = 0; i < B.length; i++) {
+          if (B[i].k === F.badgePost.k) has = true;
+          if (B[i].k === 'local_email_badge') at = i;
+        }
+        if (!has) B.splice(at, 0, F.badgePost);
+      }
+    }
+
+    [['formJoin', 'join'], ['formVenue', 'venue'], ['formBadge', 'badge']].forEach(function (pair) {
+      var m = document.getElementById(pair[0]);
+      if (m && FORMS[pair[1]]) buildForm(m, FORMS[pair[1]]);
+    });
+  }
+
   /* 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目。
      欄位定義與重建都靠 FORMS / buildForm 這兩個全域，改完重建一次即可。 */
   function upgradeJoinForm() {
@@ -397,7 +497,9 @@
     compactHpx();
     mergeMeetups();
     mergeAbout();
+    regroupDocs();
     upgradeJoinForm();
+    reworkForms();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
