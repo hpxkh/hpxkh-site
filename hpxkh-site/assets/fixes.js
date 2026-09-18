@@ -1,7 +1,8 @@
 /* 前端小調整。等 index.html 整理過後可以併回原始碼。
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：把「我們讀些什麼」併進「歷年書聚書單」
-   3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目 */
+   3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
+   4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」 */
 (function () {
   function fix(root) {
     if (!root) return;
@@ -32,6 +33,37 @@
     p2.parentNode.removeChild(p2);
     tab2.parentNode.removeChild(tab2);
     if (tab3) tab3.textContent = '我們讀些什麼';
+  }
+
+  /* 關於我們：「HPX 三個字母是什麼意思」其實是社團介紹的一部分，
+     讀者看完開場三段正想問「所以 HPX 是什麼」，答案就應該接在那裡，
+     而不是要再點一個分頁。搬完之後原分頁只剩「我們是什麼、不是什麼」，
+     那一頁的作用是幫人判斷適不適合自己，分頁名也一併改成這件事。 */
+  function mergeAbout() {
+    var p1 = document.getElementById('ab-p1');
+    var p2 = document.getElementById('ab-p2');
+    var tab2 = document.getElementById('ab-2');
+    if (!p1 || !p2) return;
+    if (p1.querySelector('.hpxr')) return;        // 已經處理過，不重複
+
+    var secs = p2.querySelectorAll('section');
+    var meaning = null, i;
+    for (i = 0; i < secs.length; i++) {
+      if (secs[i].querySelector('.hpxr')) { meaning = secs[i]; break; }
+    }
+    if (meaning) {
+      var first = p1.querySelector('section');    // 開場三段（intro2）
+      if (first && first.nextSibling) p1.insertBefore(meaning, first.nextSibling);
+      else p1.appendChild(meaning);
+    }
+
+    // 剩下的「我們是什麼、不是什麼」：分頁名與說明句改寫
+    if (tab2) tab2.textContent = '適不適合你';
+    var rest = p2.querySelector('.blk__h');
+    if (rest) {
+      var p = rest.querySelector('p');
+      if (p) p.textContent = '兩邊都先說清楚，你比較好判斷要不要來。';
+    }
   }
 
   /* 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目。
@@ -85,6 +117,7 @@
     fix(document.querySelector('footer'));
     fix(document.getElementById('contactCards'));
     mergeBooks();
+    mergeAbout();
     upgradeJoinForm();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
