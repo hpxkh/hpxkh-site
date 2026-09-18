@@ -12,8 +12,8 @@
  * 而 calendar.js 本身有防重入保護，重複掛載不會有副作用。
  *
  * ── 載入順序 ──
- * copy.js 必須排在 fixes.js 之前：文案（window.HPXKH_TX）由 copy.js 提供，
- * fixes.js 只負責版面，讀取這份文案來套用。
+ * copy.js 必須排在 fixes.js 之前：文案與步驟資料（window.HPXKH_TX）由 copy.js 提供，
+ * fixes.js 只負責版面，讀取這份資料來套用。
  *
  * ── 關於 VER ──
  * 本網域的 Cloudflare「Browser Cache TTL」設為 4 小時，會把靜態檔的
@@ -21,7 +21,7 @@
  * 每次改動 copy.js / calendar.js / fixes.js / favicon.svg 後把 VER 改掉，
  * 瀏覽器就會視為新檔案立刻重新下載。首頁本身不被快取，所以新版本號會馬上送達。
  */
-const VER = '20260918m';
+const VER = '20260918n';
 
 const MOUNT = '<div id="calMount"><p style="color:#918B81;font-size:13px">讀取行事曆中…</p></div>';
 const SCRIPTS = '<script src="/assets/copy.js?v=' + VER + '"></script>' +
