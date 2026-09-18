@@ -17,16 +17,40 @@
     '.cal{--cal-line:var(--hair,#E6E1D9);--cal-ink:var(--ink,#2B2823);--cal-dim:var(--ink-3,#918B81);--cal-bg:var(--cream,#F7F4EF);--cal-key:var(--orange,#EF8200)}' +
     '.cal__bar{display:flex;align-items:center;justify-content:center;margin-bottom:16px}' +
     '.cal__nav{display:inline-flex;align-items:stretch}' +
-    '.cal__a{display:grid;place-items:center;width:42px;cursor:pointer;background:transparent;' +
+    '.cal__a{display:grid;place-items:center;width:38px;cursor:pointer;background:transparent;' +
       'border:1px solid var(--cal-line);color:var(--cal-ink);padding:0;transition:.15s}' +
     '.cal__a:first-child{border-radius:999px 0 0 999px}' +
     '.cal__a:last-child{border-radius:0 999px 999px 0}' +
     '.cal__a:hover{background:var(--cal-bg)}' +
     '.cal__a svg{width:8px;height:13px;display:block}' +
-    '.cal__mo{font-family:var(--serif,Georgia,serif);font-size:clamp(19px,2.4vw,24px);letter-spacing:.02em;' +
+    '.cal__mo{font-family:var(--serif,Georgia,serif);font-size:clamp(15px,1.6vw,17px);letter-spacing:.06em;' +
       'color:var(--cal-ink);cursor:pointer;background:transparent;border:1px solid var(--cal-line);' +
-      'border-left:0;border-right:0;padding:9px 22px;line-height:1.25;white-space:nowrap;transition:.15s}' +
+      'border-left:0;border-right:0;padding:9px 18px;line-height:1.25;white-space:nowrap;transition:.15s}' +
     '.cal__mo:hover{background:var(--cal-bg)}' +
+    '.cal__mo[aria-expanded="true"]{background:var(--cal-bg)}' +
+    '.cal__wrap{position:relative;display:inline-block}' +
+    '.cal__pick{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);z-index:20;' +
+      'width:min(300px,86vw);background:#fff;border:1px solid var(--cal-line);border-radius:14px;' +
+      'box-shadow:0 12px 32px rgb(43 40 35 / .13);padding:14px}' +
+    '.cal__pyr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}' +
+    '.cal__pyr strong{font-family:var(--serif,Georgia,serif);font-size:16px;letter-spacing:.06em;font-weight:500}' +
+    '.cal__ya{width:30px;height:30px;display:grid;place-items:center;cursor:pointer;background:transparent;' +
+      'border:1px solid var(--cal-line);border-radius:999px;color:var(--cal-ink);padding:0;transition:.15s}' +
+    '.cal__ya:hover:not([disabled]){background:var(--cal-bg)}' +
+    '.cal__ya[disabled]{opacity:.3;cursor:default}' +
+    '.cal__ya svg{width:6px;height:11px;display:block}' +
+    '.cal__pms{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}' +
+    '.cal__pm{font:inherit;font-size:13px;cursor:pointer;background:transparent;color:var(--cal-ink);' +
+      'border:1px solid transparent;border-radius:8px;padding:9px 0;transition:.12s}' +
+    '.cal__pm:hover{background:var(--cal-bg)}' +
+    '.cal__pm--on{background:var(--cal-key);border-color:var(--cal-key);color:#fff}' +
+    '.cal__pm--has::after{content:"";display:block;width:4px;height:4px;border-radius:999px;' +
+      'background:var(--cal-key);margin:3px auto 0}' +
+    '.cal__pm--on.cal__pm--has::after{background:#fff}' +
+    '.cal__ptoday{width:100%;margin-top:10px;font:inherit;font-size:12.5px;cursor:pointer;' +
+      'background:transparent;border:1px solid var(--cal-line);border-radius:999px;padding:8px;' +
+      'color:var(--cal-ink);transition:.15s}' +
+    '.cal__ptoday:hover{background:var(--cal-bg)}' +
     '.cal__grid{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--cal-line);border-left:1px solid var(--cal-line)}' +
     '.cal__wd{padding:8px 6px;text-align:center;font-size:11.5px;letter-spacing:.1em;color:var(--cal-dim);' +
       'border-right:1px solid var(--cal-line);border-bottom:1px solid var(--cal-line);background:var(--cal-bg)}' +
@@ -53,8 +77,8 @@
     '.cal__fb{border:1px solid var(--cal-line);background:#fff;height:min(78vh,720px);overflow:hidden}' +
     '.cal__fb iframe{width:100%;height:100%;display:block;border:0}' +
     '@media (max-width:760px){' +
-      '.cal__mo{font-size:18px;padding:8px 16px}' +
-      '.cal__a{width:38px}' +
+      '.cal__mo{font-size:14.5px;padding:8px 14px}' +
+      '.cal__a{width:36px}' +
       '.cal__c{min-height:76px;padding:3px 3px;gap:2px}' +
       '.cal__n{font-size:12px}' +
       '.cal__c--today .cal__n{width:18px;height:18px;font-size:11px}' +
@@ -132,10 +156,60 @@
   }
 
   var host, events = null, cur = new Date(), failed = false;
+  var picking = false, pickYear = null, outside = null;
 
   function byMonth(y, m) {
     var pre = y + '-' + String(m + 1).padStart(2, '0');
     return events.filter(function (e) { return e.d.indexOf(pre) === 0; });
+  }
+
+  function yearRange() {
+    var lo = 9999, hi = 0;
+    (events || []).forEach(function (e) {
+      var y = +e.d.slice(0, 4);
+      if (y < lo) lo = y;
+      if (y > hi) hi = y;
+    });
+    var now = new Date().getFullYear();
+    if (lo > hi) { lo = now; hi = now; }
+    return [Math.min(lo, now), Math.max(hi, now)];
+  }
+
+  function monthsWithEvents(y) {
+    var set = {};
+    (events || []).forEach(function (e) {
+      if (+e.d.slice(0, 4) === y) set[+e.d.slice(5, 7)] = 1;
+    });
+    return set;
+  }
+
+  function picker() {
+    var r = yearRange(), y = pickYear, has = monthsWithEvents(y);
+    var now = new Date();
+    var cells = '';
+    for (var m = 1; m <= 12; m++) {
+      var on = (y === cur.getFullYear() && m === cur.getMonth() + 1);
+      cells += '<button class="cal__pm' + (on ? ' cal__pm--on' : '') +
+        (has[m] ? ' cal__pm--has' : '') + '" type="button" data-m="' + m + '">' + m + ' 月</button>';
+    }
+    return '<div class="cal__pick" role="dialog" aria-label="選擇月份">' +
+      '<div class="cal__pyr">' +
+        '<button class="cal__ya" type="button" data-y="-1" aria-label="前一年"' +
+          (y <= r[0] ? ' disabled' : '') + '>' + CHEV(1) + '</button>' +
+        '<strong>' + y + ' 年</strong>' +
+        '<button class="cal__ya" type="button" data-y="1" aria-label="後一年"' +
+          (y >= r[1] ? ' disabled' : '') + '>' + CHEV(0) + '</button>' +
+      '</div>' +
+      '<div class="cal__pms">' + cells + '</div>' +
+      '<button class="cal__ptoday" type="button" data-today>回到本月（' +
+        now.getFullYear() + ' 年 ' + (now.getMonth() + 1) + ' 月）</button>' +
+    '</div>';
+  }
+
+  function closePicker() {
+    if (!picking) return;
+    picking = false;
+    render();
   }
 
   function render() {
@@ -181,11 +255,15 @@
 
     host.innerHTML =
       '<div class="cal__bar">' +
-        '<div class="cal__nav">' +
-          '<button class="cal__a" type="button" data-go="-1" aria-label="上個月">' + CHEV(1) + '</button>' +
-          '<button class="cal__mo" type="button" data-go="0" title="回到本月">' +
-            y + ' 年 ' + (m + 1) + ' 月</button>' +
-          '<button class="cal__a" type="button" data-go="1" aria-label="下個月">' + CHEV(0) + '</button>' +
+        '<div class="cal__wrap">' +
+          '<div class="cal__nav">' +
+            '<button class="cal__a" type="button" data-go="-1" aria-label="上個月">' + CHEV(1) + '</button>' +
+            '<button class="cal__mo" type="button" data-pick title="選擇月份"' +
+              ' aria-haspopup="dialog" aria-expanded="' + (picking ? 'true' : 'false') + '">' +
+              y + ' 年 ' + (m + 1) + ' 月</button>' +
+            '<button class="cal__a" type="button" data-go="1" aria-label="下個月">' + CHEV(0) + '</button>' +
+          '</div>' +
+          (picking ? picker() : '') +
         '</div>' +
       '</div>' +
       '<div class="cal__grid" role="grid">' +
@@ -196,12 +274,56 @@
 
     host.querySelectorAll('[data-go]').forEach(function (b) {
       b.addEventListener('click', function () {
-        var g = +b.dataset.go;
-        if (g === 0) cur = new Date();
-        else cur = new Date(cur.getFullYear(), cur.getMonth() + g, 1);
+        picking = false;
+        cur = new Date(cur.getFullYear(), cur.getMonth() + (+b.dataset.go), 1);
         render();
       });
     });
+
+    var mo = host.querySelector('[data-pick]');
+    if (mo) mo.addEventListener('click', function (ev) {
+      ev.stopPropagation();
+      picking = !picking;
+      if (picking) pickYear = cur.getFullYear();
+      render();
+    });
+
+    var pick = host.querySelector('.cal__pick');
+    if (pick) {
+      pick.addEventListener('click', function (ev) { ev.stopPropagation(); });
+      pick.querySelectorAll('[data-y]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          if (b.disabled) return;
+          pickYear += (+b.dataset.y);
+          render();
+        });
+      });
+      pick.querySelectorAll('[data-m]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          cur = new Date(pickYear, (+b.dataset.m) - 1, 1);
+          picking = false;
+          render();
+        });
+      });
+      var td = pick.querySelector('[data-today]');
+      if (td) td.addEventListener('click', function () {
+        cur = new Date();
+        picking = false;
+        render();
+      });
+    }
+
+    if (!outside) {
+      outside = function (ev) {
+        if (!picking) return;
+        if (host.contains(ev.target) && ev.target.closest('.cal__wrap')) return;
+        closePicker();
+      };
+      document.addEventListener('click', outside);
+      document.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Escape') closePicker();
+      });
+    }
   }
 
   function start() {
