@@ -125,12 +125,12 @@
       // 書聚徽章申請
       badgeIntro: '書聚完成後，由主揪填寫本表為成員申請徽章。' +
         '徽章費用由社團經費支付，不向書友收取任何費用。' +
-        '申請前請先在社團張貼一篇心得或全體合照的貼文。' +
+        '申請前請先在社團張貼一篇心得或全體合照的貼文，符合資格才能申請。' +
         '徽章製作期較長，通常需要 1～3 個月，完成後會以 Email 聯繫，可以接受再申請。',
       badgePost: {
         k: 'local_post_badge', l: '是否已在社團張貼心得或合照貼文', t: 'select', req: true,
         opts: ['已張貼', '尚未張貼，會盡快補上'],
-        hint: '書聚結束後需在社團發一篇心得或全體合照的貼文，才能申請徽章。'
+        hint: '書聚結束後需在社團發一篇心得或全體合照的貼文，才符合申請資格。'
       },
 
       /* 推薦場地（原本的「書聚場地登記」）。
@@ -215,7 +215,7 @@
       ] },
       { eye: 'During & After', st: '進行與結束', sd: '開始之後的維持，以及結束時可以做的事。你的場次會從社團貼文帶進行事曆，不必另外登記。', items: [
         { n: '', h: '結束後在社團發一篇分享', d: '寫下這一團讀了什麼、聊出什麼。沒跟到的書友也看得到，下一團更好揪。', u: L.group },
-        { n: '', h: '書聚徽章申請', d: '選配的小彩蛋，不是每團都要。費用由社團經費支付，不向書友收費。', u: '#/docs' }
+        { n: '', h: '書聚徽章申請', d: '選配的小彩蛋，不是每團都要。需先在社團張貼一篇心得或合照分享，符合資格才能申請；費用由社團經費支付，不向書友收費。', u: '#/docs' }
       ] }
     ],
 
@@ -223,14 +223,18 @@
     aboutTab: '適不適合你',
     aboutVsLede: '兩邊都先說清楚，你比較好判斷要不要來。',
 
+    /* H·P·X：簡報裡「What is HPX」那一頁列的全是 P 開頭的職稱，
+       它講的就是 P，所以直接接在 P 那一排下面，不放到註解裡。 */
+    hpxExtra: {
+      P: 'Planner、Prototyper、Producer、Project Manager、Product Manager、Programmer、Professor、Person、People、Player⋯⋯在這裡的人，職稱幾乎都是 P 開頭。'
+    },
+
     // H·P·X 三行下方的說明（顏色本身就是 1.0／2.0 的圖例）
     hpxNote:
       '<p class="hpx2__n">深色的字是 <b>HPX 1.0（2009 起）</b>：Happy People Cross——' +
       '一群人因為一本書相遇，開心地交會。<em>橘色的字</em>是 <b>HPX 2.0（2020 起）</b>' +
       '在原本三個字上再長出來的一層：不只交流，也把讀到的東西變成計畫、練習與連結。</p>' +
-      '<p class="hpx2__n">不論哪一個版本，<strong>X 都是交會</strong>：Planner、Prototyper、Producer、' +
-      'Project Manager、Product Manager、Programmer、Professor、Person、People、Player⋯⋯' +
-      '全部都是 P，全部在這裡交叉。</p>'
+      '<p class="hpx2__n">不論哪一個版本，<strong>X 都是交會</strong>——上面那些 P，就是在這裡交叉。</p>'
   };
 
   function run() {
