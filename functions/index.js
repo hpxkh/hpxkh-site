@@ -5,14 +5,23 @@
  * 以 HTMLRewriter 做幾件小事：
  *   1. 行事曆頁：舊的 Google Calendar 說明區換成 <div id="calMount">
  *   2. 行事曆頁：修正標題錯字、改寫開場說明
- *   3. 頁尾之後掛上 assets/calendar.js 與 assets/fixes.js
+ *   3. 補上網站圖示，並掛上 assets/calendar.js 與 assets/fixes.js
  *
  * 之後若 tools/build.py 已把這些寫進 index.html，對應選擇器就不會命中，
  * 而 calendar.js 本身有防重入保護，重複掛載不會有副作用。
+ *
+ * ── 關於 VER ──
+ * 本網域的 Cloudflare「Browser Cache TTL」設為 4 小時，會把靜態檔的
+ * max-age 一律拉到 14400，_headers 只能拉長不能縮短。因此改用版本化網址：
+ * 每次改動 calendar.js / fixes.js / favicon.svg 後把 VER 改掉，
+ * 瀏覽器就會視為新檔案立刻重新下載。首頁本身不被快取，所以新版本號會馬上送達。
  */
+const VER = '20260918a';
+
 const MOUNT = '<div id="calMount"><p style="color:#918B81;font-size:13px">讀取行事曆中…</p></div>';
-const SCRIPTS = '<script src="/assets/calendar.js"></script>' +
-  '<script src="/assets/fixes.js"></script>';
+const SCRIPTS = '<script src="/assets/calendar.js?v=' + VER + '"></script>' +
+  '<script src="/assets/fixes.js?v=' + VER + '"></script>';
+const ICON = '<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=' + VER + '">';
 const LEDE = '每月書聚與活動都在下面的月曆上，可以往前往後翻。' +
   '按「訂閱到自己的日曆」之後，社團新增的場次會自動出現在你的 Google 日曆裡，不必回來查。';
 
@@ -24,6 +33,11 @@ export async function onRequestGet(context) {
   let nth = 0;
 
   return new HTMLRewriter()
+    .on('title', {
+      element(el) {
+        el.before(ICON, { html: true });
+      },
+    })
     .on('div.embed', {
       element(el) {
         el.replace(MOUNT, { html: true });
