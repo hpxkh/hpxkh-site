@@ -3,9 +3,10 @@
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
    3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
-   5. 新人指引：拿掉 Part 01／02，改小標記；路徑與開書聚清單依 copy.js 重繪
+   5. 新人指引：多一個「可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
    6. 首頁與新人指引補上「加入社團申請」的入口
    7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註
+   8. 九種聚會形式排成 3×3
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
 (function () {
@@ -30,7 +31,31 @@
     });
   }
 
-  /* 重繪 #stepPath / #hostKit。
+  /* 共用樣式（一次注入） */
+  function css() {
+    if (document.getElementById('hpxkhFixCss')) return;
+    var s = document.createElement('style');
+    s.id = 'hpxkhFixCss';
+    s.textContent =
+      /* 新人指引 */
+      '[data-pg="start"] .part{gap:12px;align-items:flex-start}' +
+      '[data-pg="start"] .part__k{display:none}' +
+      '[data-pg="start"] .part__m{flex:0 0 auto;width:9px;height:9px;border-radius:2px;' +
+        'background:var(--orange,#EF8200);transform:rotate(45deg);' +
+        'margin-top:calc(clamp(18px,2.3vw,23px) * .5 - 4px)}' +
+      '[data-pg="start"] .part__t p{max-width:60ch;text-wrap:pretty}' +
+      '.start__join{margin-top:14px;font-size:13px;line-height:1.9;color:var(--ink-3,#918B81)}' +
+      '.start__join a{color:var(--orange,#EF8200)}' +
+      /* 社團書聚：三個檢視 */
+      '.mtv{margin-top:14px}' +
+      '.mtv__s{padding-top:clamp(18px,2.4vw,26px)!important}' +
+      /* 九種聚會形式：固定 3×3，不要被 auto-fit 排成 4+4+1 */
+      '@media (min-width:620px){#typeCards{grid-template-columns:repeat(2,minmax(0,1fr))}}' +
+      '@media (min-width:900px){#typeCards{grid-template-columns:repeat(3,minmax(0,1fr))}}';
+    document.head.appendChild(s);
+  }
+
+  /* 重繪 #stepPath / #hostKit / #startCan。
      標籤與 class 沿用 index.html 原本的 .step 樣式，只換內容與分組。 */
   function renderSteps(id, groups) {
     var mount = document.getElementById(id);
@@ -123,22 +148,7 @@
      改成一個小橘色菱形標記，整段往左靠齊標題。 */
   function tidyStart() {
     var parts = document.querySelectorAll('[data-pg="start"] .part');
-    if (!parts.length || document.getElementById('startTidy')) return;
-
-    var s = document.createElement('style');
-    s.id = 'startTidy';
-    s.textContent =
-      '[data-pg="start"] .part{gap:12px;align-items:flex-start}' +
-      '[data-pg="start"] .part__k{display:none}' +
-      '[data-pg="start"] .part__m{flex:0 0 auto;width:9px;height:9px;border-radius:2px;' +
-        'background:var(--orange,#EF8200);transform:rotate(45deg);' +
-        'margin-top:calc(clamp(18px,2.3vw,23px) * .5 - 4px)}' +
-      '[data-pg="start"] .part__t p{max-width:60ch;text-wrap:pretty}' +
-      '.start__join{margin-top:14px;font-size:13px;line-height:1.9;color:var(--ink-3,#918B81)}' +
-      '.start__join a{color:var(--orange,#EF8200)}' +
-      '.mtv{margin-top:14px}' +
-      '.mtv__s{padding-top:clamp(18px,2.4vw,26px)!important}';
-    document.head.appendChild(s);
+    if (!parts.length) return;
 
     for (var i = 0; i < parts.length; i++) {
       var k = parts[i].querySelector('.part__k');
@@ -162,6 +172,56 @@
 
     renderSteps('stepPath', TX.steps);
     renderSteps('hostKit', TX.hostKit);
+  }
+
+  /* 新人指引再加一個分頁排在最前面：加入之後可以做什麼。
+     index.html 的分頁腳本在載入時就把按鈕抓成快照，之後新增的按鈕不在裡面，
+     所以這顆按鈕的開關要自己接：按自己 → 顯示自己並關掉別人；
+     按別人 → 原本的腳本會處理它自己，這裡只要把自己關掉。 */
+  function addStartOverview() {
+    var tabsEl = document.querySelector('[data-pg="start"] .tabs[data-tabs]');
+    var p1 = document.getElementById('sg-p1');
+    if (!tabsEl || !p1 || document.getElementById('sg-p0') || !TX.can) return;
+
+    var pane = document.createElement('div');
+    pane.id = 'sg-p0';
+    pane.setAttribute('role', 'tabpanel');
+    pane.setAttribute('aria-labelledby', 'sg-0');
+    pane.innerHTML = '<section class="blk pad"><div class="steps" id="startCan"></div></section>';
+    p1.parentNode.insertBefore(pane, p1);
+
+    var btn = document.createElement('button');
+    btn.className = 'tab';
+    btn.type = 'button';
+    btn.id = 'sg-0';
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-controls', 'sg-p0');
+    btn.setAttribute('aria-selected', 'false');
+    btn.textContent = TX.canTab || '可以做什麼';
+    tabsEl.insertBefore(btn, tabsEl.firstChild);
+
+    renderSteps('startCan', TX.can);
+
+    var all = tabsEl.querySelectorAll('.tab'), others = [], i;
+    for (i = 0; i < all.length; i++) if (all[i] !== btn) others.push(all[i]);
+
+    function mine() {
+      pane.hidden = false;
+      btn.setAttribute('aria-selected', 'true');
+      for (var j = 0; j < others.length; j++) {
+        others[j].setAttribute('aria-selected', 'false');
+        var pn = document.getElementById(others[j].getAttribute('aria-controls'));
+        if (pn) pn.hidden = true;
+      }
+    }
+    btn.addEventListener('click', mine);
+    for (i = 0; i < others.length; i++) {
+      others[i].addEventListener('click', function () {
+        pane.hidden = true;
+        btn.setAttribute('aria-selected', 'false');
+      });
+    }
+    mine();     // 預設停在這一頁
   }
 
   /* 「加入社團申請」表單本身留在文件表單頁（那裡是大家回頭找表單的地方），
@@ -328,9 +388,11 @@
   }
 
   function run() {
+    css();
     fix(document.querySelector('footer'));
     fix(document.getElementById('contactCards'));
     tidyStart();
+    addStartOverview();
     joinCtas();
     compactHpx();
     mergeMeetups();
