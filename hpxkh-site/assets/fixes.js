@@ -4,7 +4,8 @@
    3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
    5. 新人指引：拿掉 Part 01／02，改小標記；兩段說明重寫
-   6. 文案替換表（COPY）：要改哪一句就加一列 */
+   6. 首頁與新人指引補上「加入社團申請」的入口
+   7. 文案替換表（COPY）：要改哪一句就加一列 */
 (function () {
   /* 要改的句子加在這裡：[原句, 新句]。整站文字節點一次換掉。 */
   var COPY = [
@@ -58,7 +59,9 @@
       '[data-pg="start"] .part__m{flex:0 0 auto;width:9px;height:9px;border-radius:2px;' +
         'background:var(--orange,#EF8200);transform:rotate(45deg);' +
         'margin-top:calc(clamp(18px,2.3vw,23px) * .5 - 4px)}' +
-      '[data-pg="start"] .part__t p{max-width:60ch;text-wrap:pretty}';
+      '[data-pg="start"] .part__t p{max-width:60ch;text-wrap:pretty}' +
+      '.start__join{margin-top:14px;font-size:13px;line-height:1.9;color:var(--ink-3,#918B81)}' +
+      '.start__join a{color:var(--orange,#EF8200)}';
     document.head.appendChild(s);
 
     for (var i = 0; i < parts.length; i++) {
@@ -79,6 +82,32 @@
           p.classList.remove('part__p1');     // 原本設了 nowrap，新文字較長
         }
       }
+    }
+  }
+
+  /* 「加入社團申請」表單本身留在文件表單頁（那裡是大家回頭找表單的地方），
+     但入口要放在會產生念頭的位置：
+       - 首頁主視覺：多一顆次要按鈕，還沒入社的人不必先找選單
+       - 新人指引開頭：這頁預設你已經入社，所以補一句給還沒入社的人 */
+  function joinCtas() {
+    var cta = document.querySelector('[data-pg="home"] .lead__cta');
+    if (cta && !cta.querySelector('[data-join-cta]')) {
+      var a = document.createElement('a');
+      a.className = 'btn btn--line';
+      a.href = '#/docs';
+      a.textContent = '加入社團申請';
+      a.setAttribute('data-join-cta', '');
+      cta.appendChild(a);
+    }
+
+    var top = document.querySelector('[data-pg="start"] .top');
+    if (top && !top.querySelector('[data-join-note]')) {
+      var p = document.createElement('p');
+      p.className = 'start__join';
+      p.setAttribute('data-join-note', '');
+      p.innerHTML = '還沒加入社團嗎？先到「<a href="#/docs">加入社團申請</a>」' +
+        '填一份自我介紹，送出後再回來看這一頁。';
+      top.appendChild(p);
     }
   }
 
@@ -185,6 +214,7 @@
     fix(document.getElementById('contactCards'));
     copy();
     tidyStart();
+    joinCtas();
     mergeBooks();
     mergeAbout();
     upgradeJoinForm();
