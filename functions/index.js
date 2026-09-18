@@ -5,13 +5,14 @@
  * 以 HTMLRewriter 做幾件小事：
  *   1. 行事曆頁：舊的 Google Calendar 說明區換成 <div id="calMount">
  *   2. 行事曆頁：修正標題錯字、改寫開場說明
- *   3. 頁尾之後掛上 assets/calendar.js
+ *   3. 頁尾之後掛上 assets/calendar.js 與 assets/fixes.js
  *
  * 之後若 tools/build.py 已把這些寫進 index.html，對應選擇器就不會命中，
  * 而 calendar.js 本身有防重入保護，重複掛載不會有副作用。
  */
 const MOUNT = '<div id="calMount"><p style="color:#918B81;font-size:13px">讀取行事曆中…</p></div>';
-const SCRIPT = '<script src="/assets/calendar.js"></script>';
+const SCRIPTS = '<script src="/assets/calendar.js"></script>' +
+  '<script src="/assets/fixes.js"></script>';
 const LEDE = '每月書聚與活動都在下面的月曆上，可以往前往後翻。' +
   '按「訂閱到自己的日曆」之後，社團新增的場次會自動出現在你的 Google 日曆裡，不必回來查。';
 
@@ -42,7 +43,7 @@ export async function onRequestGet(context) {
     })
     .on('footer', {
       element(el) {
-        el.after(SCRIPT, { html: true });
+        el.after(SCRIPTS, { html: true });
       },
     })
     .transform(res);
