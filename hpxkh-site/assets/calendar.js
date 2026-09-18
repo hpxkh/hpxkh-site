@@ -42,11 +42,14 @@
       'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}' +
     '.cal__cont{color:var(--cal-dim);margin-right:3px}' +
     '.cal__more{font-size:11px;color:var(--cal-dim)}' +
-    '.cal__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:16px}' +
-    '.cal__subb{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;letter-spacing:.04em;text-decoration:none;' +
-      'color:#fff;background:var(--cal-key);border:1px solid var(--cal-key);border-radius:999px;padding:10px 20px;transition:.15s}' +
+    '.cal__foot{display:flex;align-items:center;justify-content:space-between;gap:18px 28px;margin-top:22px;' +
+      'padding:20px 24px;border:1px solid var(--cal-line);background:var(--cal-bg)}' +
+    '.cal__foot h4{margin:0 0 6px;font-size:15px;letter-spacing:.02em;color:var(--cal-ink)}' +
+    '.cal__foot p{margin:0;font-size:13px;line-height:1.75;color:var(--cal-dim);max-width:46em;text-wrap:pretty}' +
+    '.cal__subb{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13.5px;' +
+      'letter-spacing:.04em;text-decoration:none;white-space:nowrap;' +
+      'color:#fff;background:var(--cal-key);border:1px solid var(--cal-key);border-radius:999px;padding:12px 24px;transition:.15s}' +
     '.cal__subb:hover{filter:brightness(1.06)}' +
-    '.cal__note{font-size:12.5px;color:var(--cal-dim);margin:0}' +
     '.cal__fb{border:1px solid var(--cal-line);background:#fff;height:min(78vh,720px);overflow:hidden}' +
     '.cal__fb iframe{width:100%;height:100%;display:block;border:0}' +
     '@media (max-width:760px){' +
@@ -57,8 +60,8 @@
       '.cal__c--today .cal__n{width:18px;height:18px;font-size:11px}' +
       '.cal__e{font-size:8.5px;line-height:1.25;padding:2px 3px 2px 4px;border-left-width:3px;-webkit-line-clamp:3}' +
       '.cal__more{font-size:9px}' +
-      '.cal__foot{flex-direction:column;align-items:stretch}' +
-      '.cal__subb{justify-content:center}' +
+      '.cal__foot{flex-direction:column;align-items:stretch;gap:16px;padding:18px}' +
+      '.cal__subb{width:100%}' +
     '}';
 
   function slotOf(t) {
@@ -114,8 +117,9 @@
 
   function FOOT(note) {
     return '<div class="cal__foot">' +
-      '<a class="cal__subb" href="' + SUB + '" target="_blank" rel="noopener">＋ 訂閱到自己的日曆</a>' +
-      '<span class="cal__note">' + note + '</span></div>';
+      '<div><h4>訂閱到自己的日曆</h4><p>' + note + '</p></div>' +
+      '<a class="cal__subb" href="' + SUB + '" target="_blank" rel="noopener">＋ 加入我的日曆</a>' +
+      '</div>';
   }
 
   function esc(s) {
@@ -138,7 +142,8 @@
     if (failed) {
       // 讀取失敗時退回 Google 內嵌月曆，畫面不會開天窗
       host.innerHTML = '<div class="cal__fb"><iframe title="HPX 高雄讀書會行事曆" loading="lazy" src="' +
-        EMBED + '"></iframe></div>' + FOOT('目前改以 Google 月曆顯示。');
+        EMBED + '"></iframe></div>' +
+        FOOT('目前改以 Google 內嵌月曆顯示。加入之後，社團新增或異動的場次都會自動出現在你的 Google 日曆。');
       return;
     }
     var y = cur.getFullYear(), m = cur.getMonth();
@@ -187,7 +192,7 @@
         WD.map(function (w) { return '<div class="cal__wd">' + w + '</div>'; }).join('') +
         cells +
       '</div>' +
-      FOOT('直接讀取社團 Google 行事曆，社團那邊一更新這裡就會跟著變。');
+      FOOT('加入之後，社團新增或異動的場次都會自動出現在你的 Google 日曆，不必再回來查。本頁的資料直接讀取社團行事曆，社團那邊一更新這裡就跟著變。');
 
     host.querySelectorAll('[data-go]').forEach(function (b) {
       b.addEventListener('click', function () {
