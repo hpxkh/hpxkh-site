@@ -3,14 +3,15 @@
    2. 社團書聚：把「我們讀些什麼」併進「歷年書聚書單」
    3. 加入社團申請：補回舊 Google 表單上有、網站表單漏掉的題目
    4. 關於我們：H·P·X 的字義併進「社團介紹」，分頁改名「適不適合你」
-   5. 新人指引：拿掉 Part 01／02，改小標記
+   5. 新人指引：拿掉 Part 01／02，改小標記；路徑與開書聚清單依 copy.js 重繪
    6. 首頁與新人指引補上「加入社團申請」的入口
    7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註
 
-   ★ 只是要改某一句話的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
+   ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
 (function () {
-  var TX = window.HPXKH_TX || {};          // 文字都放在 copy.js
+  var TX = window.HPXKH_TX || {};          // 文字與步驟資料都放在 copy.js
   var START_TX = TX.start || {};
+  var IMGS = (typeof IMG !== 'undefined') ? IMG : {};
 
   function fix(root) {
     if (!root) return;
@@ -27,6 +28,33 @@
     return String(s).replace(/[&<>"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
     });
+  }
+
+  /* 重繪 #stepPath / #hostKit。
+     標籤與 class 沿用 index.html 原本的 .step 樣式，只換內容與分組。 */
+  function renderSteps(id, groups) {
+    var mount = document.getElementById(id);
+    if (!mount || !groups || !groups.length) return;
+    mount.innerHTML = groups.map(function (g) {
+      var body = (g.items || []).map(function (x) {
+        var ext = x.u.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"';
+        var src = x.n ? (IMGS['s' + x.n] || '') : '';
+        var ic = src
+          ? '<span class="step__ic"><img src="' + esc(src) + '" alt="" loading="lazy"></span>'
+          : '<span class="step__ic"></span>';   // 沒有圖示也保留位置，維持對齊
+        return '<a href="' + esc(x.u) + '"' + ext + '>' + ic +
+          '<span class="step__tx"><span class="step__t">' +
+          '<span class="step__n">' + esc(x.n || '') + '</span>' +
+          '<h4>' + esc(x.h) + '</h4></span>' +
+          '<p>' + esc(x.d) + '</p></span>' +
+          '<span class="go" aria-hidden="true">→</span></a>';
+      }).join('');
+      return '<section class="step">' +
+        '<div class="step__h"><span class="step__eye">' + esc(g.eye || '') + '</span>' +
+        '<h3>' + esc(g.st) + '</h3></div>' +
+        '<p class="step__d">' + esc(g.sd) + '</p>' +
+        '<div class="step__b">' + body + '</div></section>';
+    }).join('');
   }
 
   /* H·P·X：原本一個字母就佔掉一整排、右半邊大片留白，
@@ -129,6 +157,9 @@
         }
       }
     }
+
+    renderSteps('stepPath', TX.steps);
+    renderSteps('hostKit', TX.hostKit);
   }
 
   /* 「加入社團申請」表單本身留在文件表單頁（那裡是大家回頭找表單的地方），
