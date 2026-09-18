@@ -8,9 +8,10 @@
    7. H·P·X 區塊改成緊湊三行，2.0 用橘色標註，P 那排帶出所有 P 開頭的職稱
    8. 九種聚會形式排成 3×3
    9. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
-  10. 文件表單分成兩排：書友常用／店家、單位與其他社群
+  10. 文件表單分成左右兩區：書友常用／店家、單位與其他社群
   11. 步驟區塊的欄數配合實際張數，不再固定三欄
   12. 開書聚的流程改成四個階段（內容在 copy.js）
+  13. 常見問題多一個「反映與建議」分頁
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。 */
 (function () {
@@ -45,7 +46,9 @@
          原始碼用 ch 當上限（60ch、66ch…）。ch 是數字「0」的寬度，
          中文字大約是它的兩倍，所以 60ch 實際只排得下 30 個中文字，
          段落排到容器四成就斷行，右邊空一大片。
-         改用 em：1em 剛好等於一個中文字，數字就是每行的字數。 */
+         改用 em：1em 剛好等於一個中文字，數字就是每行的字數。
+         注意：有底色的元素不能設 max-width，底色會跟著縮一半（例如 .step__d），
+         那種要用 padding-right 控制行長。 */
       '.top p{max-width:42em}' +
       '.blk__h p{max-width:44em}' +
       '.prose{max-width:42em}' +
@@ -55,10 +58,10 @@
       '.embed p{max-width:40em}' +
       '.appform__h p{max-width:54em}' +
       '.part__t p{max-width:46em}' +
-      '.step__d{max-width:46em}' +
       '.end__p{max-width:38em}' +
       '.cal__foot p{max-width:46em}' +
       '.hpx2__n{max-width:54em}' +
+      '#startCan .step__d{padding-right:clamp(20px,22vw,320px)}' +
       /* ── 步驟卡片的欄數 ──
          原始碼固定三欄，但每個區塊的張數不一樣：
          四張會排成 3+1、兩張會空掉一欄、一張更是只佔三分之一。
@@ -79,9 +82,15 @@
       '.chk input:checked::after{left:50%;top:50%;width:4px;height:8px;' +
         'transform:translate(-50%,-60%) rotate(45deg)}' +
       '@media (min-width:900px){.chks{grid-template-columns:repeat(4,minmax(0,1fr))}}' +
-      /* 文件表單：兩排分類 */
-      '.dgrp + .dgrp{margin-top:20px}' +
+      /* 文件表單：兩類左右並排，中間一條線 */
       '.dgrp__k{font-size:11.5px;letter-spacing:.14em;color:var(--ink-3,#918B81);margin-bottom:9px}' +
+      '.dgrp + .dgrp{margin-top:20px}' +
+      '@media (min-width:900px){' +
+        '.dgrps{display:grid;grid-template-columns:1fr 1fr}' +
+        '.dgrp{padding-right:clamp(18px,2.4vw,30px)}' +
+        '.dgrp + .dgrp{margin-top:0;padding-right:0;padding-left:clamp(18px,2.4vw,30px);' +
+          'border-left:1px solid var(--hair)}' +
+      '}' +
       /* 新人指引 */
       '[data-pg="start"] .part{gap:12px;align-items:flex-start}' +
       '[data-pg="start"] .part__k{display:none}' +
@@ -239,10 +248,33 @@
     renderFlow();
   }
 
-  /* 新人指引再加一個分頁排在最前面：剛加入可以做什麼。
-     index.html 的分頁腳本在載入時就把按鈕抓成快照，之後新增的按鈕不在裡面，
-     所以這顆按鈕的開關要自己接：按自己 → 顯示自己並關掉別人；
-     按別人 → 原本的腳本會處理它自己，這裡只要把自己關掉。 */
+  /* 自己接一顆新分頁按鈕。
+     index.html 的分頁腳本在載入時就把按鈕抓成快照，之後新增的按鈕不在裡面：
+     按自己 → 顯示自己並關掉別人；按別人 → 原本的腳本會處理它自己，這裡只關掉自己。 */
+  function wireTab(btn, pane, tabsEl, openNow) {
+    var all = tabsEl.querySelectorAll('.tab'), others = [], i;
+    for (i = 0; i < all.length; i++) if (all[i] !== btn) others.push(all[i]);
+
+    function mine() {
+      pane.hidden = false;
+      btn.setAttribute('aria-selected', 'true');
+      for (var j = 0; j < others.length; j++) {
+        others[j].setAttribute('aria-selected', 'false');
+        var pn = document.getElementById(others[j].getAttribute('aria-controls'));
+        if (pn) pn.hidden = true;
+      }
+    }
+    btn.addEventListener('click', mine);
+    for (i = 0; i < others.length; i++) {
+      others[i].addEventListener('click', function () {
+        pane.hidden = true;
+        btn.setAttribute('aria-selected', 'false');
+      });
+    }
+    if (openNow) mine(); else pane.hidden = true;
+  }
+
+  /* 新人指引：最前面加一個「剛加入可以做什麼」 */
   function addStartOverview() {
     var tabsEl = document.querySelector('[data-pg="start"] .tabs[data-tabs]');
     var p1 = document.getElementById('sg-p1');
@@ -266,27 +298,39 @@
     tabsEl.insertBefore(btn, tabsEl.firstChild);
 
     renderSteps('startCan', TX.can);
+    wireTab(btn, pane, tabsEl, true);       // 預設停在這一頁
+  }
 
-    var all = tabsEl.querySelectorAll('.tab'), others = [], i;
-    for (i = 0; i < all.length; i++) if (all[i] !== btn) others.push(all[i]);
+  /* 常見問題：最後加一個「反映與建議」。
+     不是 FAQ，而是一張表單——社團運作上的疑難雜症，以及對社團或網站的建議。
+     說明裡先講清楚管理群不介入私人事務，避免期待落差。 */
+  function addFeedbackTab() {
+    var tabsEl = document.getElementById('faqTabs');
+    var wrap = document.getElementById('faqPanels');
+    var spec = (TX.forms || {}).feedback;
+    if (!tabsEl || !wrap || !spec || document.getElementById('fq-say')) return;
+    if (typeof buildForm !== 'function') return;
 
-    function mine() {
-      pane.hidden = false;
-      btn.setAttribute('aria-selected', 'true');
-      for (var j = 0; j < others.length; j++) {
-        others[j].setAttribute('aria-selected', 'false');
-        var pn = document.getElementById(others[j].getAttribute('aria-controls'));
-        if (pn) pn.hidden = true;
-      }
-    }
-    btn.addEventListener('click', mine);
-    for (i = 0; i < others.length; i++) {
-      others[i].addEventListener('click', function () {
-        pane.hidden = true;
-        btn.setAttribute('aria-selected', 'false');
-      });
-    }
-    mine();     // 預設停在這一頁
+    var pane = document.createElement('div');
+    pane.id = 'fq-psay';
+    pane.setAttribute('role', 'tabpanel');
+    pane.setAttribute('aria-labelledby', 'fq-say');
+    pane.hidden = true;
+    pane.innerHTML = '<section class="blk pad"><div class="appform" id="formFeedback"></div></section>';
+    wrap.appendChild(pane);
+
+    var btn = document.createElement('button');
+    btn.className = 'tab';
+    btn.type = 'button';
+    btn.id = 'fq-say';
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-controls', 'fq-psay');
+    btn.setAttribute('aria-selected', 'false');
+    btn.textContent = TX.feedbackTab || '反映與建議';
+    tabsEl.appendChild(btn);
+
+    buildForm(document.getElementById('formFeedback'), spec);
+    wireTab(btn, pane, tabsEl, false);
   }
 
   /* 「加入社團申請」表單本身留在文件表單頁（那裡是大家回頭找表單的地方），
@@ -406,13 +450,16 @@
   }
 
   /* 文件表單：六個項目性質差很多，排成一列看起來是平的。
-     分成兩排：上排是書友自己會用到的，下排是店家、單位或其他社群會用到的。
+     分成左右兩區：左邊是書友自己會用到的，右邊是店家、單位或其他社群會用到的。
      按鈕節點直接搬過去，原本綁好的分頁切換照常運作。 */
   function regroupDocs() {
     var bar = document.querySelector('[data-pg="docs"] .tabs[data-tabs]');
     if (!bar || document.getElementById('docsGrpB')) return;
     var G = TX.docsGroups || {};
-    var host = bar.parentNode;
+
+    var host = document.createElement('div');
+    host.className = 'dgrps';
+    bar.parentNode.insertBefore(host, bar);
 
     function group(id, label, ids) {
       var wrap = document.createElement('div');
@@ -423,7 +470,7 @@
       row.className = 'tabs';
       row.setAttribute('role', 'tablist');
       wrap.appendChild(row);
-      host.insertBefore(wrap, bar);
+      host.appendChild(wrap);
       ids.forEach(function (tid) {
         var t = document.getElementById(tid);
         if (t) row.appendChild(t);
@@ -539,6 +586,7 @@
     regroupDocs();
     upgradeJoinForm();
     reworkForms();
+    addFeedbackTab();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
