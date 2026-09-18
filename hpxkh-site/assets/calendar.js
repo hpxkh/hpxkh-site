@@ -15,19 +15,18 @@
 
   var css = '' +
     '.cal{--cal-line:var(--hair,#E6E1D9);--cal-ink:var(--ink,#2B2823);--cal-dim:var(--ink-3,#918B81);--cal-bg:var(--cream,#F7F4EF);--cal-key:var(--orange,#EF8200)}' +
-    '.cal__bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}' +
-    '.cal__ttl{font-family:var(--serif,Georgia,serif);font-size:clamp(20px,2.6vw,26px);letter-spacing:.02em;color:var(--cal-ink);margin:0}' +
-    '.cal__nav{display:flex;align-items:center;gap:10px}' +
-    '.cal__b{font:inherit;font-size:13px;letter-spacing:.04em;cursor:pointer;background:transparent;color:var(--cal-ink);' +
-      'border:1px solid var(--cal-line);border-radius:999px;padding:8px 16px;line-height:1;transition:.15s}' +
-    '.cal__b:hover{border-color:var(--cal-ink)}' +
-    '.cal__pair{display:inline-flex}' +
-    '.cal__a{display:grid;place-items:center;width:34px;height:32px;cursor:pointer;background:transparent;' +
+    '.cal__bar{display:flex;align-items:center;justify-content:center;margin-bottom:16px}' +
+    '.cal__nav{display:inline-flex;align-items:stretch}' +
+    '.cal__a{display:grid;place-items:center;width:42px;cursor:pointer;background:transparent;' +
       'border:1px solid var(--cal-line);color:var(--cal-ink);padding:0;transition:.15s}' +
     '.cal__a:first-child{border-radius:999px 0 0 999px}' +
-    '.cal__a:last-child{border-radius:0 999px 999px 0;margin-left:-1px}' +
-    '.cal__a:hover{border-color:var(--cal-ink);background:var(--cal-bg);z-index:1}' +
-    '.cal__a svg{width:7px;height:12px;display:block}' +
+    '.cal__a:last-child{border-radius:0 999px 999px 0}' +
+    '.cal__a:hover{background:var(--cal-bg)}' +
+    '.cal__a svg{width:8px;height:13px;display:block}' +
+    '.cal__mo{font-family:var(--serif,Georgia,serif);font-size:clamp(19px,2.4vw,24px);letter-spacing:.02em;' +
+      'color:var(--cal-ink);cursor:pointer;background:transparent;border:1px solid var(--cal-line);' +
+      'border-left:0;border-right:0;padding:9px 22px;line-height:1.25;white-space:nowrap;transition:.15s}' +
+    '.cal__mo:hover{background:var(--cal-bg)}' +
     '.cal__grid{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--cal-line);border-left:1px solid var(--cal-line)}' +
     '.cal__wd{padding:8px 6px;text-align:center;font-size:11.5px;letter-spacing:.1em;color:var(--cal-dim);' +
       'border-right:1px solid var(--cal-line);border-bottom:1px solid var(--cal-line);background:var(--cal-bg)}' +
@@ -51,10 +50,8 @@
     '.cal__fb{border:1px solid var(--cal-line);background:#fff;height:min(78vh,720px);overflow:hidden}' +
     '.cal__fb iframe{width:100%;height:100%;display:block;border:0}' +
     '@media (max-width:760px){' +
-      '.cal__bar{flex-direction:row;align-items:center;gap:10px}' +
-      '.cal__ttl{font-size:19px}' +
-      '.cal__b{padding:7px 12px;font-size:12.5px}' +
-      '.cal__a{width:30px;height:29px}' +
+      '.cal__mo{font-size:18px;padding:8px 16px}' +
+      '.cal__a{width:38px}' +
       '.cal__c{min-height:76px;padding:3px 3px;gap:2px}' +
       '.cal__n{font-size:12px}' +
       '.cal__c--today .cal__n{width:18px;height:18px;font-size:11px}' +
@@ -179,13 +176,11 @@
 
     host.innerHTML =
       '<div class="cal__bar">' +
-        '<h3 class="cal__ttl">' + y + ' 年 ' + (m + 1) + ' 月</h3>' +
         '<div class="cal__nav">' +
-          '<button class="cal__b" type="button" data-go="0">今天</button>' +
-          '<div class="cal__pair">' +
-            '<button class="cal__a" type="button" data-go="-1" aria-label="上個月">' + CHEV(1) + '</button>' +
-            '<button class="cal__a" type="button" data-go="1" aria-label="下個月">' + CHEV(0) + '</button>' +
-          '</div>' +
+          '<button class="cal__a" type="button" data-go="-1" aria-label="上個月">' + CHEV(1) + '</button>' +
+          '<button class="cal__mo" type="button" data-go="0" title="回到本月">' +
+            y + ' 年 ' + (m + 1) + ' 月</button>' +
+          '<button class="cal__a" type="button" data-go="1" aria-label="下個月">' + CHEV(0) + '</button>' +
         '</div>' +
       '</div>' +
       '<div class="cal__grid" role="grid">' +
