@@ -2,7 +2,8 @@
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
    3. 表單：加入社團申請補題目與可複選、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
-   4. 關於我們：H·P·X 改成三張並排卡片，併進「社團介紹」；分頁改名「適不適合你」
+   4. 關於我們：H·P·X 改成三張並排卡片，併進「社團介紹」；分頁改名「適不適合你」；
+      里程碑頁移除「未來展望」
    5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
    6. 首頁與新人指引補上「加入社團申請」的入口；首頁那顆「歷年場次」直接跳到對的檢視
    7. 九種聚會形式排成 3×3
@@ -240,6 +241,16 @@
     if (nt && TX.hpxNote) {
       nt.className = '';
       nt.innerHTML = TX.hpxNote;
+    }
+  }
+
+  /* 里程碑頁的「未來展望」（經營中／展望兩排標籤）整段移除。 */
+  function dropFuture() {
+    var p4 = document.getElementById('ab-p4');
+    if (!p4) return;
+    var secs = p4.querySelectorAll('section'), i;
+    for (i = 0; i < secs.length; i++) {
+      if (secs[i].querySelector('#now, #future')) secs[i].parentNode.removeChild(secs[i]);
     }
   }
 
@@ -645,6 +656,7 @@
     addStartOverview();
     joinCtas();
     hpxCards();
+    dropFuture();
     mergeMeetups();
     wireHomeLink();
     mergeAbout();
