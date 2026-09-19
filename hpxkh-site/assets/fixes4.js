@@ -13,6 +13,7 @@
    1. 關於我們 → 里程碑：改讀 copy.js 的 TX.mile 重畫，補上九屆大聚
    2. 新人指引的四個區塊：卡片少的那格，尾巴不要留一塊空白
    3. 活動花絮下架：拿掉頁尾選單那條連結
+   4. 常見問題：每一題前面補上編號（四區各自從 01 開始）
 
    文字與資料一律放 assets/copy.js，這裡只處理版面與行為。
    改完記得把 functions/[[path]].js 的 VER 換掉。 */
@@ -25,27 +26,35 @@
     });
   }
 
-  /* ── 新人指引：卡片少的那一格，尾巴不要空一塊 ──
-     四個區塊（先認識我們／參加第一場／要用到再查／社團之外）在桌機是用
-     grid subgrid 綁在一起的，所以「卡片區」(.step__b) 四格一律等高。
-     卡片數不一樣時，少的那格就會在最後一張卡下面留一大塊白
-     （例：Step 3 只有 2 張卡 165px，框卻被撐到 271px，尾巴空 106px），
-     看起來像框沒收好。
-
-     解法：讓卡片自己把多出來的高度平分掉（flex-grow:1），
-     最後一張卡的底線就會和隔壁欄切齊，框裡也不再有空白。
-
-     只加 flex-grow，不動 flex-basis／flex-shrink，所以：
-       · 卡片剛好填滿的那幾格（剩餘空間 0）完全不受影響
-       · 手機版一欄時本來就沒有多餘高度，也不受影響
-       · 「剛加入可以做什麼」那格的 .step__b 被 fixes.js 改成 grid，
-         grid 項目不吃 flex-grow，同樣不受影響
-     實測 1440／1200／900／700／393 五種寬度、三個分頁，尾巴空白都歸零。 */
   function css() {
     if (document.getElementById('hpxkhFix4Css')) return;
     var s = document.createElement('style');
     s.id = 'hpxkhFix4Css';
-    s.textContent = '.step__b>a{flex-grow:1}';
+    s.textContent =
+      /* ── 新人指引：卡片少的那一格，尾巴不要空一塊 ──
+         四個區塊（先認識我們／參加第一場／要用到再查／社團之外）在桌機是用
+         grid subgrid 綁在一起的，所以「卡片區」(.step__b) 四格一律等高。
+         卡片數不一樣時，少的那格就會在最後一張卡下面留一大塊白
+         （例：Step 3 只有 2 張卡 165px，框卻被撐到 271px，尾巴空 106px）。
+         讓卡片把多出來的高度平分掉，最後一張卡的底線就和隔壁欄切齊。
+         只加 flex-grow，不動 flex-basis／flex-shrink，所以：
+           · 卡片剛好填滿的那幾格（剩餘空間 0）完全不受影響
+           · 手機版一欄時本來就沒有多餘高度，也不受影響
+           · 「剛加入可以做什麼」那格的 .step__b 被 fixes.js 改成 grid，
+             grid 項目不吃 flex-grow，同樣不受影響
+         實測 1440／1200／900／700／393 五種寬度、三個分頁，尾巴空白都歸零。 */
+      '.step__b>a{flex-grow:1}' +
+      /* ── 常見問題的題號 ──
+         summary 本來就是 flex（gap:14px），題號當成第一個項目塞進去就好。
+         寬度用固定 px 而不是 em：答案那段 <p> 要靠同一個變數縮排，
+         但兩者字級不同，用 em 會對不齊。
+         560px 以下不縮排答案，免得手機上白白吃掉一截寬度。 */
+      '.faq{--faqn:28px}' +
+      '.faqn{flex:0 0 var(--faqn);font-family:var(--display);font-size:12.5px;' +
+        'letter-spacing:.14em;color:var(--muted,#918B81);padding-top:4px;' +
+        'font-weight:600;transition:color .15s}' +
+      '.faq details[open] summary .faqn{color:var(--orange,#EF8200)}' +
+      '@media (min-width:560px){.faq p{padding-left:calc(20px + var(--faqn) + 14px)}}';
     document.head.appendChild(s);
   }
 
@@ -64,6 +73,30 @@
     for (var i = 0; i < as.length; i++) {
       var el = (as[i].closest && as[i].closest('li')) || as[i];
       if (el.parentNode) el.parentNode.removeChild(el);
+    }
+  }
+
+  /* ── 常見問題：每一題補上編號 ──
+     四區（加入社團／參加書聚／聚會形式／開一場書聚）各自從 01 重新數，
+     因為它們是四個分頁，連號反而讓人以為漏看了前面幾題。
+     題目文字在 index.html 的 FAQG 裡，這裡只加編號這個裝飾，
+     真的要改題目還是去改資料。
+     加過就不再加（檢查 .faqn），避免重跑時變成兩層編號。 */
+  function faqNums() {
+    var lists = document.querySelectorAll('#faqPanels .faq');
+    for (var i = 0; i < lists.length; i++) {
+      var ds = lists[i].children, n = 0, j;
+      for (j = 0; j < ds.length; j++) {
+        if (ds[j].tagName !== 'DETAILS') continue;
+        n += 1;
+        var sm = ds[j].querySelector('summary');
+        if (!sm || sm.querySelector('.faqn')) continue;
+        var tag = document.createElement('span');
+        tag.className = 'faqn';
+        tag.setAttribute('aria-hidden', 'true');   // 讀螢幕軟體念題目就好，不用念編號
+        tag.textContent = (n < 10 ? '0' : '') + n;
+        sm.insertBefore(tag, sm.firstChild);
+      }
     }
   }
 
@@ -104,6 +137,7 @@
   function run() {
     css();
     dropGallery();
+    faqNums();
     mileList();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
