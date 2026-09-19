@@ -14,6 +14,7 @@
    2. 新人指引的四個區塊：卡片少的那格，尾巴不要留一塊空白
    3. 活動花絮下架：拿掉頁尾選單那條連結
    4. 常見問題：每一題前面補上編號（四區各自從 01 開始）
+   5. H·P·X 手機版：橘色的字改排成同一行，不再一行一個
 
    文字與資料一律放 assets/copy.js，這裡只處理版面與行為。
    改完記得把 functions/[[path]].js 的 VER 換掉。 */
@@ -54,7 +55,22 @@
         'letter-spacing:.14em;color:var(--muted,#918B81);padding-top:4px;' +
         'font-weight:600;transition:color .15s}' +
       '.faq details[open] summary .faqn{color:var(--orange,#EF8200)}' +
-      '@media (min-width:560px){.faq p{padding-left:calc(20px + var(--faqn) + 14px)}}';
+      '@media (min-width:560px){.faq p{padding-left:calc(20px + var(--faqn) + 14px)}}' +
+      /* ── H·P·X 手機版：橘色的字排成一行 ──
+         桌機是三欄並排，照社團簡報那一頁，橘色的字一行一個沒問題。
+         但手機只有一欄，一行一個字的結果是：
+         「Project／Practice／Plan」三行各只用掉 60px，右邊空著 240px，
+         P 那一組被拉成 116px 高，看起來像排版跑掉。
+         改成同一行、中間用「·」分隔：P 那組從 116px 收到 59px，
+         整區從 274px 降到 217px，上下的字也不再黏在一起。
+         700px 以上完全不動，還是簡報那一頁的三欄。
+         fixes.js 原本把 span 設成 display:block，這裡同權重但檔案較後面，會蓋過去。 */
+      '@media (max-width:699px){' +
+        '.hpx3__x{display:block}' +
+        '.hpx3__x span{display:inline}' +
+        '.hpx3__x span+span::before{content:"\\00B7";margin:0 .45em;' +
+          'color:var(--muted,#918B81);opacity:.55}' +
+      '}';
     document.head.appendChild(s);
   }
 
