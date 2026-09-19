@@ -303,20 +303,7 @@
 
     // 關於我們：原本的「為什麼是 HPX」分頁，搬走字義之後只剩比較表
     aboutTab: '適不適合你',
-    aboutVsLede: '兩邊都先說清楚，你比較好判斷要不要來。',
-
-    /* H·P·X：簡報裡「What is HPX」那一頁列的全是 P 開頭的職稱，
-       它講的就是 P，所以直接接在三張卡下面。 */
-    hpxExtra: {
-      P: 'Planner、Prototyper、Producer、Project Manager、Product Manager、Programmer、Professor、Person、People、Player⋯⋯在這裡的人，職稱幾乎都是 P 開頭。'
-    },
-
-    // H·P·X 三張卡下方的說明（顏色與「2.0」小標本身就是圖例）
-    hpxNote:
-      '<p class="hpx2__n">深色的字是 <b>HPX 1.0（2009 起）</b>：Happy People Cross——' +
-      '一群人因為一本書相遇，開心地交會。<em>橘色的字</em>是 <b>HPX 2.0（2020 起）</b>' +
-      '在原本三個字上再長出來的一層：不只交流，也把讀到的東西變成計畫、練習與連結。</p>' +
-      '<p class="hpx2__n">不論哪一個版本，<strong>X 都是交會</strong>——上面那些 P，就是在這裡交叉。</p>'
+    aboutVsLede: '兩邊都先說清楚，你比較好判斷要不要來。'
   };
 
   function run() {

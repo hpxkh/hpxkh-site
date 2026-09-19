@@ -15,7 +15,7 @@
   12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
   13. 收掉每一頁分頁列上下的大片空白
   14. 統一每一頁版頭（.top）的高度，細線與分頁按鈕一律對齊
-  15. 關於我們：H·P·X 那一段加底色，跟上下兩段的社團介紹分開
+  15. 關於我們：H·P·X 那一段加底色跟上下分開，卡片下方三段重複的說明拿掉
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。
      卡片說明想標重點，就在 copy.js 用 dHtml 取代 d，可用 <b>、<span class="k">（橘色）、
@@ -205,7 +205,7 @@
   }
 
   /* H·P·X：三個字母排成三張並排的卡片。
-     每張卡由上而下是：大字母 → 1.0 的英文字 → 中文說明 →（分隔線）→「2.0」小標 → 橘色的字。
+     每張卡由上而下是：大字母 →「1.0」小標 → 英文字 → 中文說明 →（分隔線）→「2.0」小標 → 橘色的字。
      三張等高、2.0 那一段靠底對齊，所以分隔線在三張卡上會連成一條水平線。
      整段另外加一層米色底（.hpxband），跟上下兩段的社團介紹分開。 */
   function hpxCards() {
@@ -224,17 +224,13 @@
       '.hpx3__w{font-family:var(--display);font-size:clamp(19px,2.2vw,23px);font-weight:600;' +
         'letter-spacing:.06em;margin:0;color:var(--ink)}' +
       '.hpx3__d{font-size:13px;line-height:1.85;color:var(--ink-2);margin:6px 0 0}' +
+      '.hpx3__t1{margin:0 0 4px;font-family:var(--display);font-size:11px;' +
+        'letter-spacing:.22em;color:var(--muted,#918B81)}' +
       '.hpx3__t{margin:clamp(16px,2vw,22px) 0 0;padding-top:clamp(12px,1.6vw,16px);' +
         'border-top:1px solid var(--hair);font-family:var(--display);font-size:11px;' +
         'letter-spacing:.22em;color:var(--orange)}' +
       '.hpx3__x{margin:5px 0 0;font-family:var(--display);font-size:15px;letter-spacing:.05em;' +
         'line-height:1.75;color:var(--orange)}' +
-      '.hpx3__p{margin-top:clamp(14px,1.8vw,18px);font-size:12.5px;line-height:2;' +
-        'color:var(--muted);max-width:54em;text-wrap:pretty}' +
-      '.hpx2__n{margin-top:10px;font-size:13px;line-height:2;color:var(--ink-2);' +
-        'max-width:52em;text-wrap:pretty}' +
-      '.hpx2__n + .hpx2__n{margin-top:6px}' +
-      '.hpx2__n em{font-style:normal;color:var(--orange)}' +
       /* 這一段（H·P·X 是什麼意思）換一個底色，跟上下兩段的社團介紹分開，
          讀者一眼就知道這是獨立的一塊。卡片改成白底，浮在米色上。 */
       '.hpxband{background:var(--cream);border-top:1px solid var(--hair);' +
@@ -246,7 +242,7 @@
       '}';
     document.head.appendChild(s);
 
-    var rows = old.querySelectorAll('.hpxr__i'), cards = '', note = '', i;
+    var rows = old.querySelectorAll('.hpxr__i'), cards = '', i;
     for (i = 0; i < rows.length; i++) {
       var r = rows[i];
       var l = r.querySelector('.hpxr__l');
@@ -256,10 +252,9 @@
       var words = [], j;
       for (j = 0; j < xs.length; j++) words.push(xs[j].textContent.trim());
       var letter = l ? l.textContent.trim() : '';
-      var extra = (TX.hpxExtra || {})[letter] || '';
-      if (extra) note += '<p class="hpx3__p">' + esc(extra) + '</p>';
       cards += '<div class="hpx3__c">' +
         '<span class="hpx3__l">' + esc(letter) + '</span>' +
+        '<p class="hpx3__t1">1.0</p>' +
         '<p class="hpx3__w">' + esc(w ? w.textContent.trim() : '') + '</p>' +
         '<p class="hpx3__d">' + esc(d ? d.textContent.trim() : '') + '</p>' +
         '<p class="hpx3__t">2.0</p>' +
@@ -271,16 +266,17 @@
     if (sec) sec.className += ' hpxband';
 
     var box = document.createElement('div');
-    box.innerHTML = '<div class="hpx3">' + cards + '</div>' + note;
+    box.innerHTML = '<div class="hpx3">' + cards + '</div>';
     var frag = document.createDocumentFragment();
     while (box.firstChild) frag.appendChild(box.firstChild);
     old.parentNode.replaceChild(frag, old);
 
+    /* 卡片下面原本還有三段文字（P 開頭的職稱清單、1.0／2.0 的說明）。
+       三張卡自己已經把 1.0 與 2.0 並排講完了，那三段是重複敘述，整個拿掉。
+       每張卡改成「1.0 → 英文字 → 中文」與「2.0 → 橘色的字」上下對照，
+       不用另外寫一段話解釋顏色。 */
     var nt = document.querySelector('.hpx__note');
-    if (nt && TX.hpxNote) {
-      nt.className = '';
-      nt.innerHTML = TX.hpxNote;
-    }
+    if (nt && nt.parentNode) nt.parentNode.removeChild(nt);
   }
 
   /* 里程碑頁的「未來展望」（經營中／展望兩排標籤）整段移除。 */
