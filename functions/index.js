@@ -6,7 +6,13 @@
  *   1. 行事曆頁：舊的 Google Calendar 說明區換成 <div id="calMount">
  *   2. 行事曆頁：修正標題錯字、改寫開場說明
  *   3. 行事曆頁：移除舊的「訂閱到自己的日曆」區塊（已整併進月曆下方的卡片）
- *   4. 補上網站圖示，並掛上 assets/copy.js、calendar.js 與 fixes.js
+ *   4. 補上 viewport 與網站圖示，並掛上 assets/copy.js、calendar.js 與 fixes.js
+ *
+ * ── 關於 VIEWPORT ──
+ * index.html 原本沒有這一行。沒有它，手機瀏覽器會拿一個 980px 的假寬度
+ * 渲染頁面再整頁縮小，所以看起來就是「桑機版被縮小」，
+ * 原始碼裡寫好的手機版樣式（@media max-width:820px、漢堡選單…）全部不會被觸發。
+ * 補上之後手機就會走真正的手機介面。
  *
  * ── 載入順序 ──
  * copy.js 必須排在 fixes.js 之前：文案與步驟資料（window.HPXKH_TX）由 copy.js 提供，
@@ -18,8 +24,9 @@
  * 每次改動 copy.js / calendar.js / fixes.js / favicon.svg 後把 VER 改掉，
  * 瀏覽器就會視為新檔案立刻重新下載。首頁本身不被快取，所以新版本號會馬上送達。
  */
-const VER = '20260919i';
+const VER = '20260919j';
 
+const VIEWPORT = '<meta name="viewport" content="width=device-width, initial-scale=1">';
 const MOUNT = '<div id="calMount"><p style="color:#918B81;font-size:13px">讀取行事曆中…</p></div>';
 const SCRIPTS = '<script src="/assets/copy.js?v=' + VER + '"></script>' +
   '<script src="/assets/calendar.js?v=' + VER + '"></script>' +
@@ -39,7 +46,7 @@ export async function onRequestGet(context) {
   return new HTMLRewriter()
     .on('title', {
       element(el) {
-        el.before(ICON, { html: true });
+        el.before(VIEWPORT + ICON, { html: true });
       },
     })
     .on('div.embed', {
