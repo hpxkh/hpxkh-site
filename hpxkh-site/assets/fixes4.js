@@ -11,6 +11,7 @@
 
    這一批做的事：
    1. 關於我們 → 里程碑：改讀 copy.js 的 TX.mile 重畫，補上九屆大聚
+   2. 新人指引的四個區塊：卡片少的那格，尾巴不要留一塊空白
 
    文字與資料一律放 assets/copy.js，這裡只處理版面與行為。
    改完記得把 functions/[[path]].js 的 VER 換掉。 */
@@ -21,6 +22,30 @@
     return String(s).replace(/[&<>"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
     });
+  }
+
+  /* ── 新人指引：卡片少的那一格，尾巴不要空一塊 ──
+     四個區塊（先認識我們／參加第一場／要用到再查／社團之外）在桌機是用
+     grid subgrid 綁在一起的，所以「卡片區」(.step__b) 四格一律等高。
+     卡片數不一樣時，少的那格就會在最後一張卡下面留一大塊白
+     （例：Step 3 只有 2 張卡 165px，框卻被撐到 271px，尾巴空 106px），
+     看起來像框沒收好。
+
+     解法：讓卡片自己把多出來的高度平分掉（flex-grow:1），
+     最後一張卡的底線就會和隔壁欄切齊，框裡也不再有空白。
+
+     只加 flex-grow，不動 flex-basis／flex-shrink，所以：
+       · 卡片剛好填滿的那幾格（剩餘空間 0）完全不受影響
+       · 手機版一欄時本來就沒有多餘高度，也不受影響
+       · 「剛加入可以做什麼」那格的 .step__b 被 fixes.js 改成 grid，
+         grid 項目不吃 flex-grow，同樣不受影響
+     實測 1440／1200／900／700／393 五種寬度、三個分頁，尾巴空白都歸零。 */
+  function css() {
+    if (document.getElementById('hpxkhFix4Css')) return;
+    var s = document.createElement('style');
+    s.id = 'hpxkhFix4Css';
+    s.textContent = '.step__b>a{flex-grow:1}';
+    document.head.appendChild(s);
   }
 
   /* 里程碑。
@@ -58,6 +83,7 @@
   }
 
   function run() {
+    css();
     mileList();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
