@@ -16,6 +16,7 @@
    4. 常見問題：每一題前面補上編號（四區各自從 01 開始）
    5. H·P·X 手機版：橘色的字改排成同一行，不再一行一個
    6. 里程碑上方加三顆時間範圍按鈕（全部／111-115／110-106）
+   7. 新人指引與申請與文件的卡片補上圖示
 
    文字與資料一律放 assets/copy.js，這裡只處理版面與行為。
    改完記得把 functions/[[path]].js 的 VER 換掉。 */
@@ -57,6 +58,11 @@
         'font-weight:600;transition:color .15s}' +
       '.faq details[open] summary .faqn{color:var(--orange,#EF8200)}' +
       '@media (min-width:560px){.faq p{padding-left:calc(20px + var(--faqn) + 14px)}}' +
+      /* 申請與文件的卡片圖示。.dcard 本來就是 flex（gap:14px），
+         圖示當第一個項目塞進去即可。手機縮小一點，免得擠掉標題。 */
+      '.dcard__ic{flex:0 0 auto;width:42px;height:42px;margin-top:1px}' +
+      '.dcard__ic img{width:100%;height:100%;display:block;object-fit:contain}' +
+      '@media (max-width:560px){.dcard__ic{width:34px;height:34px}}' +
       /* ── H·P·X 手機版：橘色的字排成一行 ──
          桌機是三欄並排，照社團簡報那一頁，橘色的字一行一個沒問題。
          但手機只有一欄，一行一個字的結果是：
@@ -114,6 +120,86 @@
         tag.textContent = (n < 10 ? '0' : '') + n;
         sm.insertBefore(tag, sm.firstChild);
       }
+    }
+  }
+
+  /* ── 卡片圖示 ──
+     為什麼要在這裡接，而不是用 index.html 原本的機制：
+     fixes.js 第 28 行 `var IMGS = (typeof IMG !== 'undefined') ? IMG : {}` 是在
+     檔案載入時就執行的，而 IMG 定義在 index.html 的行內程式裡（第 1931 行），
+     那段要等到所有外部 js 都跑完才會執行 —— 所以 IMGS 永遠是空物件，
+     新人指引的每張卡其實一張圖都沒顯示過。這裡改成「等 DOM 建好，依標題配圖」，
+     不必碰 index.html 也不必動已凍結的 fixes.js。
+
+     圖檔放 assets/，200×200 webp，風格同原本的 s01～s08（米色圓底＋線稿＋橘色閃線）。
+     同一個標題在不同分頁重複出現時會共用同一張圖，這是刻意的。
+     ★ 圖檔若還沒上傳，onerror 會把 <img> 拿掉，只留原本的空位，不會出現破圖。 */
+  var CARD_ICON = {
+    // 剛加入可以做什麼
+    '在社團發一篇自我介紹': 'icon-join',
+    '參加書聚或活動': 'icon-firstevent',
+    '自己發起書聚或活動': 'icon-hostguide',
+    // 我想先參加
+    '認識 HPX': 'icon-about',
+    '填寫加入社團申請': 'icon-join',
+    '加入 Facebook 社團': 'icon-firstevent',
+    '如何開始一場書聚': 'icon-hostguide',
+    '高雄讀書會行事曆': 'icon-calendar',
+    '向主揪報名或問旁聽': 'icon-signup',
+    '常辦書聚地點': 'icon-venues',
+    '歷年活動清單索引': 'icon-reference',
+    '粉絲專頁 書香南國': 'icon-fb',
+    'HPX 高雄宵夜團（LINE 社群）': 'icon-line-group',
+    '加入 HPX 高雄宵夜團（LINE 社群）': 'icon-line-group',
+    'LINE 官方帳號': 'icon-line-oa',
+    // 我想開書聚
+    '結束後在社團發一篇分享': 'icon-more',
+    '書聚徽章申請': 'icon-form-badge'
+  };
+
+  var DOC_ICON = {
+    '加入社團申請': 'icon-form-join',
+    '書聚徽章申請': 'icon-form-badge',
+    '許願池': 'icon-form-wish',
+    '官方簡報與清單': 'icon-form-files',
+    '推薦場地': 'icon-form-venue',
+    '合作提案': 'icon-form-collab',
+    '社團外貼文申請': 'icon-form-post'
+  };
+
+  function iconImg(name) {
+    var im = document.createElement('img');
+    im.src = '/assets/' + name + '.webp';
+    im.alt = '';
+    im.loading = 'lazy';
+    im.onerror = function () { if (im.parentNode) im.parentNode.removeChild(im); };
+    return im;
+  }
+
+  function cardIcons() {
+    var as = document.querySelectorAll('.step__b a'), i, h, box, key;
+    for (i = 0; i < as.length; i++) {
+      h = as[i].querySelector('h4');
+      box = as[i].querySelector('.step__ic');
+      if (!h || !box || box.querySelector('img')) continue;
+      key = CARD_ICON[h.textContent.trim()];
+      if (!key) continue;
+      box.classList.remove('step__ic--dot');
+      box.appendChild(iconImg(key));
+    }
+
+    var cs = document.querySelectorAll('.dcard'), j, t, ic;
+    for (j = 0; j < cs.length; j++) {
+      if (cs[j].querySelector('.dcard__ic')) continue;
+      t = cs[j].querySelector('.dcard__h');
+      if (!t) continue;
+      key = DOC_ICON[t.textContent.trim()];
+      if (!key) continue;
+      ic = document.createElement('span');
+      ic.className = 'dcard__ic';
+      ic.setAttribute('aria-hidden', 'true');
+      ic.appendChild(iconImg(key));
+      cs[j].insertBefore(ic, cs[j].firstChild);
     }
   }
 
@@ -204,6 +290,7 @@
     css();
     dropGallery();
     faqNums();
+    cardIcons();
     mileList();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
