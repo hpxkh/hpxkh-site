@@ -44,7 +44,7 @@
  * max-age 一律拉到 14400，_headers 只能拉長不能縮短。因此改用版本化網址：
  * 每次改動 copy.js / calendar.js / fixes.js / fixes2.js / fixes3.js / fixes4.js / fixes5.js / favicon.svg 後把 VER 改掉。
  */
-const VER = '20260920a';
+const VER = '20260920b';
 
 const SITE = 'https://www.hpxkh.com';
 const OGIMG = SITE + '/assets/heroMain.webp';
