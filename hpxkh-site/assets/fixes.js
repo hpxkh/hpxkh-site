@@ -2,20 +2,21 @@
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
    3. 表單：加入社團申請補題目與可複選、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
-   4. 關於我們：H·P·X 改成三張並排卡片，併進「社團介紹」；分頁改名「適不適合你」；
+   4. 關於我們：H·P·X 改成三張並排卡片，併進「社團介紹」；分頁改名「HPX 特色」；
       里程碑頁移除「未來展望」
    5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
-   6. 首頁與新人指引補上「加入社團申請」的入口；首頁那顆「歷年場次」直接跳到對的檢視
+   6. 首頁補上「加入社團申請」的入口；首頁那顆「歷年場次」直接跳到對的檢視
    7. 九種聚會形式排成 3×3
    8. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
-   9. 申請與文件：七張表改成「先選表、再填表」的卡片清單（兩類），並新增「許願池」；
-      站內指向某一張表的連結會直接開那一張
+   9. 申請與文件：七張表改成「先選表、再填表」的卡片清單（桌機左右兩欄），
+      並新增「許願池」；站內指向某一張表的連結會直接開那一張
   10. 步驟區塊的欄數配合實際張數，不再固定三欄
   11. 開書聚：書聚的精神移到四個階段前面，流程內容在 copy.js
   12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
   13. 收掉每一頁分頁列上下的大片空白
   14. 統一每一頁版頭（.top）的高度，細線與分頁按鈕一律對齊
   15. 關於我們：H·P·X 那一段加底色跟上下分開，卡片下方三段重複的說明拿掉
+  16. 「我們是／我們不是」兩欄四列對齊
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。
      卡片說明想標重點，就在 copy.js 用 dHtml 取代 d，可用 <b>、<span class="k">（橘色）、
@@ -75,8 +76,6 @@
          再給版頭一個下限高度，字少的頁面自動補空白，細線一律對齊。
          ★ 改開場文案時要顧到這個長度（約 35～50 個中文字），太長會把版頭撐高。 */
       '.pg > .top{min-height:clamp(237px,6.2vw + 213px,292px);box-sizing:border-box}' +
-      '.pg > .top p [data-join-note] a{color:var(--orange-dk);' +
-        'text-decoration:underline;text-underline-offset:3px}' +
       /* ── 分頁列上下的空白 ──
          每一頁都是：.top（說明文字）→ 細線 → 一段空白 → 分頁按鈕 → 又一段空白 → 內容。
          上下各 32～52px 的留白讓那條細線孤零零地浮在中間，按鈕也像漂著。
@@ -115,7 +114,14 @@
       '.dmnu__g + .dmnu__g{margin-top:clamp(24px,3vw,32px)}' +
       '.dmnu__k{font-size:11.5px;letter-spacing:.14em;color:var(--muted,#918B81);margin:0 0 10px}' +
       '.dmnu__b{display:grid;grid-template-columns:1fr;gap:10px}' +
-      '@media (min-width:820px){.dmnu__b{grid-template-columns:repeat(2,minmax(0,1fr))}}' +
+      /* 桌機左右兩欄：左邊書友常用（4 張）、右邊店家單位（3 張），
+         跟版頭那句「左邊…右邊…」對得起來。 */
+      '@media (min-width:900px){' +
+        '.dmenu{display:grid;grid-template-columns:1.08fr .92fr;' +
+          'gap:clamp(24px,3vw,36px);align-items:start}' +
+        '.dmnu__g + .dmnu__g{margin-top:0;padding-left:clamp(24px,3vw,36px);' +
+          'border-left:1px solid var(--hair)}' +
+      '}' +
       '.dcard{display:flex;align-items:flex-start;gap:14px;width:100%;text-align:left;' +
         'padding:clamp(15px,1.8vw,19px) clamp(16px,1.9vw,20px);' +
         'border:1px solid var(--hair);background:transparent;cursor:pointer;' +
@@ -133,6 +139,19 @@
         'color:var(--orange,#EF8200);cursor:pointer}' +
       '.dback__b:hover{text-decoration:underline}' +
       '.dback__t{font-size:13px;color:var(--muted,#918B81)}' +
+      /* ── 我們是／我們不是 ──
+         兩欄各四項，但每一項的字數不一樣，左右兩欄的第 N 項高度不同，
+         看起來就像沒對齊。兩欄拉成等高，再把每欄的四項平均分配高度，
+         第 1 項對第 1 項、第 2 項對第 2 項，橫著看是整齊的四列。 */
+      '@media (min-width:900px){' +
+        '.vs{align-items:stretch}' +
+        '.vs__col{display:flex;flex-direction:column}' +
+        /* 兩欄的清單在原始碼裡是用 id 指定樣式（#why / #nots），
+           用 class 寫會被壓過去，所以這裡也對著 id 寫。 */
+        '#why,#nots{flex:1 1 auto;display:grid;grid-template-columns:1fr;' +
+          'grid-auto-rows:1fr;align-content:stretch}' +
+        '.why__i,.nots__i{align-items:flex-start}' +
+      '}' +
       /* 常見問題頁尾的一句話 */
       '.faq__ask{font-size:13px;line-height:2;color:var(--ink-3,#918B81);max-width:46em;' +
         'padding-top:clamp(18px,2.4vw,26px);border-top:1px solid var(--hair);margin:0}' +
@@ -272,9 +291,7 @@
     old.parentNode.replaceChild(frag, old);
 
     /* 卡片下面原本還有三段文字（P 開頭的職稱清單、1.0／2.0 的說明）。
-       三張卡自己已經把 1.0 與 2.0 並排講完了，那三段是重複敘述，整個拿掉。
-       每張卡改成「1.0 → 英文字 → 中文」與「2.0 → 橘色的字」上下對照，
-       不用另外寫一段話解釋顏色。 */
+       三張卡自己已經把 1.0 與 2.0 並排講完了，那三段是重複敘述，整個拿掉。 */
     var nt = document.querySelector('.hpx__note');
     if (nt && nt.parentNode) nt.parentNode.removeChild(nt);
   }
@@ -421,10 +438,8 @@
     wrap.parentNode.insertBefore(sec, wrap.nextSibling);
   }
 
-  /* 「加入社團申請」表單本身留在申請與文件頁（那裡是大家回頭找表單的地方），
-     但入口要放在會產生念頭的位置：
-       - 首頁主視覺：多一顆次要按鈕，還沒入社的人不必先找選單
-       - 新人指引開頭：這頁預設你已經入社，所以補一句給還沒入社的人 */
+  /* 首頁主視覺多一顆「加入社團申請」的次要按鈕，
+     還沒入社的人不必先找選單。表單本身留在申請與文件頁。 */
   function joinCtas() {
     var cta = document.querySelector('[data-pg="home"] .lead__cta');
     if (cta && !cta.querySelector('[data-join-cta]')) {
@@ -434,20 +449,6 @@
       a.textContent = '加入社團申請';
       a.setAttribute('data-join-cta', '');
       cta.appendChild(a);
-    }
-
-    /* 這句接在開場那一段的後面（同一個 <p>），不另起一段：
-       每頁版頭都只有一段開場，高度才對得起來。 */
-    var top = document.querySelector('[data-pg="start"] .top');
-    if (top && !top.querySelector('[data-join-note]') && TX.startJoin) {
-      var ps = top.querySelectorAll('p');
-      var lede = ps[ps.length - 1];
-      if (lede) {
-        var sp = document.createElement('span');
-        sp.setAttribute('data-join-note', '');
-        sp.innerHTML = '　' + TX.startJoin;
-        lede.appendChild(sp);
-      }
     }
   }
 
@@ -530,7 +531,7 @@
 
   /* 關於我們：「HPX 三個字母是什麼意思」其實是社團介紹的一部分，
      讀者看完開場三段正想問「所以 HPX 是什麼」，答案就應該接在那裡，
-     而不是要再點一個分頁。搬完之後原分頁只剩「我們是什麼、不是什麼」。 */
+     而不是要再點一個分頁。 */
   function mergeAbout() {
     var p1 = document.getElementById('ab-p1');
     var p2 = document.getElementById('ab-p2');
@@ -619,14 +620,12 @@
     pad.insertBefore(back, menu.nextSibling);
     showMenu();
 
-    /* 站內有些連結指的就是某一張表（首頁與新人指引的「加入社團申請」、
-       開書聚那張「書聚徽章申請」）。這種連結點下去應該直接開那張表，
-       不要再讓人從清單裡找一次。比對方式：連結文字裡有沒有某顆分頁按鈕的名稱。
+    /* 站內有些連結指的就是某一張表（首頁的「加入社團申請」、
+       開書聚那張「書聚徽章申請」、常見問題頁尾的「許願池」）。
+       這種連結點下去應該直接開那張表，不要再讓人從清單裡找一次。
 
        另外要處理一個狀況：這一頁是單頁式的，離開再回來時 DOM 還停在上次的樣子。
-       所以每次切回 #/docs 都要重設——有指定表單就開那一張，沒有就回到清單。
-       （之前的 bug：先點開「合作提案」，回首頁再按「加入社團申請」，
-         進來看到的還是合作提案。） */
+       所以每次切回 #/docs 都要重設——有指定表單就開那一張，沒有就回到清單。 */
     var pending = null;
 
     window.addEventListener('hashchange', function () {

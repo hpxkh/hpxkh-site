@@ -21,14 +21,15 @@
  * 每次改動 copy.js / calendar.js / fixes.js / favicon.svg 後把 VER 改掉，
  * 瀏覽器就會視為新檔案立刻重新下載。首頁本身不被快取，所以新版本號會馬上送達。
  */
-const VER = '20260919d';
+const VER = '20260919e';
 
 const MOUNT = '<div id="calMount"><p style="color:#918B81;font-size:13px">讀取行事曆中…</p></div>';
 const SCRIPTS = '<script src="/assets/copy.js?v=' + VER + '"></script>' +
   '<script src="/assets/calendar.js?v=' + VER + '"></script>' +
   '<script src="/assets/fixes.js?v=' + VER + '"></script>';
 const ICON = '<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=' + VER + '">';
-const LEDE = '每月書聚與活動都在下面的月曆上，可以往前往後翻。同一個活動固定一種顏色，同一天有多場也分得出來。';
+// 顏色那一句拿掉：月曆上看一眼就知道，不用先用文字說明
+const LEDE = '每月書聚與活動都在下面的月曆上，可以往前往後翻。';
 
 export async function onRequestGet(context) {
   const res = await context.next();
