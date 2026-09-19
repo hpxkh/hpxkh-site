@@ -30,7 +30,7 @@
    改完記得把 functions/[[path]].js 的 VER 換掉。 */
 (function () {
   var PAGES = ['home', 'about', 'start', 'meetups', 'calendar', 'docs',
-    'faq', 'gallery', 'rules', 'venues', 'contact'];
+    'faq', 'rules', 'venues', 'contact'];   // gallery（活動花絮）已下架
 
   /* ★ 這份標題表必須和 functions/[[path]].js 的 PAGES 一字不差。
      伺服器先寫好 <title>，這裡換頁時會再寫一次；不一致的話
@@ -44,7 +44,6 @@
     calendar: '行事曆｜' + B,
     docs: '申請與文件｜' + B,
     faq: '常見問題｜' + B,
-    gallery: '活動花絮｜' + B,
     rules: '社團版規｜' + B,
     venues: '常辦書聚地點｜' + B,
     contact: '聯繫我們｜' + B
