@@ -13,6 +13,8 @@
   11. 開書聚：書聚的精神移到四個階段前面，流程內容在 copy.js
   12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
   13. 收掉每一頁分頁列上下的大片空白
+  14. 統一每一頁版頭（.top）的高度，細線與分頁按鈕一律對齊
+  15. 關於我們：H·P·X 那一段加底色，跟上下兩段的社團介紹分開
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。
      卡片說明想標重點，就在 copy.js 用 dHtml 取代 d，可用 <b>、<span class="k">（橘色）、
@@ -64,6 +66,16 @@
       '.end__p{max-width:38em}' +
       '.cal__foot p{max-width:46em}' +
       '#startCan .step__d{padding-right:clamp(20px,22vw,320px)}' +
+      /* ── 版頭高度統一 ──
+         每頁版頭的結構都一樣（浮水印 → 標題 → 問句 → 一段開場），
+         只有開場那段的行數不同（1～3 行），所以每頁的細線與下面那排
+         分頁按鈕都落在不同高度，一頁一頁切過去會上下跳。
+         兩件事一起做：開場文字統一寫成「桌機 2 行、手機 3 行」以內（見 copy.js），
+         再給版頭一個下限高度，字少的頁面自動補空白，細線一律對齊。
+         ★ 改開場文案時要顧到這個長度（約 35～50 個中文字），太長會把版頭撐高。 */
+      '.pg > .top{min-height:clamp(237px,6.2vw + 213px,292px);box-sizing:border-box}' +
+      '.pg > .top p [data-join-note] a{color:var(--orange-dk);' +
+        'text-decoration:underline;text-underline-offset:3px}' +
       /* ── 分頁列上下的空白 ──
          每一頁都是：.top（說明文字）→ 細線 → 一段空白 → 分頁按鈕 → 又一段空白 → 內容。
          上下各 32～52px 的留白讓那條細線孤零零地浮在中間，按鈕也像漂著。
@@ -111,8 +123,6 @@
       '[data-pg="start"] .part__m{flex:0 0 auto;width:9px;height:9px;border-radius:2px;' +
         'background:var(--orange,#EF8200);transform:rotate(45deg);' +
         'margin-top:calc(clamp(18px,2.3vw,23px) * .5 - 4px)}' +
-      '.start__join{margin-top:14px;font-size:13px;line-height:1.9;color:var(--ink-3,#918B81)}' +
-      '.start__join a{color:var(--orange,#EF8200)}' +
       '.spirit--top{margin-bottom:clamp(20px,2.6vw,28px)}' +
       /* 社團書聚：三個檢視 */
       '.mtv{margin-top:14px}' +
@@ -176,7 +186,8 @@
 
   /* H·P·X：三個字母排成三張並排的卡片。
      每張卡由上而下是：大字母 → 1.0 的英文字 → 中文說明 →（分隔線）→「2.0」小標 → 橘色的字。
-     三張等高、2.0 那一段靠底對齊，所以分隔線在三張卡上會連成一條水平線。 */
+     三張等高、2.0 那一段靠底對齊，所以分隔線在三張卡上會連成一條水平線。
+     整段另外加一層米色底（.hpxband），跟上下兩段的社團介紹分開。 */
   function hpxCards() {
     var old = document.querySelector('.hpxr');
     if (!old || document.getElementById('hpx3css')) return;
@@ -204,6 +215,11 @@
         'max-width:52em;text-wrap:pretty}' +
       '.hpx2__n + .hpx2__n{margin-top:6px}' +
       '.hpx2__n em{font-style:normal;color:var(--orange)}' +
+      /* 這一段（H·P·X 是什麼意思）換一個底色，跟上下兩段的社團介紹分開，
+         讀者一眼就知道這是獨立的一塊。卡片改成白底，浮在米色上。 */
+      '.hpxband{background:var(--cream);border-top:1px solid var(--hair);' +
+        'border-bottom:1px solid var(--hair)}' +
+      '.hpxband .hpx3__c{background:var(--sheet)}' +
       '@media (min-width:760px){' +
         '.hpx3{grid-template-columns:repeat(3,minmax(0,1fr))}' +
         '.hpx3__t{margin-top:auto}' +      /* 三張卡的分隔線連成一條 */
@@ -230,6 +246,9 @@
         '<p class="hpx3__x">' + esc(words.join('・')) + '</p>' +
         '</div>';
     }
+
+    var sec = old.closest ? old.closest('section') : null;
+    if (sec) sec.className += ' hpxband';
 
     var box = document.createElement('div');
     box.innerHTML = '<div class="hpx3">' + cards + '</div>' + note;
@@ -401,13 +420,18 @@
       cta.appendChild(a);
     }
 
+    /* 這句接在開場那一段的後面（同一個 <p>），不另起一段：
+       每頁版頭都只有一段開場，高度才對得起來。 */
     var top = document.querySelector('[data-pg="start"] .top');
     if (top && !top.querySelector('[data-join-note]') && TX.startJoin) {
-      var p = document.createElement('p');
-      p.className = 'start__join';
-      p.setAttribute('data-join-note', '');
-      p.innerHTML = TX.startJoin;
-      top.appendChild(p);
+      var ps = top.querySelectorAll('p');
+      var lede = ps[ps.length - 1];
+      if (lede) {
+        var sp = document.createElement('span');
+        sp.setAttribute('data-join-note', '');
+        sp.innerHTML = '　' + TX.startJoin;
+        lede.appendChild(sp);
+      }
     }
   }
 
