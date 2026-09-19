@@ -14,7 +14,7 @@
    2. 新人指引的四個區塊：卡片少的那格，尾巴不要留一塊空白
    3. 活動花絮下架：拿掉頁尾選單那條連結
    4. 常見問題：每一題前面補上編號（四區各自從 01 開始）
-   5. H·P·X 手機版：橘色的字改排成同一行，不再一行一個
+   5. H·P·X 手機版：改回社團簡報的三欄，只把字級縮小
    6. 里程碑上方加三顆時間範圍按鈕（全部／111-115／110-106）
    7. 新人指引與申請與文件的卡片補上圖示
 
@@ -63,20 +63,24 @@
       '.dcard__ic{flex:0 0 auto;width:42px;height:42px;margin-top:1px}' +
       '.dcard__ic img{width:100%;height:100%;display:block;object-fit:contain}' +
       '@media (max-width:560px){.dcard__ic{width:34px;height:34px}}' +
-      /* ── H·P·X 手機版：橘色的字排成一行 ──
-         桌機是三欄並排，照社團簡報那一頁，橘色的字一行一個沒問題。
-         但手機只有一欄，一行一個字的結果是：
-         「Project／Practice／Plan」三行各只用掉 60px，右邊空著 240px，
-         P 那一組被拉成 116px 高，看起來像排版跑掉。
-         改成同一行、中間用「·」分隔：P 那組從 116px 收到 59px，
-         整區從 274px 降到 217px，上下的字也不再黏在一起。
-         700px 以上完全不動，還是簡報那一頁的三欄。
-         fixes.js 原本把 span 設成 display:block，這裡同權重但檔案較後面，會蓋過去。 */
+      /* ── H·P·X 手機版：照簡報那一頁，三欄不要拆 ──
+         社團簡報上這一頁就是三欄並排：大字母在上，黑字在下，
+         橘色的字再一行一個往下排。之前手機版把它拆成
+         「大字母靠左、文字靠右」一組一行，又把橘色的字擠成同一行用「·」隔開，
+         排出來已經不是簡報那個樣子了。
+         這裡改回三欄，只把字級縮小：
+           · 字母 7vw（390px 約 27px）
+           · 黑字與橘字 3.9vw（約 15px）
+         實測 320／360／390／430／600／699px 都沒有字被切掉，
+         390px 整區從 217px 收到 136px，比拆成三行更矮也更像原圖。
+         700px 以上完全不動。 */
       '@media (max-width:699px){' +
-        '.hpx3__x{display:block}' +
-        '.hpx3__x span{display:inline}' +
-        '.hpx3__x span+span::before{content:"\\00B7";margin:0 .45em;' +
-          'color:var(--muted,#918B81);opacity:.55}' +
+        '.hpx3{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,3vw,18px)}' +
+        '.hpx3__c{display:block;padding-right:0}' +
+        '.hpx3__l{font-size:clamp(26px,7vw,34px);margin-bottom:clamp(10px,3vw,14px)}' +
+        '.hpx3__w{font-size:clamp(14px,3.9vw,18px)}' +
+        '.hpx3__x{margin-top:clamp(4px,1.5vw,8px)}' +
+        '.hpx3__x span{display:block;font-size:clamp(14px,3.9vw,18px)}' +
       '}';
     document.head.appendChild(s);
   }
