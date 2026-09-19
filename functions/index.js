@@ -11,7 +11,8 @@
  * ── 關於 VIEWPORT ──
  * index.html 原本沒有這一行。沒有它，手機瀏覽器會拿一個 980px 的假寬度
  * 渲染頁面再整頁縮小，所以看起來就是「桑機版被縮小」，
- * 原始碼裡寫好的手機版樣式（@media max-width:820px、漢堡選單…）全部不會被觸發。
+ * 原始碼裡寫好的手機版樣式（@media max-width:820px、漢堡選單…）全部不會被觸發，
+ * 每一個為桌機設的 max-width 在手機上都會變成右邊一大片空白。
  * 補上之後手機就會走真正的手機介面。
  *
  * ── 載入順序 ──
@@ -24,7 +25,7 @@
  * 每次改動 copy.js / calendar.js / fixes.js / favicon.svg 後把 VER 改掉，
  * 瀏覽器就會視為新檔案立刻重新下載。首頁本身不被快取，所以新版本號會馬上送達。
  */
-const VER = '20260919j';
+const VER = '20260919k';
 
 const VIEWPORT = '<meta name="viewport" content="width=device-width, initial-scale=1">';
 const MOUNT = '<div id="calMount"><p style="color:#918B81;font-size:13px">讀取行事曆中…</p></div>';
