@@ -114,27 +114,29 @@
          (2) 按鈕緊貼著下面的表單，看起來像黏在一起。
          改成「先選表，再填表」：進來先看到七張卡片，每張有一句話說明誰適合填，
          點了就地展開那一張表，再點一次收起。 */
-      /* 兩組上下排，各自一個底色（上白下米），一眼就分得出來。 */
-      '.dmnu__g{border:1px solid var(--hair);padding:clamp(16px,2vw,22px)}' +
+      /* 兩組上下排，各自一個底色（上白下米），一眼就分得出來。
+         卡片不留間距、邊框互相疊合，看起來是一格一格連在一起的清單，
+         而不是浮著的七張小卡——項目之間的關係比較清楚。 */
+      '.dmnu__g{padding:clamp(16px,2vw,22px)}' +
       '.dmnu__g--a{background:var(--sheet)}' +
       '.dmnu__g--b{background:var(--cream)}' +
-      '.dmnu__g--b .dcard{background:var(--sheet)}' +
-      '.dmnu__g + .dmnu__g{margin-top:clamp(16px,2vw,22px)}' +
+      '.dmnu__g + .dmnu__g{margin-top:clamp(12px,1.6vw,18px)}' +
       '.dmnu__k{font-size:11.5px;letter-spacing:.14em;color:var(--muted,#918B81);margin:0 0 10px}' +
-      '.dmnu__b{display:grid;grid-template-columns:1fr;gap:10px}' +
+      '.dmnu__b{display:grid;grid-template-columns:1fr;gap:0}' +
       '@media (min-width:820px){.dmnu__b{grid-template-columns:repeat(2,minmax(0,1fr))}}' +
-      '.dcard{display:flex;align-items:flex-start;gap:14px;width:100%;text-align:left;' +
-        'padding:clamp(15px,1.8vw,19px) clamp(16px,1.9vw,20px);' +
-        'border:1px solid var(--hair);background:var(--sheet);cursor:pointer;' +
+      '.dcard{position:relative;display:flex;align-items:flex-start;gap:14px;width:100%;' +
+        'text-align:left;padding:clamp(15px,1.8vw,19px) clamp(16px,1.9vw,20px);' +
+        'border:1px solid var(--hair);margin:0 -1px -1px 0;' +   /* 相鄰的框線疊成一條 */
+        'background:transparent;cursor:pointer;' +
         'font:inherit;color:inherit;transition:background .15s,border-color .15s}' +
-      '.dcard:hover{border-color:var(--muted,#918B81)}' +
-      '.dcard[aria-expanded="true"]{border-color:var(--orange,#EF8200)}' +
+      '.dcard:hover{background:rgba(0,0,0,.02);border-color:var(--muted,#918B81);z-index:1}' +
+      '.dcard[aria-expanded="true"]{border-color:var(--orange,#EF8200);z-index:1}' +
       '.dcard__t{flex:1 1 auto;min-width:0}' +
       '.dcard__h{display:block;font-size:15.5px;font-weight:600;line-height:1.5;color:var(--ink)}' +
       '.dcard__d{margin:5px 0 0;font-size:13px;line-height:1.85;color:var(--ink-2)}' +
       '.dcard__g{flex:0 0 auto;margin-top:3px;color:var(--orange,#EF8200);font-size:15px;' +
         'transition:transform .15s}' +
-      '.dcard[aria-expanded="true"] .dcard__g{transform:rotate(180deg)}' +
+      '.dcard[aria-expanded="true"] .dcard__g{transform:rotate(90deg)}' +
       /* 展開的表單直接插在那張卡下面，橫跨兩欄 */
       '.dmnu__b > .appform{grid-column:1/-1;margin:0 0 4px;background:var(--sheet);' +
         'border:1px solid var(--hair)}' +
@@ -727,7 +729,7 @@
         b.innerHTML = '<span class="dcard__t">' +
           '<span class="dcard__h">' + esc(t.textContent.trim()) + '</span>' +
           '<p class="dcard__d">' + esc(it.d) + '</p></span>' +
-          '<span class="dcard__g" aria-hidden="true">▾</span>';
+          '<span class="dcard__g" aria-hidden="true">→</span>';
         b.addEventListener('click', function () { openTab(it.id); });
         body.appendChild(b);
       });
