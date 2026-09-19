@@ -8,7 +8,8 @@
    6. 首頁與新人指引補上「加入社團申請」的入口；首頁那顆「歷年場次」直接跳到對的檢視
    7. 九種聚會形式排成 3×3
    8. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
-   9. 文件表單分成左右兩區：書友常用／店家、單位與其他社群，並新增「許願池」
+   9. 申請與文件：七張表改成「先選表、再填表」的卡片清單（兩類），並新增「許願池」；
+      站內指向某一張表的連結會直接開那一張
   10. 步驟區塊的欄數配合實際張數，不再固定三欄
   11. 開書聚：書聚的精神移到四個階段前面，流程內容在 copy.js
   12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
@@ -104,15 +105,34 @@
       '.chk input:checked::after{left:50%;top:50%;width:4px;height:8px;' +
         'transform:translate(-50%,-60%) rotate(45deg)}' +
       '@media (min-width:900px){.chks{grid-template-columns:repeat(4,minmax(0,1fr))}}' +
-      /* 文件表單：兩類左右並排，中間一條線。左邊四顆、右邊三顆，左欄給多一點 */
-      '.dgrp__k{font-size:11.5px;letter-spacing:.14em;color:var(--ink-3,#918B81);margin-bottom:9px}' +
-      '.dgrp + .dgrp{margin-top:20px}' +
-      '@media (min-width:900px){' +
-        '.dgrps{display:grid;grid-template-columns:1.12fr .88fr}' +
-        '.dgrp{padding-right:clamp(18px,2.4vw,30px)}' +
-        '.dgrp + .dgrp{margin-top:0;padding-right:0;padding-left:clamp(18px,2.4vw,30px);' +
-          'border-left:1px solid var(--hair)}' +
-      '}' +
+      /* ── 申請與文件：七張表的入口 ──
+         原本是七顆並排的分頁按鈕。問題有兩個：
+         (1) 七個標籤擠成一排，「合作提案」「社團外貼文申請」光看名字
+             不知道是不是給自己填的，要點開才知道；
+         (2) 按鈕緊貼著下面的表單，看起來像黏在一起。
+         改成「先選表，再填表」：進來先看到七張卡片，每張有一句話說明誰適合填，
+         點了才展開那一張表，上面留一條「← 全部表單」可以回來。 */
+      '.dmnu__g + .dmnu__g{margin-top:clamp(24px,3vw,32px)}' +
+      '.dmnu__k{font-size:11.5px;letter-spacing:.14em;color:var(--muted,#918B81);margin:0 0 10px}' +
+      '.dmnu__b{display:grid;grid-template-columns:1fr;gap:10px}' +
+      '@media (min-width:820px){.dmnu__b{grid-template-columns:repeat(2,minmax(0,1fr))}}' +
+      '.dcard{display:flex;align-items:flex-start;gap:14px;width:100%;text-align:left;' +
+        'padding:clamp(15px,1.8vw,19px) clamp(16px,1.9vw,20px);' +
+        'border:1px solid var(--hair);background:transparent;cursor:pointer;' +
+        'font:inherit;color:inherit;transition:background .15s,border-color .15s}' +
+      '.dcard:hover{background:var(--cream);border-color:var(--muted,#918B81)}' +
+      '.dcard__t{flex:1 1 auto;min-width:0}' +
+      '.dcard__h{display:block;font-size:15.5px;font-weight:600;line-height:1.5;color:var(--ink)}' +
+      '.dcard__d{margin:5px 0 0;font-size:13px;line-height:1.85;color:var(--ink-2)}' +
+      '.dcard__g{flex:0 0 auto;margin-top:3px;color:var(--orange,#EF8200);font-size:15px}' +
+      /* 回到清單那一條，同時也是表單與上方之間的呼吸 */
+      '.dback{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;' +
+        'margin-bottom:clamp(16px,2vw,22px);padding-bottom:clamp(12px,1.6vw,16px);' +
+        'border-bottom:1px solid var(--hair)}' +
+      '.dback__b{border:0;background:transparent;padding:0;font:inherit;font-size:13px;' +
+        'color:var(--orange,#EF8200);cursor:pointer}' +
+      '.dback__b:hover{text-decoration:underline}' +
+      '.dback__t{font-size:13px;color:var(--muted,#918B81)}' +
       /* 常見問題頁尾的一句話 */
       '.faq__ask{font-size:13px;line-height:2;color:var(--ink-3,#918B81);max-width:46em;' +
         'padding-top:clamp(18px,2.4vw,26px);border-top:1px solid var(--hair);margin:0}' +
@@ -358,7 +378,7 @@
     wireTab(btn, pane, tabsEl, true);       // 預設停在這一頁
   }
 
-  /* 文件表單：多一個「許願池」。
+  /* 申請與文件：多一個「許願池」。
      只收願望（網站功能、想辦的活動、想讀的主題），不收問題與糾紛——
      那類仍然走私訊粉專。沒有 Email 欄位是刻意的：不留聯絡方式，
      就不會產生「我填了你要回我」的期待。 */
@@ -405,7 +425,7 @@
     wrap.parentNode.insertBefore(sec, wrap.nextSibling);
   }
 
-  /* 「加入社團申請」表單本身留在文件表單頁（那裡是大家回頭找表單的地方），
+  /* 「加入社團申請」表單本身留在申請與文件頁（那裡是大家回頭找表單的地方），
      但入口要放在會產生念頭的位置：
        - 首頁主視覺：多一顆次要按鈕，還沒入社的人不必先找選單
        - 新人指引開頭：這頁預設你已經入社，所以補一句給還沒入社的人 */
@@ -541,37 +561,109 @@
     }
   }
 
-  /* 文件表單：項目性質差很多，排成一列看起來是平的。
-     分成左右兩區：左邊是書友自己會用到的，右邊是店家、單位或其他社群會用到的。
-     按鈕節點直接搬過去，原本綁好的分頁切換照常運作。 */
-  function regroupDocs() {
+  /* 申請與文件：七張表分兩類，先選表再填表。
+     原本的分頁按鈕列留在 DOM 裡（只是隱藏），切換仍由它負責——
+     卡片被按下時是去 click 對應的那顆按鈕，所以原本綁好的邏輯完全不用改。
+     卡片標題直接讀按鈕上的字，改名字只要改按鈕；說明文字在 copy.js 的 docsMenu。 */
+  function docsMenu() {
     var bar = document.querySelector('[data-pg="docs"] .tabs[data-tabs]');
-    if (!bar || document.getElementById('docsGrpB')) return;
-    var G = TX.docsGroups || {};
+    var M = TX.docsMenu;
+    if (!bar || !M || document.getElementById('docsMenu')) return;
 
-    var host = document.createElement('div');
-    host.className = 'dgrps';
-    bar.parentNode.insertBefore(host, bar);
+    var pad = bar.parentNode;
+    bar.style.display = 'none';
 
-    function group(id, label, ids) {
-      var wrap = document.createElement('div');
-      wrap.className = 'dgrp';
-      if (id) wrap.id = id;
-      wrap.innerHTML = '<p class="dgrp__k">' + esc(label || '') + '</p>';
-      var row = document.createElement('div');
-      row.className = 'tabs';
-      row.setAttribute('role', 'tablist');
-      wrap.appendChild(row);
-      host.appendChild(wrap);
-      ids.forEach(function (tid) {
-        var t = document.getElementById(tid);
-        if (t) row.appendChild(t);
+    var menu = document.createElement('div');
+    menu.className = 'dmenu';
+    menu.id = 'docsMenu';
+
+    var back = document.createElement('div');
+    back.className = 'dback';
+    back.innerHTML = '<button class="dback__b" type="button">← ' +
+      esc(M.back || '全部表單') + '</button><span class="dback__t"></span>';
+
+    function showMenu() {
+      var ps = pad.querySelectorAll('.appform'), i;
+      for (i = 0; i < ps.length; i++) ps[i].hidden = true;
+      menu.hidden = false;
+      back.hidden = true;
+    }
+    function openTab(id) {
+      var t = document.getElementById(id);
+      if (!t) return;
+      t.click();                                   // 交給原本的分頁邏輯
+      menu.hidden = true;
+      back.hidden = false;
+      back.querySelector('.dback__t').textContent = t.textContent.trim();
+    }
+    back.querySelector('.dback__b').addEventListener('click', showMenu);
+
+    (M.groups || []).forEach(function (g) {
+      var box = document.createElement('div');
+      box.className = 'dmnu__g';
+      box.innerHTML = '<p class="dmnu__k">' + esc(g.k) + '</p><div class="dmnu__b"></div>';
+      var body = box.querySelector('.dmnu__b');
+      (g.items || []).forEach(function (it) {
+        var t = document.getElementById(it.id);
+        if (!t) return;
+        var b = document.createElement('button');
+        b.className = 'dcard';
+        b.type = 'button';
+        b.innerHTML = '<span class="dcard__t">' +
+          '<span class="dcard__h">' + esc(t.textContent.trim()) + '</span>' +
+          '<p class="dcard__d">' + esc(it.d) + '</p></span>' +
+          '<span class="dcard__g" aria-hidden="true">→</span>';
+        b.addEventListener('click', function () { openTab(it.id); });
+        body.appendChild(b);
       });
+      menu.appendChild(box);
+    });
+
+    pad.insertBefore(menu, bar.nextSibling);
+    pad.insertBefore(back, menu.nextSibling);
+    showMenu();
+
+    /* 站內有些連結指的就是某一張表（首頁與新人指引的「加入社團申請」、
+       開書聚那張「書聚徽章申請」）。這種連結點下去應該直接開那張表，
+       不要再讓人從清單裡找一次。比對方式：連結文字裡有沒有某顆分頁按鈕的名稱。
+
+       另外要處理一個狀況：這一頁是單頁式的，離開再回來時 DOM 還停在上次的樣子。
+       所以每次切回 #/docs 都要重設——有指定表單就開那一張，沒有就回到清單。
+       （之前的 bug：先點開「合作提案」，回首頁再按「加入社團申請」，
+         進來看到的還是合作提案。） */
+    var pending = null;
+
+    window.addEventListener('hashchange', function () {
+      if (location.hash.indexOf('#/docs') !== 0) return;
+      setTimeout(function () {
+        if (pending) { openTab(pending); pending = null; }
+        else showMenu();
+      }, 40);
+    });
+
+    function whichTab(tx) {
+      var hit = null;
+      (M.groups || []).forEach(function (g) {
+        (g.items || []).forEach(function (it) {
+          var t = document.getElementById(it.id);
+          if (t && tx.indexOf(t.textContent.trim()) !== -1) hit = it.id;
+        });
+      });
+      return hit;
     }
 
-    group('', G.a || '書友常用', ['tab-join', 'tab-badge', 'tab-wish', 'tab-files']);
-    group('docsGrpB', G.b || '店家、單位與其他社群', ['tab-venue', 'tab-collab', 'tab-post']);
-    bar.parentNode.removeChild(bar);
+    /* 用事件委派而不是逐一綁定：有些連結是後面才產生的
+       （常見問題頁尾那句就是），逐一綁定會漏掉。 */
+    document.addEventListener('click', function (e) {
+      var el = e.target;
+      var a = (el && el.closest) ? el.closest('a[href="#/docs"]') : null;
+      if (!a) return;
+      var hit = whichTab(a.textContent.trim());
+      if (!hit) return;
+      // 已經在這一頁就不會有 hashchange，直接開
+      if (location.hash.indexOf('#/docs') === 0) openTab(hit);
+      else pending = hit;
+    });
   }
 
   /* 表單內容調整（欄位與說明都定義在 copy.js） */
@@ -685,9 +777,9 @@
     wireHomeLink();
     mergeAbout();
     addWishForm();
-    regroupDocs();
     upgradeJoinForm();
     reworkForms();
+    docsMenu();            // 要在 reworkForms 之後：分頁按鈕的名字那時才定案
     faqNote();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
