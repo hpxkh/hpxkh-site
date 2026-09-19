@@ -18,7 +18,7 @@
  *   2. 依路徑改寫 <title>，並補上 description、canonical、og:*、twitter:*
  *   3. 行事曆頁：舊的 Google Calendar 說明區換成 <div id="calMount">、修正標題、
  *      改寫開場說明、移除舊的訂閱區塊（已整併進月曆下方卡片）
- *   4. 掛上 assets/copy.js、calendar.js、fixes.js、fixes2.js、fixes3.js
+ *   4. 掛上 assets/copy.js、calendar.js、fixes.js、fixes2.js、fixes3.js、fixes4.js
  *   5. 不認得的路徑：照樣回單頁 HTML，但狀態碼給 404（不做軟性 404）
  *
  * 真正把畫面切到對應頁面的是前端：assets/fixes3.js。
@@ -31,14 +31,15 @@
  * ── 載入順序 ──
  * copy.js 必須排在 fixes.js 之前：文案與步驟資料（window.HPXKH_TX）由 copy.js 提供。
  * fixes2.js 排在 fixes.js 之後：它是第二批版面調整，需要蓋過前面的規則。
- * fixes3.js 排在最後：路由要等前面的卡片與表單都建好。
+ * fixes3.js 排在後面：路由要等前面的卡片與表單都建好。
+ * fixes4.js 最後：第三批小調整（里程碑…）。
  *
  * ── 關於 VER ──
  * 本網域的 Cloudflare「Browser Cache TTL」設為 4 小時，會把靜態檔的
  * max-age 一律拉到 14400，_headers 只能拉長不能縮短。因此改用版本化網址：
- * 每次改動 copy.js / calendar.js / fixes.js / fixes2.js / fixes3.js / favicon.svg 後把 VER 改掉。
+ * 每次改動 copy.js / calendar.js / fixes.js / fixes2.js / fixes3.js / fixes4.js / favicon.svg 後把 VER 改掉。
  */
-const VER = '20260919r';
+const VER = '20260919s';
 
 const SITE = 'https://www.hpxkh.com';
 const OGIMG = SITE + '/assets/heroMain.webp';
@@ -121,7 +122,8 @@ const SCRIPTS =
   '<script src="/assets/calendar.js?v=' + VER + '"></script>' +
   '<script src="/assets/fixes.js?v=' + VER + '"></script>' +
   '<script src="/assets/fixes2.js?v=' + VER + '"></script>' +
-  '<script src="/assets/fixes3.js?v=' + VER + '"></script>';
+  '<script src="/assets/fixes3.js?v=' + VER + '"></script>' +
+  '<script src="/assets/fixes4.js?v=' + VER + '"></script>';
 
 // 顏色那一句拿掉：月曆上看一眼就知道，不用先用文字說明
 const LEDE = '每月書聚與活動都在下面的月曆上，可以往前往後翻。';
