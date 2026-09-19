@@ -32,14 +32,14 @@
  * copy.js 必須排在 fixes.js 之前：文案與步驟資料（window.HPXKH_TX）由 copy.js 提供。
  * fixes2.js 排在 fixes.js 之後：它是第二批版面調整，需要蓋過前面的規則。
  * fixes3.js 排在後面：路由要等前面的卡片與表單都建好。
- * fixes4.js 最後：第三批小調整（里程碑…）。
+ * fixes4.js 最後：第三批小調整（里程碑、新人指引卡片切齊…）。
  *
  * ── 關於 VER ──
  * 本網域的 Cloudflare「Browser Cache TTL」設為 4 小時，會把靜態檔的
  * max-age 一律拉到 14400，_headers 只能拉長不能縮短。因此改用版本化網址：
  * 每次改動 copy.js / calendar.js / fixes.js / fixes2.js / fixes3.js / fixes4.js / favicon.svg 後把 VER 改掉。
  */
-const VER = '20260919s';
+const VER = '20260919t';
 
 const SITE = 'https://www.hpxkh.com';
 const OGIMG = SITE + '/assets/heroMain.webp';
