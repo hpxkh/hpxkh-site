@@ -6,10 +6,53 @@
 
    這一批做的事：
    1. 加入社團申請的「我已詳細閱讀社團版規」旁邊，加一個可以就地展開的版規全文
+   2. 加入社團申請補一題：要不要收社團活動與資訊的 Email
 
    文字與資料一律放 assets/copy.js，這裡只處理版面與行為。
    改完記得把 functions/[[path]].js 的 VER 換掉。 */
 (function () {
+  var TX = window.HPXKH_TX || {};
+
+  /* ── 要不要收社團活動的 Email ──
+     表單本來就問了 Email（必填），但沒問過可不可以拿來寄信。
+     年度大聚、講座這類一年幾封的通知，寄之前先問一聲比較妥當，
+     也讓不想收信的人有地方講。題目放在 Email 那一題後面，問的是什麼一看就懂。
+
+     用下拉而不是勾選框：送出時的整理邏輯會跳過空白欄位（index.html 的
+     `const v=fval(c).trim(); if(!v) return;`），勾選框沒勾就整題消失，
+     管理員看不出是「不要」還是「沒看到」。下拉一定會留下一行答案。
+     第一個選項故意留白：這是「要不要寄信給你」的同意，不該有預設答案，
+     留白＋必填＝兩個答案都得自己選，沒選會被擋下來並提示。
+
+     ★ 文案本來該放 copy.js，但那個檔 29 KB，每次重送都有打錯字的風險，
+       所以先放這裡。下次真的要動 copy.js 時再一起搬過去。 */
+  var JOIN_MAIL = {
+    k: 'mailok',
+    l: '要不要收社團活動與資訊的 Email',
+    t: 'select',
+    req: true,
+    opts: ['', '可以，請寄給我', '不用，謝謝'],   // 第一個留白＝還沒選
+    hint: '大聚、講座與社團重要公告會寄到上面那個信箱，一年幾封而已，' +
+      '之後想取消隨時可以跟管理團隊說。日常的書聚揪團還是在臉書社團與 LINE，不會另外寄信。'
+  };
+
+  function joinMail() {
+    if (typeof FORMS === 'undefined' || typeof buildForm !== 'function') return;
+    var spec = FORMS.join;
+    var mount = document.getElementById('formJoin');
+    if (!spec || !spec.fields || !mount) return;
+
+    var at = -1, i;
+    for (i = 0; i < spec.fields.length; i++) {
+      if (spec.fields[i].k === JOIN_MAIL.k) return;   // 已經有了，不重複
+      if (spec.fields[i].k === 'email') at = i;
+    }
+    if (at < 0) return;                               // 沒有 Email 那一題就不問
+
+    spec.fields.splice(at + 1, 0, JOIN_MAIL);
+    if (TX.forms && TX.forms.joinIntro) spec.intro = TX.forms.joinIntro;
+    buildForm(mount, spec);                           // 欄位有變，整張表重建
+  }
 
   /* ── 勾同意的地方，就地把版規讀完 ──
      原本只有一行「請務必先閱讀社團版規」加一條會開新分頁的連結。
@@ -98,6 +141,7 @@
 
   function run() {
     css();
+    joinMail();        // 先重建表單，再掛版規（順序反過來會被重建洗掉）
     mount();
     /* 申請與文件那幾張表是點開才建的，之後才會出現新的勾選框；
        用 MutationObserver 補上，mount() 本身有防重複。 */
