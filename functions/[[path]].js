@@ -38,7 +38,7 @@
  * max-age 一律拉到 14400，_headers 只能拉長不能縮短。因此改用版本化網址：
  * 每次改動 copy.js / calendar.js / fixes.js / fixes2.js / fixes3.js / favicon.svg 後把 VER 改掉。
  */
-const VER = '20260919q';
+const VER = '20260919r';
 
 const SITE = 'https://www.hpxkh.com';
 const OGIMG = SITE + '/assets/heroMain.webp';
@@ -66,7 +66,7 @@ const PAGES = {
   '/meetups': {
     k: 'meetups',
     t: '社團書聚｜' + BRAND,
-    d: '書聚、新人小聚、輕鬆聚、月讀 R4A、TALK 講座、大聚、職人分享會……九種聚會形式，以及歷年讀過的書與所有場次。',
+    d: '書聚、新人小聚、輕鬆聚、月讀 R4A、TALK 講座、大聚、職人分享會⋯⋯九種聚會形式，以及歷年讀過的書與所有場次。',
   },
   '/calendar': {
     k: 'calendar',
