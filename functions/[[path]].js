@@ -5,7 +5,7 @@
  * 原本全站是 hash 路由：https://www.hpxkh.com/#/docs
  * # 後面的東西瀏覽器「不會」送給伺服器，伺服器看到的永遠是 /。
  * 結果是：整個網站對搜尋引擎來說只有一個網址、一組標題、一段描述、一張分享縮圖。
- * 十一個頁面的內容再完整，也只能擠在同一個網址底下互相搶排名。
+ * 十個頁面的內容再完整，也只能擠在同一個網址底下互相搶排名。
  * 分享到 FB／LINE 時也一樣 —— 不管分享哪一頁，預覽卡都長一樣。
  *
  * 改成真正的路徑之後：
@@ -23,6 +23,10 @@
  *
  * 真正把畫面切到對應頁面的是前端：assets/fixes3.js。
  *
+ * ── 關於活動花絮 ──
+ * /gallery 已下架，不在下面的 PAGES 裡，所以會回 404 + noindex。
+ * 頁面本體還在 index.html，要復活把這裡、fixes3.js、fixes4.js、sitemap.xml 四處加回去即可。
+ *
  * ── 關於 VIEWPORT ──
  * index.html 原本沒有這一行。沒有它，手機瀏覽器會拿一個 980px 的假寬度
  * 渲染頁面再整頁縮小，原始碼裡寫好的手機版樣式全部不會被觸發，
@@ -32,14 +36,14 @@
  * copy.js 必須排在 fixes.js 之前：文案與步驟資料（window.HPXKH_TX）由 copy.js 提供。
  * fixes2.js 排在 fixes.js 之後：它是第二批版面調整，需要蓋過前面的規則。
  * fixes3.js 排在後面：路由要等前面的卡片與表單都建好。
- * fixes4.js 最後：第三批小調整（里程碑、新人指引卡片切齊…）。
+ * fixes4.js 最後：第三批小調整（里程碑、常見問題題號…）。
  *
  * ── 關於 VER ──
  * 本網域的 Cloudflare「Browser Cache TTL」設為 4 小時，會把靜態檔的
  * max-age 一律拉到 14400，_headers 只能拉長不能縮短。因此改用版本化網址：
  * 每次改動 copy.js / calendar.js / fixes.js / fixes2.js / fixes3.js / fixes4.js / favicon.svg 後把 VER 改掉。
  */
-const VER = '20260919t';
+const VER = '20260919v';
 
 const SITE = 'https://www.hpxkh.com';
 const OGIMG = SITE + '/assets/heroMain.webp';
@@ -83,11 +87,6 @@ const PAGES = {
     k: 'faq',
     t: '常見問題｜' + BRAND,
     d: '加入社團、參加書聚、各種聚會形式、我想開一場書聚 —— 四十個最常被問到的問題，依主題分四區。',
-  },
-  '/gallery': {
-    k: 'gallery',
-    t: '活動花絮｜' + BRAND,
-    d: '歷年書聚、講座與社團活動的現場紀錄。',
   },
   '/rules': {
     k: 'rules',
