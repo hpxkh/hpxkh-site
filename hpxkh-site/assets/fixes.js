@@ -2,8 +2,8 @@
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
    3. 表單：加入社團申請補題目與可複選、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
-   4. 關於我們：H·P·X 改成三張並排卡片並加底色，併進「社團介紹」；
-      分頁改名「HPX 特色」；里程碑頁移除「未來展望」
+   4. 關於我們：H·P·X 照社團簡報排成三欄（大字母／深色字／橘色字）並加底色，
+      併進「社團介紹」；分頁改名「HPX 特色」；里程碑頁移除「未來展望」
    5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
    6. 首頁補上「加入社團申請」入口與「網站導覽」區塊；那顆「歷年場次」直接跳到對的檢視
    7. 九種聚會形式排成 3×3
@@ -263,10 +263,11 @@
     }).join('');
   }
 
-  /* H·P·X：三個字母排成三張並排的卡片。
-     每張卡由上而下是：大字母 →「1.0」小標 → 英文字 → 中文說明 →（分隔線）→「2.0」小標 → 橘色的字。
-     三張等高、2.0 那一段靠底對齊，所以分隔線在三張卡上會連成一條水平線。
-     整段另外加一層米色底（.hpxband），跟上下兩段的社團介紹分開。 */
+  /* H·P·X：照社團簡報那一頁的排法。
+     一欄由上而下就三件事：大字母 → 深色的字（1.0）→ 橘色的字（2.0，一行一個）。
+     沒有框線、沒有小標、沒有中文註解——簡報上就是這樣，留白自己會說話。
+     深色與橘色的對照本身就是「原本三個字」跟「後來長出來的一層」，
+     上面那句開場已經講過，不用再標 1.0／2.0。 */
   function hpxCards() {
     var old = document.querySelector('.hpxr');
     if (!old || document.getElementById('hpx3css')) return;
@@ -274,31 +275,22 @@
     var s = document.createElement('style');
     s.id = 'hpx3css';
     s.textContent =
-      '.hpx3{display:grid;grid-template-columns:1fr;' +
-        'border-top:1px solid var(--hair);border-left:1px solid var(--hair)}' +
-      '.hpx3__c{display:flex;flex-direction:column;padding:clamp(20px,2.6vw,28px) clamp(18px,2.2vw,24px);' +
-        'border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}' +
-      '.hpx3__l{font-family:var(--display);font-size:clamp(38px,4.6vw,54px);line-height:1;' +
-        'color:var(--ink);margin-bottom:clamp(10px,1.4vw,14px)}' +
-      '.hpx3__w{font-family:var(--display);font-size:clamp(19px,2.2vw,23px);font-weight:600;' +
-        'letter-spacing:.06em;margin:0;color:var(--ink)}' +
-      '.hpx3__d{font-size:13px;line-height:1.85;color:var(--ink-2);margin:6px 0 0}' +
-      '.hpx3__t1{margin:0 0 4px;font-family:var(--display);font-size:11px;' +
-        'letter-spacing:.22em;color:var(--muted,#918B81)}' +
-      '.hpx3__t{margin:clamp(16px,2vw,22px) 0 0;padding-top:clamp(12px,1.6vw,16px);' +
-        'border-top:1px solid var(--hair);font-family:var(--display);font-size:11px;' +
-        'letter-spacing:.22em;color:var(--orange)}' +
-      /* 2.0 那一排字跟 1.0 一樣重要，字級也跟著放大（P 那張最長，稍微小一點不會換行） */
-      '.hpx3__x{margin:5px 0 0;font-family:var(--display);font-size:clamp(17px,2vw,21px);' +
-        'font-weight:600;letter-spacing:.04em;line-height:1.55;color:var(--orange)}' +
-      /* 這一段（H·P·X 是什麼意思）換一個底色，跟上下兩段的社團介紹分開，
-         讀者一眼就知道這是獨立的一塊。卡片改成白底，浮在米色上。 */
+      '.hpx3{display:grid;grid-template-columns:1fr;gap:clamp(28px,4vw,44px)}' +
+      '.hpx3__c{padding-right:clamp(0px,2vw,24px)}' +
+      /* 字母用粗黑體，跟簡報一樣；站上其他地方的襯線大字留給標題 */
+      '.hpx3__l{display:block;font-family:var(--sans);font-weight:800;' +
+        'font-size:clamp(34px,4.2vw,50px);line-height:1;color:var(--ink);' +
+        'margin-bottom:clamp(16px,2.2vw,26px)}' +
+      '.hpx3__w{margin:0;font-family:var(--sans);font-weight:400;' +
+        'font-size:clamp(19px,2.1vw,25px);line-height:1.5;color:var(--ink)}' +
+      '.hpx3__x{margin:clamp(8px,1vw,12px) 0 0}' +
+      '.hpx3__x span{display:block;font-family:var(--sans);font-weight:400;' +
+        'font-size:clamp(19px,2.1vw,25px);line-height:1.5;color:var(--orange)}' +
+      /* 這一段（H·P·X 是什麼意思）換一個底色，跟上下兩段的社團介紹分開 */
       '.hpxband{background:var(--cream);border-top:1px solid var(--hair);' +
         'border-bottom:1px solid var(--hair)}' +
-      '.hpxband .hpx3__c{background:var(--sheet)}' +
-      '@media (min-width:760px){' +
+      '@media (min-width:700px){' +
         '.hpx3{grid-template-columns:repeat(3,minmax(0,1fr))}' +
-        '.hpx3__t{margin-top:auto}' +      /* 三張卡的分隔線連成一條 */
       '}';
     document.head.appendChild(s);
 
@@ -307,18 +299,15 @@
       var r = rows[i];
       var l = r.querySelector('.hpxr__l');
       var w = r.querySelector('.hpxr__b b');
-      var d = r.querySelector('.hpxr__d');
       var xs = r.querySelectorAll('.hpxr__x span');
-      var words = [], j;
-      for (j = 0; j < xs.length; j++) words.push(xs[j].textContent.trim());
-      var letter = l ? l.textContent.trim() : '';
+      var words = '', j;
+      for (j = 0; j < xs.length; j++) {
+        words += '<span>' + esc(xs[j].textContent.trim()) + '</span>';
+      }
       cards += '<div class="hpx3__c">' +
-        '<span class="hpx3__l">' + esc(letter) + '</span>' +
-        '<p class="hpx3__t1">1.0</p>' +
+        '<span class="hpx3__l">' + esc(l ? l.textContent.trim() : '') + '</span>' +
         '<p class="hpx3__w">' + esc(w ? w.textContent.trim() : '') + '</p>' +
-        '<p class="hpx3__d">' + esc(d ? d.textContent.trim() : '') + '</p>' +
-        '<p class="hpx3__t">2.0</p>' +
-        '<p class="hpx3__x">' + esc(words.join('・')) + '</p>' +
+        '<p class="hpx3__x">' + words + '</p>' +
         '</div>';
     }
 
@@ -331,8 +320,7 @@
     while (box.firstChild) frag.appendChild(box.firstChild);
     old.parentNode.replaceChild(frag, old);
 
-    /* 卡片下面原本還有三段文字（P 開頭的職稱清單、1.0／2.0 的說明）。
-       三張卡自己已經把 1.0 與 2.0 並排講完了，那三段是重複敘述，整個拿掉。 */
+    // 卡片下面原本那三段文字（P 開頭的職稱清單、1.0／2.0 的說明）整段拿掉
     var nt = document.querySelector('.hpx__note');
     if (nt && nt.parentNode) nt.parentNode.removeChild(nt);
   }
