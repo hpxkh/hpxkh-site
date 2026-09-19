@@ -12,7 +12,10 @@
    5. 幾段自己佔整欄卻只排到一半的文字，行長放寬
    6. 首頁網站導覽改成脈絡圖：先分四類，分類底下才是頁面（尚未啟用）
    7. H·P·X 在手機改成「大字母在左、字在右」，不再直直排下來
-   8. 左右兩側的底色從淡灰改成純白
+
+   ★ 配色：index.html 的 :root 裡那一組變數（--grey / --sheet / --cream / --orange…）
+     是第一版就搭好的主視覺配色，這個檔案不改它們，也不覆寫 body 的底色。
+     新增的區塊一律只用現有變數取色，不自己調新顏色。
 
    文字一律放 assets/copy.js，這裡只處理版面與行為。
    改完記得把 functions/index.js 的 VER 換掉。 */
@@ -39,12 +42,10 @@
          ★ 之後不要再在中文頁面上用 text-wrap:balance。 */
       'h1,h2,h3,h4,h5,h6,p,li,dd,dt,figcaption,blockquote,' +
         'span,em,b,strong,small,label,button,a{text-wrap:wrap}' +
-      /* ── 左右兩側的底色 ──
-         原本是 --grey #E9E7E2（彩度很低的淡灰）。它實際偏暖，
-         但在偏冷的螢幕上容易被看成灰綠，寬螢幕又特別明顯。
-         改成純白：留白跟內容區連成一片，整頁乾淨。
-         （--grey 全站只用在 body 這一處，所以不會影響別的地方。） */
-      'body{background:#FFFFFF}' +
+      /* ── 左右兩側的底色：不要動 ──
+         --grey #E9E7E2 是第一版就定下的主視覺配色，跟 HPX 的色系搭好的，
+         曾經試過改純白，結果整頁失去原本的調性，已經改回來。
+         ★ 不要在這裡覆寫 body 的背景色。 */
       /* 這個右側留白只能在桌機做：手機上 22vw 等於把快四成的寬度留給空白。 */
       '#startCan .step__d{padding-right:0}' +
       '@media (min-width:760px){#startCan .step__d{padding-right:clamp(20px,14vw,320px)}}' +
