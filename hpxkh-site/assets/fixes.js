@@ -2,21 +2,22 @@
    1. 頁尾與聯繫頁卡片的「高雄讀會」錯字（少一個「書」字）
    2. 社團書聚：領域分布／歷年書單／歷年場次合成一個分頁，用三顆按鈕切換
    3. 表單：加入社團申請補題目與可複選、居住縣市改下拉、推薦場地改版、徽章補說明與欄位
-   4. 關於我們：H·P·X 改成三張並排卡片，併進「社團介紹」；分頁改名「HPX 特色」；
-      里程碑頁移除「未來展望」
+   4. 關於我們：H·P·X 改成三張並排卡片並加底色，併進「社團介紹」；
+      分頁改名「HPX 特色」；里程碑頁移除「未來展望」
    5. 新人指引：多一個「剛加入可以做什麼」分頁；拿掉 Part 01／02；路徑依 copy.js 重繪
-   6. 首頁補上「加入社團申請」的入口；首頁那顆「歷年場次」直接跳到對的檢視
+   6. 首頁補上「加入社團申請」入口與「網站導覽」區塊；那顆「歷年場次」直接跳到對的檢視
    7. 九種聚會形式排成 3×3
    8. 全站段落寬度改用 em（原本用 ch，對中文來說太窄）
-   9. 申請與文件：七張表改成「先選表、再填表」的卡片清單（桌機左右兩欄），
-      並新增「許願池」；站內指向某一張表的連結會直接開那一張
+   9. 申請與文件：七張表改成上下兩帶的卡片清單，點卡片就地展開、再點一次收起；
+      新增「許願池」；站內指向某一張表的連結會直接展開那一張；
+      官方簡報與清單改成一條一條的檔案列
   10. 步驟區塊的欄數配合實際張數，不再固定三欄
   11. 開書聚：書聚的精神移到四個階段前面，流程內容在 copy.js
-  12. 常見問題頁尾補一句話，導向私訊粉專（刻意不放表單）
+  12. 常見問題：四區各一顆「全部展開／全部收合」；頁尾補一句話導向私訊粉專
   13. 收掉每一頁分頁列上下的大片空白
   14. 統一每一頁版頭（.top）的高度，細線與分頁按鈕一律對齊
-  15. 關於我們：H·P·X 那一段加底色跟上下分開，卡片下方三段重複的說明拿掉
-  16. 「我們是／我們不是」兩欄四列對齊
+  15. 「我們是／我們不是」兩欄四列對齊
+  16. 「九年」改成用當下年份自動算，每年 1/1 自己跳
 
    ★ 只是要改文字或調動步驟順序的話，不要動這個檔案 —— 改 assets/copy.js 就好。
      卡片說明想標重點，就在 copy.js 用 dHtml 取代 d，可用 <b>、<span class="k">（橘色）、
@@ -92,7 +93,9 @@
         '#startCan .step{grid-row:auto;display:flex}' +
       '}' +
       '@media (min-width:760px){' +
-        '#startCan .step__b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr}' +
+        /* 四張卡不要全部拉成等高（宵夜團那張最長，別張會多出一大片空白），
+           改成一列一列各自對齊：上一列兩張等高、下一列兩張等高。 */
+        '#startCan .step__b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}' +
         '#startCan .step__b a{border-bottom:1px solid var(--hair)}' +
         '#startCan .step__b a:nth-child(odd){border-right:1px solid var(--hair)}' +
         '#startCan .step__b a:nth-last-child(-n+2){border-bottom:0}' +
@@ -110,35 +113,67 @@
              不知道是不是給自己填的，要點開才知道；
          (2) 按鈕緊貼著下面的表單，看起來像黏在一起。
          改成「先選表，再填表」：進來先看到七張卡片，每張有一句話說明誰適合填，
-         點了才展開那一張表，上面留一條「← 全部表單」可以回來。 */
-      '.dmnu__g + .dmnu__g{margin-top:clamp(24px,3vw,32px)}' +
+         點了就地展開那一張表，再點一次收起。 */
+      /* 兩組上下排，各自一個底色（上白下米），一眼就分得出來。 */
+      '.dmnu__g{border:1px solid var(--hair);padding:clamp(16px,2vw,22px)}' +
+      '.dmnu__g--a{background:var(--sheet)}' +
+      '.dmnu__g--b{background:var(--cream)}' +
+      '.dmnu__g--b .dcard{background:var(--sheet)}' +
+      '.dmnu__g + .dmnu__g{margin-top:clamp(16px,2vw,22px)}' +
       '.dmnu__k{font-size:11.5px;letter-spacing:.14em;color:var(--muted,#918B81);margin:0 0 10px}' +
       '.dmnu__b{display:grid;grid-template-columns:1fr;gap:10px}' +
-      /* 桌機左右兩欄：左邊書友常用（4 張）、右邊店家單位（3 張），
-         跟版頭那句「左邊…右邊…」對得起來。 */
-      '@media (min-width:900px){' +
-        '.dmenu{display:grid;grid-template-columns:1.08fr .92fr;' +
-          'gap:clamp(24px,3vw,36px);align-items:start}' +
-        '.dmnu__g + .dmnu__g{margin-top:0;padding-left:clamp(24px,3vw,36px);' +
-          'border-left:1px solid var(--hair)}' +
-      '}' +
+      '@media (min-width:820px){.dmnu__b{grid-template-columns:repeat(2,minmax(0,1fr))}}' +
       '.dcard{display:flex;align-items:flex-start;gap:14px;width:100%;text-align:left;' +
         'padding:clamp(15px,1.8vw,19px) clamp(16px,1.9vw,20px);' +
-        'border:1px solid var(--hair);background:transparent;cursor:pointer;' +
+        'border:1px solid var(--hair);background:var(--sheet);cursor:pointer;' +
         'font:inherit;color:inherit;transition:background .15s,border-color .15s}' +
-      '.dcard:hover{background:var(--cream);border-color:var(--muted,#918B81)}' +
+      '.dcard:hover{border-color:var(--muted,#918B81)}' +
+      '.dcard[aria-expanded="true"]{border-color:var(--orange,#EF8200)}' +
       '.dcard__t{flex:1 1 auto;min-width:0}' +
       '.dcard__h{display:block;font-size:15.5px;font-weight:600;line-height:1.5;color:var(--ink)}' +
       '.dcard__d{margin:5px 0 0;font-size:13px;line-height:1.85;color:var(--ink-2)}' +
-      '.dcard__g{flex:0 0 auto;margin-top:3px;color:var(--orange,#EF8200);font-size:15px}' +
-      /* 回到清單那一條，同時也是表單與上方之間的呼吸 */
-      '.dback{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;' +
-        'margin-bottom:clamp(16px,2vw,22px);padding-bottom:clamp(12px,1.6vw,16px);' +
-        'border-bottom:1px solid var(--hair)}' +
-      '.dback__b{border:0;background:transparent;padding:0;font:inherit;font-size:13px;' +
-        'color:var(--orange,#EF8200);cursor:pointer}' +
-      '.dback__b:hover{text-decoration:underline}' +
-      '.dback__t{font-size:13px;color:var(--muted,#918B81)}' +
+      '.dcard__g{flex:0 0 auto;margin-top:3px;color:var(--orange,#EF8200);font-size:15px;' +
+        'transition:transform .15s}' +
+      '.dcard[aria-expanded="true"] .dcard__g{transform:rotate(180deg)}' +
+      /* 展開的表單直接插在那張卡下面，橫跨兩欄 */
+      '.dmnu__b > .appform{grid-column:1/-1;margin:0 0 4px;background:var(--sheet);' +
+        'border:1px solid var(--hair)}' +
+      '.dclose{grid-column:1/-1;display:flex;justify-content:flex-end;margin:-2px 0 6px}' +
+      '.dclose button{border:0;background:transparent;padding:4px 2px;font:inherit;' +
+        'font-size:13px;color:var(--orange,#EF8200);cursor:pointer}' +
+      '.dclose button:hover{text-decoration:underline}' +
+      /* 官方簡報與清單：四張卡片改成一條一條的檔案列 */
+      '#docFiles{display:block;border-top:1px solid var(--hair)}' +
+      '#docFiles .cardx{display:flex;flex-direction:row;align-items:baseline;' +
+        'flex-wrap:wrap;gap:6px 18px;min-height:0;height:auto;' +
+        'border:0;border-bottom:1px solid var(--hair);background:transparent;' +
+        'padding:clamp(13px,1.6vw,17px) 6px}' +
+      '#docFiles .cardx:hover{background:var(--cream)}' +
+      '#docFiles .cardx__top{margin:0;flex:0 0 auto}' +
+      '#docFiles .cardx__top h4{margin:0;font-size:15px}' +
+      '#docFiles .cardx p{margin:0;flex:1 1 14em;font-size:13px;line-height:1.7;' +
+        'color:var(--ink-2)}' +
+      '#docFiles .cardx__go{margin:0;flex:0 0 auto;white-space:nowrap}' +
+      '@media (min-width:760px){#docFiles .cardx__top{flex:0 0 12em}}' +
+      /* 首頁網站導覽 */
+      '.smap__g + .smap__g{margin-top:clamp(18px,2.2vw,24px)}' +
+      '.smap__k{font-size:11.5px;letter-spacing:.14em;color:var(--muted,#918B81);margin:0 0 10px}' +
+      '.smap__b{display:grid;grid-template-columns:1fr;gap:10px}' +
+      '@media (min-width:700px){.smap__b{grid-template-columns:repeat(2,minmax(0,1fr))}}' +
+      '@media (min-width:1000px){.smap__b{grid-template-columns:repeat(3,minmax(0,1fr))}}' +
+      '.scard{display:block;padding:clamp(14px,1.7vw,18px) clamp(15px,1.8vw,19px);' +
+        'border:1px solid var(--hair);background:var(--sheet);' +
+        'transition:background .15s,border-color .15s}' +
+      'a.scard:hover{background:var(--cream);border-color:var(--muted,#918B81)}' +
+      '.scard__h{display:flex;align-items:baseline;justify-content:space-between;gap:10px}' +
+      '.scard__h b{font-size:15.5px;font-weight:600;color:var(--ink)}' +
+      '.scard__h span{color:var(--orange,#EF8200);font-size:15px}' +
+      '.scard p{margin:5px 0 0;font-size:13px;line-height:1.8;color:var(--ink-2)}' +
+      '.scard--soon{background:transparent;border-style:dashed}' +
+      '.scard--soon .scard__h b{color:var(--muted,#918B81)}' +
+      '.scard--soon .scard__h span{font-size:11px;letter-spacing:.14em;' +
+        'color:var(--muted,#918B81)}' +
+      '.scard--soon p{color:var(--muted,#918B81)}' +
       /* ── 我們是／我們不是 ──
          兩欄各四項，但每一項的字數不一樣，左右兩欄的第 N 項高度不同，
          看起來就像沒對齊。兩欄拉成等高，再把每欄的四項平均分配高度，
@@ -152,6 +187,11 @@
           'grid-auto-rows:1fr;align-content:stretch}' +
         '.why__i,.nots__i{align-items:flex-start}' +
       '}' +
+      /* 常見問題：每一區右上角一顆「全部展開／全部收合」 */
+      '.faqtog{display:flex;justify-content:flex-end;margin:0 0 10px}' +
+      '.faqtog button{border:1px solid var(--hair);background:var(--sheet);' +
+        'padding:7px 14px;font:inherit;font-size:13px;color:var(--ink-2);cursor:pointer}' +
+      '.faqtog button:hover{background:var(--cream);border-color:var(--muted,#918B81)}' +
       /* 常見問題頁尾的一句話 */
       '.faq__ask{font-size:13px;line-height:2;color:var(--ink-3,#918B81);max-width:46em;' +
         'padding-top:clamp(18px,2.4vw,26px);border-top:1px solid var(--hair);margin:0}' +
@@ -248,8 +288,9 @@
       '.hpx3__t{margin:clamp(16px,2vw,22px) 0 0;padding-top:clamp(12px,1.6vw,16px);' +
         'border-top:1px solid var(--hair);font-family:var(--display);font-size:11px;' +
         'letter-spacing:.22em;color:var(--orange)}' +
-      '.hpx3__x{margin:5px 0 0;font-family:var(--display);font-size:15px;letter-spacing:.05em;' +
-        'line-height:1.75;color:var(--orange)}' +
+      /* 2.0 那一排字跟 1.0 一樣重要，字級也跟著放大（P 那張最長，稍微小一點不會換行） */
+      '.hpx3__x{margin:5px 0 0;font-family:var(--display);font-size:clamp(17px,2vw,21px);' +
+        'font-weight:600;letter-spacing:.04em;line-height:1.55;color:var(--orange)}' +
       /* 這一段（H·P·X 是什麼意思）換一個底色，跟上下兩段的社團介紹分開，
          讀者一眼就知道這是獨立的一塊。卡片改成白底，浮在米色上。 */
       '.hpxband{background:var(--cream);border-top:1px solid var(--hair);' +
@@ -424,6 +465,75 @@
     wireTab(btn, pane, bar, false);
   }
 
+  /* 「九年」改成自動算。
+     社團 2017.06.05 成立，網站上有四句話寫著「九年」（首頁數據、
+     里程碑標題、關於我們開場、相簿），每年手動改一次很容易漏。
+     改成用當下年份減 2017，每年 1/1 自動跳一次（今年 2026 → 九，2027 → 十）。
+     數字轉成中文，所以句子讀起來跟原本一樣。 */
+  function yearsAuto() {
+    var FOUNDED = 2017;
+    var n = new Date().getFullYear() - FOUNDED;
+    if (!(n > 0) || n > 99) return;
+
+    var D = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+    var zh;
+    if (n < 10) zh = D[n];
+    else if (n === 10) zh = '十';
+    else if (n < 20) zh = '十' + D[n - 10];
+    else zh = D[Math.floor(n / 10)] + '十' + D[n % 10];
+
+    var from = '九年';            // 原始碼裡寫死的字樣
+    var to = zh + '年';
+    if (from === to) return;
+
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), t;
+    while ((t = w.nextNode())) {
+      if (t.nodeValue.indexOf(from) !== -1) {
+        t.nodeValue = t.nodeValue.split(from).join(to);
+      }
+    }
+  }
+
+  /* 常見問題：四區各自一顆「全部展開／全部收合」。
+     一區十題一題一題點太慢，想快速翻過一遍的人一點就全開。
+     按鈕文字會跟著狀態變：還有收著的就是「全部展開」，全開了就變成「全部收合」。 */
+  function faqToggles() {
+    var wrap = document.getElementById('faqPanels');
+    if (!wrap || document.querySelector('.faqtog')) return;
+    var lists = wrap.querySelectorAll('.faq'), i;
+
+    for (i = 0; i < lists.length; i++) {
+      (function (list) {
+        var items = list.querySelectorAll('details');
+        if (!items.length) return;
+
+        var bar = document.createElement('div');
+        bar.className = 'faqtog';
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        bar.appendChild(btn);
+        list.parentNode.insertBefore(bar, list);
+
+        function allOpen() {
+          for (var j = 0; j < items.length; j++) if (!items[j].open) return false;
+          return true;
+        }
+        function label() {
+          btn.textContent = allOpen() ? (TX.faqFold || '全部收合')
+                                      : (TX.faqOpen || '全部展開');
+        }
+        btn.addEventListener('click', function () {
+          var open = !allOpen();
+          for (var j = 0; j < items.length; j++) items[j].open = open;
+          label();
+        });
+        // 使用者自己開關單一題時，按鈕文字也要跟著改
+        for (var j = 0; j < items.length; j++) items[j].addEventListener('toggle', label);
+        label();
+      })(lists[i]);
+    }
+  }
+
   /* 常見問題頁尾：一句話，不是表單。
      管理群是志工、沒有輪值人力，表單會讓人期待「一定有人回」，
      也會把人際糾紛這類最耗神的訊息引進來。既有的私訊管道沒有這個問題。 */
@@ -453,7 +563,7 @@
   }
 
   /* 首頁那顆「看完整介紹與歷年場次」原本只到社團書聚的第一個分頁（九種聚會形式），
-     但按鈕講的是歷年場次。改成點下去直接切到「我們讀些什麼 → 歷年場次」。 */
+     但按鈕講的是歷年場次。改成點下去直接切到「歷年活動 → 歷年場次」。 */
   function wireHomeLink() {
     var as = document.querySelectorAll('[data-pg="home"] a[href="#/meetups"]');
     for (var i = 0; i < as.length; i++) {
@@ -469,7 +579,7 @@
     }
   }
 
-  /* 社團書聚：「我們讀些什麼」（領域分布）、「歷年書聚書單」、「歷年場次」
+  /* 社團書聚：「領域分布」、「歷年書聚書單」、「歷年場次」
      其實是同一批資料的三種看法，分成三個分頁要來回切換。
      合成一個分頁，上面放三顆按鈕切換呈現方式。 */
   function mergeMeetups() {
@@ -486,7 +596,7 @@
     head.className = 'blk pad';
     head.style.paddingBottom = '0';
     head.innerHTML =
-      '<div class="blk__h"><h3>我們讀些什麼</h3>' +
+      '<div class="blk__h"><h3>' + esc(TX.meetupsTitle || '歷年活動') + '</h3>' +
       '<p>' + esc(TX.meetupsLede || '') + '</p></div>' +
       '<div class="chips mtv" id="mtViews" role="group" aria-label="呈現方式">' +
       '<button class="chip" type="button" aria-pressed="true">領域分布</button>' +
@@ -558,10 +668,10 @@
     }
   }
 
-  /* 申請與文件：七張表分兩類，先選表再填表。
+  /* 申請與文件：七張表分兩類（上白下米兩帶），點卡片就地展開那張表，再點一次收起。
      原本的分頁按鈕列留在 DOM 裡（只是隱藏），切換仍由它負責——
      卡片被按下時是去 click 對應的那顆按鈕，所以原本綁好的邏輯完全不用改。
-     卡片標題直接讀按鈕上的字，改名字只要改按鈕；說明文字在 copy.js 的 docsMenu。 */
+     展開時把表單節點搬到那張卡下面，收起時再搬回去，清單永遠看得到。 */
   function docsMenu() {
     var bar = document.querySelector('[data-pg="docs"] .tabs[data-tabs]');
     var M = TX.docsMenu;
@@ -574,30 +684,48 @@
     menu.className = 'dmenu';
     menu.id = 'docsMenu';
 
-    var back = document.createElement('div');
-    back.className = 'dback';
-    back.innerHTML = '<button class="dback__b" type="button">← ' +
-      esc(M.back || '全部表單') + '</button><span class="dback__t"></span>';
+    var closeBar = document.createElement('div');
+    closeBar.className = 'dclose';
+    closeBar.innerHTML = '<button type="button">▲ ' + esc(M.close || '收起') + '</button>';
 
-    function showMenu() {
-      var ps = pad.querySelectorAll('.appform'), i;
-      for (i = 0; i < ps.length; i++) ps[i].hidden = true;
-      menu.hidden = false;
-      back.hidden = true;
+    var open = null;
+
+    function collapse() {
+      if (!open) return;
+      var t = document.getElementById(open);
+      var card = menu.querySelector('.dcard[data-for="' + open + '"]');
+      var pane = t && document.getElementById(t.getAttribute('aria-controls'));
+      if (pane) { pane.hidden = true; pad.appendChild(pane); }
+      if (closeBar.parentNode) closeBar.parentNode.removeChild(closeBar);
+      if (card) card.setAttribute('aria-expanded', 'false');
+      open = null;
     }
+
     function openTab(id) {
+      if (open === id) { collapse(); return; }   // 點同一張 → 收起
+      collapse();
       var t = document.getElementById(id);
-      if (!t) return;
-      t.click();                                   // 交給原本的分頁邏輯
-      menu.hidden = true;
-      back.hidden = false;
-      back.querySelector('.dback__t').textContent = t.textContent.trim();
+      var card = menu.querySelector('.dcard[data-for="' + id + '"]');
+      if (!t || !card) return;
+      t.click();                                  // 交給原本的分頁邏輯
+      var pane = document.getElementById(t.getAttribute('aria-controls'));
+      if (!pane) return;
+      card.parentNode.insertBefore(pane, card.nextSibling);
+      card.parentNode.insertBefore(closeBar, pane.nextSibling);
+      pane.hidden = false;
+      card.setAttribute('aria-expanded', 'true');
+      open = id;
     }
-    back.querySelector('.dback__b').addEventListener('click', showMenu);
 
-    (M.groups || []).forEach(function (g) {
+    closeBar.querySelector('button').addEventListener('click', function () {
+      var card = menu.querySelector('.dcard[aria-expanded="true"]');
+      collapse();
+      if (card && card.scrollIntoView) card.scrollIntoView({ block: 'center' });
+    });
+
+    (M.groups || []).forEach(function (g, gi) {
       var box = document.createElement('div');
-      box.className = 'dmnu__g';
+      box.className = 'dmnu__g dmnu__g--' + (gi === 0 ? 'a' : 'b');
       box.innerHTML = '<p class="dmnu__k">' + esc(g.k) + '</p><div class="dmnu__b"></div>';
       var body = box.querySelector('.dmnu__b');
       (g.items || []).forEach(function (it) {
@@ -606,33 +734,34 @@
         var b = document.createElement('button');
         b.className = 'dcard';
         b.type = 'button';
+        b.setAttribute('data-for', it.id);
+        b.setAttribute('aria-expanded', 'false');
         b.innerHTML = '<span class="dcard__t">' +
           '<span class="dcard__h">' + esc(t.textContent.trim()) + '</span>' +
           '<p class="dcard__d">' + esc(it.d) + '</p></span>' +
-          '<span class="dcard__g" aria-hidden="true">→</span>';
+          '<span class="dcard__g" aria-hidden="true">▾</span>';
         b.addEventListener('click', function () { openTab(it.id); });
         body.appendChild(b);
       });
       menu.appendChild(box);
     });
 
+    // 一開始全部收起，清單完整顯示
+    var ps = pad.querySelectorAll('.appform'), n;
+    for (n = 0; n < ps.length; n++) ps[n].hidden = true;
     pad.insertBefore(menu, bar.nextSibling);
-    pad.insertBefore(back, menu.nextSibling);
-    showMenu();
 
     /* 站內有些連結指的就是某一張表（首頁的「加入社團申請」、
        開書聚那張「書聚徽章申請」、常見問題頁尾的「許願池」）。
-       這種連結點下去應該直接開那張表，不要再讓人從清單裡找一次。
-
-       另外要處理一個狀況：這一頁是單頁式的，離開再回來時 DOM 還停在上次的樣子。
-       所以每次切回 #/docs 都要重設——有指定表單就開那一張，沒有就回到清單。 */
+       這種連結點下去應該直接展開那張表。
+       離開再回來時 DOM 還停在上次的樣子，所以每次切回 #/docs 都要重設。 */
     var pending = null;
 
     window.addEventListener('hashchange', function () {
       if (location.hash.indexOf('#/docs') !== 0) return;
       setTimeout(function () {
         if (pending) { openTab(pending); pending = null; }
-        else showMenu();
+        else collapse();
       }, 40);
     });
 
@@ -655,10 +784,43 @@
       if (!a) return;
       var hit = whichTab(a.textContent.trim());
       if (!hit) return;
-      // 已經在這一頁就不會有 hashchange，直接開
       if (location.hash.indexOf('#/docs') === 0) openTab(hit);
       else pending = hit;
     });
+  }
+
+  /* 首頁的網站導覽：整站入口一次列出來，最後一區是還在做的功能。
+     內容在 copy.js 的 siteMap；做好一個就把 soon 拿掉、補上 u。 */
+  function homeMap() {
+    var home = document.querySelector('[data-pg="home"]');
+    var M = TX.siteMap;
+    if (!home || !M || document.getElementById('siteMap')) return;
+
+    var sec = document.createElement('section');
+    sec.className = 'sec pad';
+    sec.id = 'siteMap';
+    var html = '<div class="blk__h"><h3>' + esc(M.title || '網站導覽') + '</h3>' +
+      '<p>' + esc(M.lede || '') + '</p></div>';
+
+    (M.groups || []).forEach(function (g) {
+      html += '<div class="smap__g"><p class="smap__k">' + esc(g.k) + '</p>' +
+        '<div class="smap__b">' + (g.items || []).map(function (it) {
+          var head = '<span class="scard__h"><b>' + esc(it.h) + '</b>' +
+            '<span aria-hidden="true">' + (it.soon ? esc(M.soonLabel || 'SOON') : '→') +
+            '</span></span><p>' + esc(it.d) + '</p>';
+          if (it.soon || !it.u) return '<div class="scard scard--soon">' + head + '</div>';
+          var ext = it.u.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"';
+          return '<a class="scard" href="' + esc(it.u) + '"' + ext + '>' + head + '</a>';
+        }).join('') + '</div></div>';
+    });
+
+    sec.innerHTML = html;
+    var kids = home.children, secs = [], k;
+    for (k = 0; k < kids.length; k++) {
+      if (kids[k].tagName === 'SECTION') secs.push(kids[k]);
+    }
+    var last = secs[secs.length - 1];
+    if (last) home.insertBefore(sec, last); else home.appendChild(sec);
   }
 
   /* 表單內容調整（欄位與說明都定義在 copy.js） */
@@ -775,7 +937,10 @@
     upgradeJoinForm();
     reworkForms();
     docsMenu();            // 要在 reworkForms 之後：分頁按鈕的名字那時才定案
+    homeMap();
     faqNote();
+    faqToggles();
+    yearsAuto();           // 放最後：前面產生的文字也要一起換
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
