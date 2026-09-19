@@ -12,6 +12,7 @@
    這一批做的事：
    1. 關於我們 → 里程碑：改讀 copy.js 的 TX.mile 重畫，補上九屆大聚
    2. 新人指引的四個區塊：卡片少的那格，尾巴不要留一塊空白
+   3. 活動花絮下架：拿掉頁尾選單那條連結
 
    文字與資料一律放 assets/copy.js，這裡只處理版面與行為。
    改完記得把 functions/[[path]].js 的 VER 換掉。 */
@@ -46,6 +47,24 @@
     s.id = 'hpxkhFix4Css';
     s.textContent = '.step__b>a{flex-grow:1}';
     document.head.appendChild(s);
+  }
+
+  /* ── 活動花絮下架 ──
+     頁面本體（index.html 的 .pg[data-pg="gallery"]）沒有刪，只是不再有入口：
+       · 這裡把頁尾選單那條 <li> 拿掉
+       · fixes3.js 的 PAGES／TITLE 拿掉 gallery，站內路由不再認這個路徑
+       · functions/[[path]].js 的 PAGES 拿掉 /gallery，直接回 404 + noindex
+       · sitemap.xml 拿掉那一行
+     要復活就把上面四處加回去，index.html 完全不用動。
+     用 querySelectorAll 同時比對新舊兩種寫法：fixes3.js 會把 #/gallery
+     改寫成 /gallery，但萬一載入順序變了，兩種都抓得到。 */
+  function dropGallery() {
+    var as = document.querySelectorAll(
+      'a[href="/gallery"],a[href="#/gallery"],a[href="/#/gallery"]');
+    for (var i = 0; i < as.length; i++) {
+      var el = (as[i].closest && as[i].closest('li')) || as[i];
+      if (el.parentNode) el.parentNode.removeChild(el);
+    }
   }
 
   /* 里程碑。
@@ -84,6 +103,7 @@
 
   function run() {
     css();
+    dropGallery();
     mileList();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
