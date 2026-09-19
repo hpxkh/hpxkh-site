@@ -154,12 +154,21 @@
       if (e.key === 'Escape') close();
     });
 
+    /* ★ 必須先確認「現在是不是抽屜式選單」。
+       桌機的 #nav 是一直顯示的橫向選單，永遠不是 hidden；
+       若只看 !nav.hidden 就會把它當成「選單打開」，
+       連帶把 body 鎖成 overflow:hidden——整個網站在桌機就捲不動了。
+       漢堡按鈕只在 820px 以下顯示，用它当作判斷依據最準。 */
+    function isDrawer() {
+      return getComputedStyle(btn).display !== 'none';
+    }
     function sync() {
-      var open = !nav.hidden;
+      var open = isDrawer() && !nav.hidden;
       sc.classList.toggle('navsc--on', open);
       document.body.classList.toggle('navopen', open);
     }
     new MutationObserver(sync).observe(nav, { attributes: true, attributeFilter: ['hidden'] });
+    addEventListener('resize', sync);   // 轉橫第、視窗縮放時重算
     sync();
   }
 
