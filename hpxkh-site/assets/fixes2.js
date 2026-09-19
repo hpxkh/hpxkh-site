@@ -10,11 +10,19 @@
    3. 社團版規十條改成點開才看內容，上面一顆「全部展開／全部收合」
    4. 加入社團申請最後補一題「已閱讀並同意社團版規」（必填）
    5. 幾段自己佔整欄卻只排到一半的文字，行長放寬
+   6. 首頁網站導覽改成脈絡圖：先分四類，分類底下才是頁面（尚未啟用）
+   7. H·P·X 在手機改成「大字母在左、字在右」，不再直直排下來
 
    文字一律放 assets/copy.js，這裡只處理版面與行為。
    改完記得把 functions/index.js 的 VER 換掉。 */
 (function () {
   var TX = window.HPXKH_TX || {};
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
 
   function css() {
     if (document.getElementById('hpxkhFix2Css')) return;
@@ -61,7 +69,69 @@
       '.rulex__h:focus-visible{outline:2px solid var(--orange,#EF8200);outline-offset:3px}' +
       /* 版規那一顆「全部展開／全部收合」沿用常見問題的樣式；
          fixes.js 已經定義過 .faqtog，這裡只補版規頁沒有它時的保險。 */
-      '.rules + .faqtog,.faqtog{display:flex;justify-content:flex-end;margin:0 0 10px}';
+      '.rules + .faqtog,.faqtog{display:flex;justify-content:flex-end;margin:0 0 10px}' +
+      /* ── H·P·X：手機改成橫的 ──
+         桌機是三欄並排，照簡報。但手機只有一欄，
+         三組字直排下來會拉得很長，右邊又整片空著。
+         改成：大字母靠左、字排在它右邊，三組就往上收，
+         寬度也用滿了。700px 以上不動，還是簡報那一頁的三欄。 */
+      '@media (max-width:699px){' +
+        '.hpx3{gap:clamp(20px,5vw,30px)}' +
+        '.hpx3__c{display:grid;grid-template-columns:2.1em minmax(0,1fr);' +
+          'column-gap:clamp(14px,4.5vw,22px);align-items:start;padding-right:0}' +
+        '.hpx3__l{grid-column:1;grid-row:1/3;margin-bottom:0;font-size:clamp(38px,11vw,52px)}' +
+        '.hpx3__w{grid-column:2;grid-row:1}' +
+        '.hpx3__x{grid-column:2;grid-row:2;margin-top:2px}' +
+      '}' +
+      /* ── 首頁網站導覽：脈絡圖 ──
+         不是七張平鋪的卡，而是一棵樹：上面一條主幹（社團），
+         分四個枝（你現在想做什麼），每個枝下面才是頁面。
+         線都是用 border 畫的，沒有圖也沒有 SVG，手機上自動疊成一直行。 */
+      '#siteTree{--tw:1px;--tc:var(--hair)}' +
+      '.stree__root{display:flex;align-items:center;gap:12px;margin:0 0 6px}' +
+      '.stree__root b{font-family:var(--display);font-size:clamp(15px,1.7vw,18px);' +
+        'letter-spacing:.06em;color:var(--ink);white-space:nowrap}' +
+      '.stree__root i{flex:1 1 auto;height:var(--tw);background:var(--tc);display:block}' +
+      '.stree__root s{flex:0 0 auto;width:7px;height:7px;background:var(--orange,#EF8200);' +
+        'transform:rotate(45deg);text-decoration:none}' +
+      '.stree{display:grid;grid-template-columns:1fr;gap:0}' +
+      '.stree__b{position:relative;padding:18px 0 4px 18px;border-left:var(--tw) solid var(--tc)}' +
+      '.stree__b:last-of-type{border-left-color:transparent}' +
+      '.stree__k{position:relative;margin:0 0 10px;font-size:12px;letter-spacing:.12em;' +
+        'color:var(--muted,#918B81)}' +
+      '.stree__k::before{content:"";position:absolute;left:-18px;top:.7em;' +
+        'width:14px;height:var(--tw);background:var(--tc)}' +
+      '.stree__b:last-of-type>.stree__k::after{content:"";position:absolute;left:-19px;top:0;' +
+        'width:var(--tw);height:.7em;background:var(--tc)}' +
+      '.stree__i{display:grid;grid-template-columns:1fr;gap:8px}' +
+      '.tcard{display:block;position:relative;padding:13px 15px;' +
+        'border:1px solid var(--hair);background:var(--sheet);' +
+        'transition:background .15s,border-color .15s,transform .15s}' +
+      'a.tcard:hover{background:var(--cream);border-color:var(--orange,#EF8200);transform:translateX(2px)}' +
+      '.tcard b{display:block;font-size:15px;font-weight:600;color:var(--ink)}' +
+      '.tcard p{margin:4px 0 0;font-size:12.5px;line-height:1.75;color:var(--ink-2)}' +
+      '.tcard em{position:absolute;right:13px;top:13px;font-style:normal;' +
+        'color:var(--orange,#EF8200);font-size:14px}' +
+      '.tcard--soon{border-style:dashed;background:transparent}' +
+      '.tcard--soon b,.tcard--soon p{color:var(--muted,#918B81)}' +
+      '.tcard--soon em{font-size:10.5px;letter-spacing:.12em;color:var(--muted,#918B81);top:15px}' +
+      '.stree__soon{margin-top:14px;padding-top:16px;border-top:var(--tw) dashed var(--tc)}' +
+      '.stree__soon .stree__k::before,.stree__soon .stree__k::after{display:none}' +
+      '@media (min-width:700px){' +
+        '.stree__soon .stree__i{grid-template-columns:repeat(3,minmax(0,1fr))}' +
+      '}' +
+      /* 桌機：四個枝並排，每個枝從上方的主幹垂下來一條線。 */
+      '@media (min-width:900px){' +
+        '.stree{grid-template-columns:repeat(4,minmax(0,1fr));gap:0 clamp(16px,2vw,26px)}' +
+        '.stree__b{padding:26px 0 0;border-left:0}' +
+        '.stree__b::before{content:"";position:absolute;left:0;top:0;' +
+          'width:var(--tw);height:22px;background:var(--tc)}' +
+        '.stree__k::before,.stree__b:last-of-type>.stree__k::after{display:none}' +
+        '.stree__k{padding-left:12px}' +
+        '.stree__soon{grid-column:1/-1}' +
+        '.stree__soon::before{display:none}' +
+      '}';
+
     document.head.appendChild(s);
   }
 
@@ -183,11 +253,59 @@
     buildForm(mount, spec);
   }
 
+  /* 首頁網站導覽改成脈絡圖。
+     fixes.js 裡的 homeMap() 已經放了一個 #siteMap，這裡把它換掉：
+     先分四類（你現在想做什麼），分類底下才是頁面，
+     分類本身就回答了「我現在該點哪一個」。內容在 copy.js 的 siteTree。 */
+  function siteTree() {
+    var M = TX.siteTree;
+    var old = document.getElementById('siteMap');
+    if (!M || document.getElementById('siteTree')) return;
+    var home = document.querySelector('[data-pg="home"]');
+    if (!home) return;
+
+    function card(it, soon) {
+      var head = '<b>' + esc(it.h) + '</b><p>' + esc(it.d) + '</p>' +
+        '<em aria-hidden="true">' + (soon ? esc(M.soon.k || '籌備中') : '→') + '</em>';
+      if (soon || !it.u) return '<div class="tcard tcard--soon">' + head + '</div>';
+      var ext = it.u.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"';
+      return '<a class="tcard" href="' + esc(it.u) + '"' + ext + '>' + head + '</a>';
+    }
+    function branch(g, soon) {
+      return '<div class="stree__b' + (soon ? ' stree__soon' : '') + '">' +
+        '<p class="stree__k">' + esc(g.k) + '</p><div class="stree__i">' +
+        (g.items || []).map(function (it) { return card(it, soon); }).join('') +
+        '</div></div>';
+    }
+
+    var sec = document.createElement('section');
+    sec.className = 'sec pad';
+    sec.id = 'siteTree';
+    sec.innerHTML =
+      '<div class="blk__h"><h3>' + esc(M.title || '網站導覽') + '</h3>' +
+      '<p>' + esc(M.lede || '') + '</p></div>' +
+      '<div class="stree__root"><s aria-hidden="true"></s><b>' + esc(M.root || '') + '</b>' +
+      '<i aria-hidden="true"></i></div>' +
+      '<div class="stree">' +
+      (M.branches || []).map(function (g) { return branch(g, false); }).join('') +
+      (M.soon ? branch(M.soon, true) : '') +
+      '</div>';
+
+    if (old && old.parentNode) old.parentNode.replaceChild(sec, old);
+    else {
+      var kids = home.children, secs = [], k;
+      for (k = 0; k < kids.length; k++) if (kids[k].tagName === 'SECTION') secs.push(kids[k]);
+      var last = secs[secs.length - 1];
+      if (last) home.insertBefore(sec, last); else home.appendChild(sec);
+    }
+  }
+
   function run() {
     css();
     navScrim();
     rulesFold();
     joinAgreement();
+    // siteTree();   ← 網站導覽的脈絡圖，確認版型後把這行的註解拿掉就上線
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
